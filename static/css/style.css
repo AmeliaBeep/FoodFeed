@@ -17,8 +17,6 @@ main {
 }
 
 .main-container {
-    border-color: #ff9524;
-    border-style: dotted;
     max-width: 350px;
 }
 
@@ -42,7 +40,7 @@ main {
 /* Post styling */
 
 .post-container {
-    background-color: #252525; 
+    background-color: #252525;
 }
 
 .post-header {
