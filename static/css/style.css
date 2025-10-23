@@ -16,6 +16,12 @@ main {
     margin-bottom: 50px;
 }
 
+.main-container {
+    border-color: #ff9524;
+    border-style: dotted;
+    max-width: 350px;
+}
+
 /* Navbar styling */
 #navbar {
     background-color: #252525;
@@ -63,4 +69,27 @@ main {
 .page-button:hover {
     background-color: var(--brand-primary-colour);
     color: var(--component-colour);
+}
+
+/* Media queries */
+
+/* Media query: large or landscape phones (576px and up) */
+@media screen and (min-width: 576px) {
+    .main-container {
+        max-width: 400px;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media screen and (min-width: 768px) {
+    .main-container {
+        max-width: 500px;
+    }
+}
+
+/* Large devices (laptops and desktops, 992px and up) */
+@media screen and (min-width: 992px) {
+    .main-container {
+        max-width: 600px;
+    }
 }

@@ -7,7 +7,7 @@ from .models import Post
 class PostList(generic.ListView):
     queryset = Post.objects.all()
     template_name = "mainfeed/index.html"
-    paginate_by = 1
+    paginate_by = 10
 
 # from django.shortcuts import render
 # from django.http import HttpResponse
