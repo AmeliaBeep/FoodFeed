@@ -1,8 +1,16 @@
 from django.shortcuts import render
+from django.views import generic
+from .models import Post
 
 # Create your views here.
-from django.shortcuts import render
-from django.http import HttpResponse
-# Create your views here.
-def index(request):
-    return HttpResponse("Hello, World!")
+
+class PostList(generic.ListView):
+    queryset = Post.objects.all()
+    template_name = "mainfeed/index.html"
+    paginate_by = 1
+
+# from django.shortcuts import render
+# from django.http import HttpResponse
+# # Create your views here.
+# def index(request):
+#     return HttpResponse("Hello, World!")

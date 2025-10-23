@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+ {% block content %}
+
+<!-- Main feed content-->
+<div class="container vw-100">
+    {% for post in post_list %}
+
+    <!-- Post items -->
+    <div class="row d-flex justify-content-center my-4">
+        <div class="col-md-8 col-lg-4">
+            <article class="post-container rounded">
+                <div class="px-3">
+                    <h2 class="post-header pt-3 ">{{ post.author }} | {{ post.created_on}}</h2>
+                    <p class="post-text pt-1">{{ post.text }}</p>
+                </div>
+                <div class="post-image">
+                    <img class="img-fluid" src="{{ post.photo.url }}" alt="post image">
+                </div>
+                <div class="post-footer">
+                </div>
+            </article>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+<!-- Main feed pagination -->
+{% if is_paginated %}
+<nav aria-label="Page navigation">
+    <div class="pagination-container">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="mx-1">
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-button rounded">
+                    &laquo; prev
+                </a>
+            </li>
+            {% endif %}
+            {% if page_obj.has_next %}
+            <li class="mx-1">
+                <a href="?page={{ page_obj.next_page_number }}" class="page-button rounded">
+                     next &raquo;
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+{% endif %}
+
+{% endblock %}

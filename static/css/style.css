@@ -1,0 +1,66 @@
+/* CSS Variables */
+:root {
+    --component-colour: #252525; 
+    --brand-primary-colour: #ff9524;
+    --brand-secondary-colour: #f7bc7e;
+    --logo-text-size: 1.4rem
+}
+
+/* Global styles */
+body {
+    background-color: #141414;
+    color:white;
+}
+
+main {
+    margin-bottom: 50px;
+}
+
+/* Navbar styling */
+#navbar {
+    background-color: #252525;
+}
+
+#nav-logo-food {
+    color: var(--brand-primary-colour);
+    font-size: var(--logo-text-size);
+    font-weight: 400;
+}
+
+#nav-logo-feed {
+    color: var(--brand-secondary-colour);
+    font-size: var(--logo-text-size);
+    font-weight: 700;
+}
+
+/* Post styling */
+
+.post-container {
+    background-color: #252525; 
+}
+
+.post-header {
+    font-size: 1.2rem
+}
+
+.post-footer {
+    height: 0.6rem;
+}
+
+/* Pagination styling */
+.pagination-container {
+    padding-bottom: 10px;
+}
+
+.page-button {
+    background-color: var(--component-colour);
+    color: var(--brand-primary-colour);
+    text-decoration: none;
+    display: block;
+    padding: .375rem .75rem;
+}
+
+.page-button:hover {
+    background-color: var(--brand-primary-colour);
+    color: var(--component-colour);
+}

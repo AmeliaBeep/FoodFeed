@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html class="h-100" lang="en">
+
+<head>
+    <title>FoodFeed Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google Fonts CSS -->
+
+    <!-- Font Awesome CSS -->
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar navbar-expand-lg">
+        <div class="container-fluid ">
+            <a class="navbar-brand ms-2" href=""><span id="nav-logo-food">Food</span><span id="nav-logo-feed">Feed</span></a>
+        </div>
+    </nav>
+    
+    <!-- Page content goes here -->
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+
+</body>
