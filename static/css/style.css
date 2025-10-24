@@ -18,6 +18,7 @@ main {
 
 .main-container {
     max-width: 350px;
+    padding-bottom: 8px;
 }
 
 /* Navbar styling */
@@ -47,7 +48,11 @@ main {
     font-size: 1.2rem
 }
 
-.post-footer {
+.comment-header {
+    font-size: 1.1rem
+}
+
+.no-comments {
     height: 0.6rem;
 }
 

@@ -11,14 +11,27 @@
     <!-- Post items -->
     <div class="row d-flex justify-content-center my-4">
         <article class="post-container rounded px-0">
+            <!-- Post text -->
             <div class="px-3">
                 <h2 class="post-header pt-3 ">{{ post.author }} | {{ post.created_on}}</h2>
                 <p class="post-text pt-1">{{ post.text }}</p>
             </div>
+            <!-- Post photo -->
             <div class="post-image">
                 <img class="img-fluid" src="{{ post.photo.url }}" alt="post image">
             </div>
-            <div class="post-footer">
+            <!-- Post comments -->
+            <div class="comment-container">
+                {% if post.comments.exists %}
+                {% for comment in post.comments.all %}
+                <div class="px-3">
+                    <h3 class="comment-header pt-3 ">{{ comment.author }} | {{ comment.created_on}}</h3>
+                    <p class="post-text pt-1">{{ comment.body }}</p>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="no-comments"></div>
+                {% endif %}
             </div>
         </article>
     </div>
