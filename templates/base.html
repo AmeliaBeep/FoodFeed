@@ -32,10 +32,14 @@
                 <ul class="navbar-nav ms-2 me-1">
                     {% if user.is_authenticated %}
                     <li class="nav-item mx-1 sss">
-                        <a id="create-icon" class="nav-link page-button icon-button rounded-circle" href=""><i class="fa-solid fa-circle-plus"></i></a>
+                        <a id="create-icon" class="nav-link page-button icon-button rounded-circle" href=""
+                        aria-label="Create a post">
+                            <i class="fa-solid fa-plus"></i></a>   
                     </li>
                     <li class="nav-item mx-1 sss">
-                        <a id="user-icon" class="nav-link  page-button icon-button rounded-circle" href=""><i class="fa-regular fa-circle-user"></i></a>
+                        <a id="user-icon" class="nav-link page-button icon-button rounded-circle" href=""
+                        aria-label="Placeholder visit home">
+                            <i class="fa-regular fa-user"></i></a>
                     </li>
                     <li class="nav-item mx-1">
                         <a class="nav-link page-button rounded {% if request.path == logout_url %}active{% endif %}" href="{% url 'account_logout' %}">Logout</a>
