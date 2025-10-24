@@ -31,16 +31,19 @@
             <div class="justify-content-end" id="navbarText">
                 <ul class="navbar-nav me-1">
                     {% if user.is_authenticated %}
+                    <!-- Create post button -->
                     <li class="nav-item mx-2">
-                        <a id="create-icon" class="nav-link page-button icon-button rounded-circle" href=""
-                        aria-label="Create a post">
+                        <a id="create-icon" class="nav-link page-button icon-button rounded-circle"
+                        href="{% url 'create_post' %}" aria-label="Create a post">
                             <i class="fa-solid fa-plus"></i></a>   
                     </li>
+                    <!-- User profile button -->
                     <li class="nav-item mx-2">
                         <a id="user-icon" class="nav-link page-button icon-button rounded-circle" href=""
                         aria-label="Placeholder visit home">
                             <i class="fa-regular fa-user"></i></a>
                     </li>
+                    <!-- Account registeration and sign in buttons -->
                     <li class="nav-item mx-1">
                         <a class="nav-link page-button rounded {% if request.path == logout_url %}active{% endif %}" href="{% url 'account_logout' %}">Logout</a>
                     </li>
@@ -57,7 +60,23 @@
             </div>
         </div>
     </nav>
-    
+
+    <!-- displaying Django messages -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible
+                    fade show" id="msg" role="alert">
+                    {{ message | safe }}
+                    <button type="button" class="btn-close"
+                    data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
     <!-- Page content goes here -->
     <main>
         {% block content %}

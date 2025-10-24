@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!-- Create post form -->
+<div class="main-container container-fluid">
+
+    <div class="row d-flex justify-content-center mt-3">
+        {% if user.is_authenticated %}
+        <h2>Create a post!</h2>
+        <div class="post-container rounded py-2 mt-3 mb-3">
+            <form id="postForm" method="post">
+                <div class="row">
+                    {{ post_form | crispy }}
+                    <p>Posting as: {{ user.username }}</p>
+                </div>
+            {% csrf_token %}
+            <div class="row justify-content-center">
+                <button id="submitButton" type="submit" style="width: 77px;"
+                class="page-button rounded btn text-center">Submit</button>
+            </div>
+            </form>
+        </div>
+        {% else %}
+        <h2 class="text-center">Log in to create a post</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
