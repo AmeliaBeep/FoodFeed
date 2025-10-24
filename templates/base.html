@@ -29,14 +29,14 @@
         <div class="container-fluid ">
             <a class="navbar-brand ms-2" href=""><span id="nav-logo-food">Food</span><span id="nav-logo-feed">Feed</span></a>
             <div class="justify-content-end" id="navbarText">
-                <ul class="navbar-nav ms-2 me-1">
+                <ul class="navbar-nav me-1">
                     {% if user.is_authenticated %}
-                    <li class="nav-item mx-1 sss">
+                    <li class="nav-item mx-2">
                         <a id="create-icon" class="nav-link page-button icon-button rounded-circle" href=""
                         aria-label="Create a post">
                             <i class="fa-solid fa-plus"></i></a>   
                     </li>
-                    <li class="nav-item mx-1 sss">
+                    <li class="nav-item mx-2">
                         <a id="user-icon" class="nav-link page-button icon-button rounded-circle" href=""
                         aria-label="Placeholder visit home">
                             <i class="fa-regular fa-user"></i></a>
@@ -45,11 +45,11 @@
                         <a class="nav-link page-button rounded {% if request.path == logout_url %}active{% endif %}" href="{% url 'account_logout' %}">Logout</a>
                     </li>
                     {% else %}
-                    <li class="nav-item mx-1">
+                    <li class="nav-item mx-2">
                         <a class="nav-link page-button rounded {% if request.path == signup_url %}active{% endif %}"
                             href="{% url 'account_signup' %}">Register</a>
                     </li>
-                    <li class="nav-item mx-1">
+                    <li class="nav-item mx-2">
                         <a class="nav-link page-button rounded {% if request.path == login_url %}active{% endif %}" href="{% url 'account_login' %}">Login</a>
                     </li>
                     {% endif %}

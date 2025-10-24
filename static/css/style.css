@@ -3,7 +3,7 @@
     --component-colour: #252525; 
     --brand-primary-colour: #ff9524;
     --brand-secondary-colour: #f7bc7e;
-    --logo-text-size: 1.4rem
+    --logo-text-size: 1.6rem
 }
 
 /* Global styles */
@@ -29,7 +29,7 @@ main {
 #nav-logo-food {
     color: var(--brand-primary-colour);
     font-size: var(--logo-text-size);
-    font-weight: 400;
+    font-weight: 350;
 }
 
 #nav-logo-feed {
