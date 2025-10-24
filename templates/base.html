@@ -25,18 +25,17 @@
 <body>
 
     <!-- Navigation -->
-    <nav id="navbar" class="navbar navbar-expand-lg">
+    <nav id="navbar" class="navbar navbar-expand">
         <div class="container-fluid ">
             <a class="navbar-brand ms-2" href=""><span id="nav-logo-food">Food</span><span id="nav-logo-feed">Feed</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarText">
-                <ul class="navbar-nav ms-2 me-1 mb-2 mb-lg-0">
+            <div class="justify-content-end" id="navbarText">
+                <ul class="navbar-nav ms-2 me-1">
                     {% if user.is_authenticated %}
-                    <li class="nav-item mx-1">
-                        <a class="nav-link" href="">User</a>
+                    <li class="nav-item mx-1 sss">
+                        <a id="create-icon" class="nav-link page-button icon-button rounded-circle" href=""><i class="fa-solid fa-circle-plus"></i></a>
+                    </li>
+                    <li class="nav-item mx-1 sss">
+                        <a id="user-icon" class="nav-link  page-button icon-button rounded-circle" href=""><i class="fa-regular fa-circle-user"></i></a>
                     </li>
                     <li class="nav-item mx-1">
                         <a class="nav-link page-button rounded {% if request.path == logout_url %}active{% endif %}" href="{% url 'account_logout' %}">Logout</a>
@@ -60,6 +59,7 @@
         {% block content %}
         {% endblock content %}
     </main>
+    <script src="https://kit.fontawesome.com/9e63a4f77a.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
         </script>

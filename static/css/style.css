@@ -56,7 +56,7 @@ main {
     height: 0.6rem;
 }
 
-/* Pagination styling */
+/* Button styling */
 .pagination-container {
     padding-bottom: 10px;
 }
@@ -72,6 +72,22 @@ main {
 .page-button:hover {
     background-color: var(--brand-primary-colour);
     color: var(--component-colour);
+}
+
+.icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+#user-icon {
+    font-size: 2em; 
+}
+
+#create-icon {
+    font-size: 1.9rem;
 }
 
 /* Media queries */
