@@ -25,8 +25,6 @@ def create_post(request):
         if post_form.is_valid():
             post = post_form.save(commit=False)
             post.author = request.user
-            print(post)
-            post.photo = request.photo
             post.save()
             messages.add_message(
                 request, messages.SUCCESS,
