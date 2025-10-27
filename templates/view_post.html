@@ -11,15 +11,21 @@
         <!-- Show signed in users a message depending on interaction type -->
         {% if user.is_authenticated %}
         <div class="col-12 text-center">
-            <!-- Create comment greeting -->
             {% with create_comment_url='create-comment' %}
             {% if create_comment_url in request.path %}
+            <!-- Create comment greeting -->
             <h2>Comment on this post!</h2>
             {% endif %}
             {% endwith %}
-            <!-- Edit post greeting-->
+            {% with edit_comment_url='edit-comment' %}
+            {% if edit_comment_url in request.path %}
+            <!-- Edit comment greeting -->
+            <h2>Edit this post comment!</h2>
+            {% endif %}
+            {% endwith %}
             {% with edit_post_url='edit-post' %}
             {% if edit_post_url in request.path and user == post.author %}
+            <!-- Edit post greeting-->
             <h2>Edit this post!</h2>
             {% endif %}
             {% endwith %}
