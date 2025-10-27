@@ -1,0 +1,114 @@
+/* CSS Variables */
+:root {
+    --component-colour: #252525; 
+    --brand-primary-colour: #ff9524;
+    --brand-secondary-colour: #f7bc7e;
+    --logo-text-size: 1.6rem
+}
+
+/* Global styles */
+body {
+    background-color: #141414;
+    color:white;
+}
+
+main {
+    margin-bottom: 50px;
+}
+
+.main-container {
+    max-width: 350px;
+    padding-bottom: 8px;
+}
+
+/* Navbar styling */
+#navbar {
+    background-color: #252525;
+}
+
+#nav-logo-food {
+    color: var(--brand-primary-colour);
+    font-size: var(--logo-text-size);
+    font-weight: 350;
+}
+
+#nav-logo-feed {
+    color: var(--brand-secondary-colour);
+    font-size: var(--logo-text-size);
+    font-weight: 700;
+}
+
+/* Post styling */
+
+.post-container {
+    background-color: #252525;
+}
+
+.post-header {
+    font-size: 1.2rem
+}
+
+.comment-header {
+    font-size: 1.1rem
+}
+
+.no-comments {
+    height: 0.6rem;
+}
+
+/* Button styling */
+.pagination-container {
+    padding-bottom: 10px;
+}
+
+.page-button {
+    background-color: var(--component-colour);
+    color: var(--brand-primary-colour);
+    text-decoration: none;
+    display: block;
+    padding: .375rem .75rem;
+}
+
+.page-button:hover {
+    background-color: var(--brand-primary-colour);
+    color: var(--component-colour);
+}
+
+.icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+#user-icon {
+    font-size: 1.5rem; 
+}
+
+#create-icon {
+    font-size: 1.7rem; 
+}
+
+/* Media queries */
+
+/* Media query: large or landscape phones (576px and up) */
+@media screen and (min-width: 576px) {
+    .main-container {
+        max-width: 400px;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media screen and (min-width: 768px) {
+    .main-container {
+        max-width: 500px;
+    }
+}
+
+/* Large devices (laptops and desktops, 992px and up) */
+@media screen and (min-width: 992px) {
+    .main-container {
+        max-width: 600px;
+    }
+}
