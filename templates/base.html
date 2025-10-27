@@ -1,4 +1,5 @@
 {% load static %}
+
 {% url 'account_login' as login_url %}
 {% url 'account_signup' as signup_url %}
 {% url 'account_logout' as logout_url %}
@@ -27,7 +28,7 @@
     <!-- Navigation -->
     <nav id="navbar" class="navbar navbar-expand">
         <div class="container-fluid ">
-            <a class="navbar-brand ms-2" href=""><span id="nav-logo-food">Food</span><span id="nav-logo-feed">Feed</span></a>
+            <a class="navbar-brand ms-2" href="{% url 'feed' %}"><span id="nav-logo-food">Food</span><span id="nav-logo-feed">Feed</span></a>
             <div class="justify-content-end" id="navbarText">
                 <ul class="navbar-nav me-1">
                     {% if user.is_authenticated %}
@@ -39,7 +40,7 @@
                     </li>
                     <!-- User profile button -->
                     <li class="nav-item mx-2">
-                        <a id="user-icon" class="nav-link page-button icon-button navbar-icon-size rounded-circle" href=""
+                        <a id="user-icon" class="nav-link page-button icon-button navbar-icon-size rounded-circle" href="{% url 'feed' %}"
                         aria-label="Placeholder visit home">
                             <i class="fa-regular fa-user"></i></a>
                     </li>

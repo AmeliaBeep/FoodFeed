@@ -6,11 +6,11 @@
 <div class="main-container container-fluid">
     {% for post in post_list %}
 
-    <!-- Post items -->
+    <!-- Post start -->
     <div class="row d-flex justify-content-center my-4">
-        <!-- Post -->
         <article class="post-container rounded px-0">
-            <!-- Post text -->
+
+            <!-- Post header -->
             <div class="pt-2 px-3">
                 <div class="row">
                     <div class="col post-header-text align-content-center">
@@ -29,38 +29,61 @@
                         {% if user.is_authenticated and user == post.author %}
                         <button class="mx-1 delete-post-button page-button post-icon-size icon-button rounded-circle" 
                             post_id="{{ post.id }}" aria-label="Delete post">
-                            <i class="fa-regular fa-trash-can"></i></a>
+                            <i class="fa-regular fa-trash-can" post_id="{{ post.id }}"></i></button>
                         {% endif %}
                     </div>
                 </div>
+                <!-- Post text -->
                 <div class="row">
                     <p class="post-text pt-1">{{ post.text }}</p>
                 </div>
             </div>
+
             <!-- Post photo -->
             <div class="post-image-container d-flex justify-content-center">
                 <img class="img-fluid" src="{{ post.image.url }}" alt="post image">
             </div>
+
             <!-- Post comments -->
-            <div>
-                {% if user.is_authenticated %}
-                <div class="row justify-content-center mt-2">
-                    <a class="page-button rounded text-center" href="{% url 'create_comment' post.id %}" style="width: 150px;" aria-label="Create a comment">Make a comment</a>   
-                </div>
-                {% endif %}
-                {% if post.comments.exists %}
-                {% for comment in post.comments.all %}
-                <div class="row px-3">
-                    <h3 class="comment-header-text pt-3 ">{{ comment.author }} | {{ comment.created_on}}</h3>
-                    <p class="post-text pt-1">{{ comment.body }}</p>
-                </div>
-                {% endfor %}
-                {% else %}
-                <div class="no-comments"></div>
-                {% endif %}
+            {% if user.is_authenticated %}
+            <div class="row justify-content-center mt-2">
+                <a class="page-button rounded text-center" href="{% url 'create_comment' post.id %}" style="width: 150px;" aria-label="Create a comment">Make a comment</a>   
             </div>
+            {% endif %}
+            {% if post.comments.exists %}
+            {% for comment in post.comments.all %}
+            <!-- Comment start -->
+            <div class="row px-3  pt-3 ">
+                <!-- Comment header -->
+                <div class="col align-content-center">
+                    <h3 class="comment-header-text">{{ comment.author }} | {{ comment.created_on}}</h3>
+                </div>
+                <!-- Buttons to edit, copy link and delete -->
+                <div class="col-3 d-inline-flex justify-content-end">
+                    {% if user.is_authenticated and user == comment.author %}
+                    <a class="mx-1 page-button comment-icon-size icon-button rounded-circle" 
+                        href="{% url 'edit_post' comment.id %}" aria-label="Edit comment">
+                        <i class="fa-regular fa-pen-to-square"></i></a>
+                    {% endif %}
+                    {% if user.is_authenticated and user == comment.author %}
+                    <button class="mx-1 delete-comment-button page-button comment-icon-size icon-button rounded-circle" 
+                        comment_id="{{ comment.id }}" aria-label="Delete comment">
+                        <i class="fa-regular fa-trash-can" comment_id="{{ comment.id }}"></i></button>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- Comment text -->
+            <div class="row px-3">
+                <p class="post-text pt-1">{{ comment.body }}</p>
+            </div>
+            <!-- Comment end -->
+            {% endfor %}
+            {% else %}
+            <div class="no-comments"></div>
+            {% endif %}
         </article>
     </div>
+    <!-- Post end -->
     {% endfor %}
 
 </div>
@@ -91,19 +114,19 @@
 </nav>
 {% endif %}
 
-<!-- Delete confirmation modal -->
-<div class="modal fade" id="deletePostModal" tabindex="-1"
+<!-- Delete post or comment confirmation modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1"
   aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content delete-modal">
             <div class="modal-header">
-                <h5 class="modal-title"
-                id="deleteModalLabel">Delete post?</h5>
+                <h5 class="modal-title" id="deleteModalLabel">
+                    Delete content?</h5>
                 <button type="button" class="close-button icon-button"
                 data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div class="modal-body">
-                Are you sure you want to delete your post?
+            <div class="modal-body" id="deleteModalBody">
+                Are you sure you want to delete your content?
                 This action cannot be undone.
             </div>
             <div class="modal-footer">
@@ -119,5 +142,5 @@
 {% endblock %}
 
 {% block extras %}
-    <script src="{% static 'js/posts.js' %}"></script>
+    <script src="{% static 'js/edit_content.js' %}"></script>
 {% endblock %}

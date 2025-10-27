@@ -60,13 +60,13 @@ def create_comment(request, post_id):
                 comment.save()
                 messages.add_message(
                     request, messages.SUCCESS,
-                    'Post submitted successfully!'
+                    'Comment submitted successfully!'
                 )
                 return HttpResponseRedirect(reverse('feed'))
             else:
                 messages.add_message(
                     request, messages.ERROR,
-                    'Post failed to submit'
+                    'Comment failed to submit'
                 )
     else:    
         queryset = Post.objects.filter(pk=post_id)
@@ -108,21 +108,50 @@ def edit_post(request, post_id):
                 "post_text_form": post_text_form,
             },
         )
+    
+# def edit_comment(request, comment_id):
+    
+#     if request.method == "POST":
+#         post = get_object_or_404(Post, pk=post_id)
+#         post_form = PostTextForm(request.POST, instance=post)
 
-#def delete_post(request, post_id):
+#         if post_form.is_valid() and post.author == request.user:
+#             post = post_form.save(commit=True)
+#             messages.add_message(request, messages.SUCCESS, 'Post Updated!')
+#         else:
+#             messages.add_message(request, messages.ERROR, 'Error updating post!')
+#         return HttpResponseRedirect(reverse('feed'))
 
-# def comment_delete(request, slug, comment_id):
-#     """
-#     view to delete comment
-#     """
-#     queryset = Post.objects.filter(status=1)
-#     post = get_object_or_404(queryset, slug=slug)
-#     comment = get_object_or_404(Comment, pk=comment_id)
+#     else:    
+#         queryset = Post.objects.filter(pk=post_id)
+#         post = get_object_or_404(queryset)
 
-#     if comment.author == request.user:
-#         comment.delete()
-#         messages.add_message(request, messages.SUCCESS, 'Comment deleted!')
-#     else:
-#         messages.add_message(request, messages.ERROR, 'You can only delete your own comments!')
+#         post_text_form = PostTextForm()
+#         return render(
+#             request,
+#             "mainfeed/edit_post.html",
+#             {
+#                 "post": post,
+#                 "post_text_form": post_text_form,
+#             },
+#         )
 
-#     return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+
+    if post.author == request.user:
+        post.delete()
+        messages.add_message(request, messages.SUCCESS, 'Post Deleted!')
+    else:
+        messages.add_message(request, messages.ERROR, 'Error deleting post!')
+    return HttpResponseRedirect(reverse('feed'))
+
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+
+    if comment.author == request.user:
+        comment.delete()
+        messages.add_message(request, messages.SUCCESS, 'Comment Deleted!')
+    else:
+        messages.add_message(request, messages.ERROR, 'Error deleting comment!')
+    return HttpResponseRedirect(reverse('feed'))
