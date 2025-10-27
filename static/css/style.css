@@ -21,6 +21,7 @@ main {
     padding-bottom: 8px;
 }
 
+
 /* Navbar styling */
 #navbar {
     background-color: #252525;
@@ -38,21 +39,41 @@ main {
     font-weight: 700;
 }
 
+.navbar-icon-size {
+    width: 36px;
+    height: 36px;
+}
+
+#user-icon {
+    font-size: 1.5rem; 
+}
+
+#create-icon {
+    font-size: 1.7rem; 
+}
+
+
 /* Post styling */
 
 .post-container {
     background-color: #252525;
 }
 
-.post-header {
-    font-size: 1.2rem
+.post-header-text h2 {
+    font-size: 1.2rem;
+    margin: 0;
 }
 
-.post-image {
+.post-icon-size {
+    width: 28px;
+    height: 28px;
+}
+
+.post-image-container {
     background-color: #383838;
 }
 
-.comment-header {
+.comment-header-text {
     font-size: 1.1rem
 }
 
@@ -60,7 +81,9 @@ main {
     height: 0.6rem;
 }
 
-/* Button styling */
+
+/* Pagination styling */
+
 .pagination-container {
     padding-bottom: 10px;
 }
@@ -78,20 +101,11 @@ main {
     color: var(--component-colour);
 }
 
+/* Icon button centering */
 .icon-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-}
-
-#user-icon {
-    font-size: 1.5rem; 
-}
-
-#create-icon {
-    font-size: 1.7rem; 
 }
 
 /* Media queries */

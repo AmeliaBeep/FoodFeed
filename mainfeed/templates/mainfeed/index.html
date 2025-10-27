@@ -10,18 +10,35 @@
 
     <!-- Post items -->
     <div class="row d-flex justify-content-center my-4">
+        <!-- Post -->
         <article class="post-container rounded px-0">
             <!-- Post text -->
-            <div class="px-3">
-                <h2 class="post-header pt-3 ">{{ post.author }} | {{ post.created_on}}</h2>
-                <p class="post-text pt-1">{{ post.text }}</p>
+            <div class="pt-2 px-3">
+                <div class="row">
+                    <div class="col post-header-text align-content-center">
+                        <h2>{{ post.author }} | {{ post.created_on}}</h2>
+                    </div>
+                    <!-- Buttons to edit and delete -->
+                    <div class="col-3 d-inline-flex justify-content-end">
+                        {% if user.is_authenticated and user == post.author %}
+                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" href="{% url 'create_comment' post.id %}" aria-label="Edit post"><i class="fa-regular fa-pen-to-square"></i></a>
+                        {% endif %}
+                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" href="{% url 'create_comment' post.id %}" aria-label="Create a comment"><i class="fa-regular fa-copy"></i></a>
+                        {% if user.is_authenticated and user == post.author %}
+                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" href="{% url 'create_comment' post.id %}" aria-label="Create a comment"><i class="fa-regular fa-trash-can"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="post-text pt-1">{{ post.text }}</p>
+                </div>
             </div>
             <!-- Post photo -->
-            <div class="post-image d-flex justify-content-center">
+            <div class="post-image-container d-flex justify-content-center">
                 <img class="img-fluid" src="{{ post.image.url }}" alt="post image">
             </div>
             <!-- Post comments -->
-            <div class="comment-container">
+            <div>
                 {% if user.is_authenticated %}
                 <div class="row justify-content-center mt-2">
                     <a class="page-button rounded text-center" href="{% url 'create_comment' post.id %}" style="width: 150px;" aria-label="Create a comment">Make a comment</a>   
@@ -30,7 +47,7 @@
                 {% if post.comments.exists %}
                 {% for comment in post.comments.all %}
                 <div class="row px-3">
-                    <h3 class="comment-header pt-3 ">{{ comment.author }} | {{ comment.created_on}}</h3>
+                    <h3 class="comment-header-text pt-3 ">{{ comment.author }} | {{ comment.created_on}}</h3>
                     <p class="post-text pt-1">{{ comment.body }}</p>
                 </div>
                 {% endfor %}
