@@ -1,9 +1,7 @@
 {% extends "base.html" %}
+
+{% block content %}
 {% load static %}
-
-
- {% block content %}
-
 <!-- Main feed content-->
 <div class="main-container container-fluid">
     {% for post in post_list %}
@@ -18,7 +16,7 @@
                     <div class="col post-header-text align-content-center">
                         <h2>{{ post.author }} | {{ post.created_on}}</h2>
                     </div>
-                    <!-- Buttons to edit and delete -->
+                    <!-- Buttons to edit, copy link and delete -->
                     <div class="col-3 d-inline-flex justify-content-end">
                         {% if user.is_authenticated and user == post.author %}
                         <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
@@ -29,9 +27,9 @@
                             href="{% url 'create_comment' post.id %}" aria-label="Copy post link">
                             <i class="fa-regular fa-copy"></i></a>
                         {% if user.is_authenticated and user == post.author %}
-                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
-                        href="{% url 'create_comment' post.id %}" aria-label="Delete post">
-                        <i class="fa-regular fa-trash-can"></i></a>
+                        <button class="mx-1 delete-post-button page-button post-icon-size icon-button rounded-circle" 
+                            post_id="{{ post.id }}" aria-label="Delete post">
+                            <i class="fa-regular fa-trash-can"></i></a>
                         {% endif %}
                     </div>
                 </div>
@@ -93,4 +91,33 @@
 </nav>
 {% endif %}
 
+<!-- Delete confirmation modal -->
+<div class="modal fade" id="deletePostModal" tabindex="-1"
+  aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content delete-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"
+                id="deleteModalLabel">Delete post?</h5>
+                <button type="button" class="close-button icon-button"
+                data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete your post?
+                This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                data-bs-dismiss="modal">Close</button>
+                <a id="deleteConfirm" href="#" class="btn
+                btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extras %}
+    <script src="{% static 'js/posts.js' %}"></script>
 {% endblock %}

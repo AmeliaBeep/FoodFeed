@@ -1,14 +1,16 @@
 /* CSS Variables */
 :root {
-    --component-colour: #252525; 
     --brand-primary-colour: #ff9524;
     --brand-secondary-colour: #f7bc7e;
+    --brand-primary-colour-dimmed: #ff952481;
+    --background-black: #141414;
+    --component-colour: #252525; 
     --logo-text-size: 1.6rem
 }
 
 /* Global styles */
 body {
-    background-color: #141414;
+    background-color: var(--background-black);
     color:white;
 }
 
@@ -21,10 +23,14 @@ main {
     padding-bottom: 8px;
 }
 
+.site-alert{
+    position: fixed;
+    background: blue;
+}
 
 /* Navbar styling */
 #navbar {
-    background-color: #252525;
+    background-color: var(--component-colour);
 }
 
 #nav-logo-food {
@@ -77,6 +83,10 @@ main {
     font-size: 1.1rem
 }
 
+.delete-post-button {
+    border: none;
+}
+
 .no-comments {
     height: 0.6rem;
 }
@@ -100,6 +110,31 @@ main {
     background-color: var(--brand-primary-colour);
     color: var(--component-colour);
 }
+
+
+/* Modal styling */
+.delete-modal {
+    background-color: var(--component-colour);
+    color: white;
+}
+.delete-modal .close-button {
+    color:var(--brand-primary-colour);
+    background: none;
+    border: none;
+}
+
+.delete-modal .close-button:hover {
+    filter: brightness(120%)
+}
+
+.delete-modal .modal-header {
+    border-bottom: 1px solid var(--brand-primary-colour-dimmed);
+}
+
+.delete-modal .modal-footer {
+    border-top: 1px solid var(--brand-primary-colour-dimmed);
+}
+
 
 /* Icon button centering */
 .icon-button {
