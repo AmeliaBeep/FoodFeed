@@ -1,3 +1,4 @@
+from cloudinary.forms import CloudinaryFileField
 from .models import Post
 from django import forms
 
@@ -5,4 +6,8 @@ from django import forms
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('text', 'photo')
+        fields = ('text', 'image')
+    
+    image = CloudinaryFileField(
+         options={"folder": "foodfeed/", "crop": "limit", "width": 600, "height": 600,}
+     )

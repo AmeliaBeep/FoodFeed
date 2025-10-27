@@ -48,6 +48,10 @@ main {
     font-size: 1.2rem
 }
 
+.post-image {
+    background-color: #383838;
+}
+
 .comment-header {
     font-size: 1.1rem
 }

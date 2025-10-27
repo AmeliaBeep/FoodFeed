@@ -5,12 +5,13 @@ from django.http import HttpResponseRedirect
 from .models import Post, Comment
 from .forms import PostForm
 
+from cloudinary.uploader import upload_image
 # Create your views here.
 
 class PostList(generic.ListView):
     queryset = Post.objects.all()
     template_name = "mainfeed/index.html"
-    paginate_by = 2
+    paginate_by = 10
 
 # from django.shortcuts import render
 # from django.http import HttpResponse
@@ -21,7 +22,10 @@ class PostList(generic.ListView):
 def create_post(request):
 
     if request.method == "POST":
-        post_form = PostForm(data=request.POST)
+        # post_form = PostForm(data=request.POST)
+        # image_attempt = PostForm(files=request.FILES)
+        post_form = PostForm(request.POST, request.FILES)
+        #raise ValueError("Check 1")
         if post_form.is_valid():
             post = post_form.save(commit=False)
             post.author = request.user
