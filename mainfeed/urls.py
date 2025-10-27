@@ -4,6 +4,7 @@ from django.urls import path
 urlpatterns = [
     path('', views.PostList.as_view(), name='feed'),
     path('create-post', views.create_post, name='create_post'),
+    path('create-comment/<int:post_id>', views.create_comment, name='create_comment'),
 ]
 
 # urlpatterns = [

@@ -22,9 +22,14 @@
             </div>
             <!-- Post comments -->
             <div class="comment-container">
+                {% if user.is_authenticated %}
+                <div class="row justify-content-center mt-2">
+                    <a class="page-button rounded text-center" href="{% url 'create_comment' post.id %}" style="width: 150px;" aria-label="Create a comment">Make a comment</a>   
+                </div>
+                {% endif %}
                 {% if post.comments.exists %}
                 {% for comment in post.comments.all %}
-                <div class="px-3">
+                <div class="row px-3">
                     <h3 class="comment-header pt-3 ">{{ comment.author }} | {{ comment.created_on}}</h3>
                     <p class="post-text pt-1">{{ comment.body }}</p>
                 </div>

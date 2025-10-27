@@ -3,7 +3,7 @@ from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from .models import Post, Comment
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 
 from cloudinary.uploader import upload_image
 # Create your views here.
@@ -22,10 +22,7 @@ class PostList(generic.ListView):
 def create_post(request):
 
     if request.method == "POST":
-        # post_form = PostForm(data=request.POST)
-        # image_attempt = PostForm(files=request.FILES)
         post_form = PostForm(request.POST, request.FILES)
-        #raise ValueError("Check 1")
         if post_form.is_valid():
             post = post_form.save(commit=False)
             post.author = request.user
@@ -51,14 +48,36 @@ def create_post(request):
         )
 
 
-# def create_comment(request, post_id):
-#     queryset = Post.objects.all()
-#     post = get_object_or_404(queryset, pk=post_id)
+def create_comment(request, post_id):
 
-#     return render(
-#         request,
-#         "mainfeed/create_post.html",
-#         {
-#             "post": post,
-#         },
-#     )
+    if request.method == "POST":
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.author = request.user
+                queryset = Post.objects.filter(pk=post_id)
+                comment.post =  get_object_or_404(queryset)
+                comment.save()
+                messages.add_message(
+                    request, messages.SUCCESS,
+                    'Post submitted successfully!'
+                )
+                return HttpResponseRedirect(reverse('feed'))
+            else:
+                messages.add_message(
+                    request, messages.ERROR,
+                    'Post failed to submit'
+                )
+    else:    
+        queryset = Post.objects.filter(pk=post_id)
+        post = get_object_or_404(queryset)
+
+        comment_form = CommentForm() 
+        return render(
+            request,
+            "mainfeed/create_comment.html",
+            {
+                "post": post,
+                "comment_form": comment_form,
+            },
+        )
