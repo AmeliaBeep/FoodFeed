@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<!-- Post copy and interaction options -->
+<!-- Post view and interaction options -->
 <div class="container-fluid">
 
     <div class="row d-flex justify-content-evenly mt-3">
@@ -60,6 +60,8 @@
                 </article>
             </div>
         </div>
+        {% block view_target_comment %}
+        {% endblock view_target_comment%}
 
         {% block add_comment_content %}
         {% endblock add_comment_content %}

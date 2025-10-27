@@ -1,17 +1,15 @@
-{% extends "view_post.html" %}
+{% extends "view_comment.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block post_edit_content %}
-
-<!-- Form to edit post -->
-<div class="col main-container">
+{% block edit_target_comment %}
+<!-- Form to add new comment -->
     <div class="row d-flex justify-content-center my-4">
-        {% if user.is_authenticated and user == post.author %}
+    {% if user.is_authenticated %}
         <div class="post-container rounded py-2">
-            <form id="postTextForm" method="post">
+            <form id="commentForm" method="post">
                 <div class="row">
-                    {{ post_text_form | crispy }}
+                    {{ comment_form | crispy }}
                 </div>
             {% csrf_token %}
             <div class="row justify-content-center">
@@ -21,9 +19,7 @@
             </form>
         </div>
         {% else %}
-        <h2 class="text-center">Log in to edit your post</h2>
+        <h2 class="text-center">Log in to edit your comment</h2>
         {% endif %}
     </div>
-</div>
-
 {% endblock %}

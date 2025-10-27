@@ -69,8 +69,7 @@ def create_comment(request, post_id):
                     'Comment failed to submit'
                 )
     else:    
-        queryset = Post.objects.filter(pk=post_id)
-        post = get_object_or_404(queryset)
+        post = get_object_or_404(Post, pk=post_id)
 
         comment_form = CommentForm() 
         return render(
@@ -81,7 +80,20 @@ def create_comment(request, post_id):
                 "comment_form": comment_form,
             },
         )
-    
+
+def view_comment(request, post_id, comment_id):
+    post = get_object_or_404(Post, pk=post_id)
+    comment = get_object_or_404(Comment, pk=comment_id)
+
+    return render(
+            request,
+            "mainfeed/view_comment.html",
+            {
+                "post": post,
+                "comment": comment,
+            },
+        )
+
 def edit_post(request, post_id):
     
     if request.method == "POST":
@@ -96,8 +108,7 @@ def edit_post(request, post_id):
         return HttpResponseRedirect(reverse('feed'))
 
     else:    
-        queryset = Post.objects.filter(pk=post_id)
-        post = get_object_or_404(queryset)
+        post = get_object_or_404(Post, pk=post_id)
 
         post_text_form = PostTextForm()
         return render(
@@ -108,7 +119,33 @@ def edit_post(request, post_id):
                 "post_text_form": post_text_form,
             },
         )
+
+def edit_comment(request, post_id, comment_id):
     
+    if request.method == "POST":
+        comment = get_object_or_404(Comment, pk=comment_id)
+        comment_form = CommentForm(request.POST, instance=comment)
+
+        if comment_form.is_valid() and comment.author == request.user:
+            comment = comment_form.save(commit=True)
+            messages.add_message(request, messages.SUCCESS, 'Comment Updated!')
+        else:
+            messages.add_message(request, messages.ERROR, 'Error updating comment!')
+        return HttpResponseRedirect(reverse('feed'))
+
+    else:    
+        post = get_object_or_404(Post, pk=post_id)
+        comment = get_object_or_404(Comment, pk=comment_id)
+        comment_form = CommentForm()
+        return render(
+            request,
+            "mainfeed/edit_comment.html",
+            {
+                "post": post,
+                "comment": comment,
+                "comment_form": comment_form,
+            },
+        ) 
 # def edit_comment(request, comment_id):
     
 #     if request.method == "POST":

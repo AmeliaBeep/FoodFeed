@@ -1,0 +1,33 @@
+{% extends "view_post.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block view_target_comment %}
+
+<!-- Comment view and interaction options -->
+<div class="col main-container">
+    <div class="row post-container d-flex justify-content-center my-4">
+        {% if user.is_authenticated %}
+        <!-- Comment start -->
+        <div class="comment-container rounded py-2">
+            <div class="row px-3  pt-3 ">
+                <!-- Comment header -->
+                <div class="col align-content-center">
+                    <h3 class="comment-header-text">{{ comment.author }} | {{ comment.created_on}}</h3>
+                </div>
+            </div>
+            <!-- Comment text -->
+            <div class="row px-3">
+                <p class="post-text pt-1">{{ comment.body }}</p>
+            </div>
+        </div>
+        {% else %}
+        <h2 class="text-center">Log in to edit your comment</h2>
+        {% endif %}
+    </div>
+
+    {% block edit_target_comment %}
+    {% endblock edit_target_comment %}
+</div>
+
+{% endblock %}

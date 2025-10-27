@@ -50,19 +50,22 @@
                 <a class="page-button rounded text-center" href="{% url 'create_comment' post.id %}" style="width: 150px;" aria-label="Create a comment">Make a comment</a>   
             </div>
             {% endif %}
+            
             {% if post.comments.exists %}
             {% for comment in post.comments.all %}
             <!-- Comment start -->
             <div class="row px-3  pt-3 ">
+
                 <!-- Comment header -->
                 <div class="col align-content-center">
                     <h3 class="comment-header-text">{{ comment.author }} | {{ comment.created_on}}</h3>
                 </div>
+
                 <!-- Buttons to edit, copy link and delete -->
                 <div class="col-3 d-inline-flex justify-content-end">
                     {% if user.is_authenticated and user == comment.author %}
                     <a class="mx-1 page-button comment-icon-size icon-button rounded-circle" 
-                        href="{% url 'edit_post' comment.id %}" aria-label="Edit comment">
+                        href="{% url 'edit_comment' post.id comment.id %}" aria-label="Edit comment">
                         <i class="fa-regular fa-pen-to-square"></i></a>
                     {% endif %}
                     {% if user.is_authenticated and user == comment.author %}
@@ -72,10 +75,12 @@
                     {% endif %}
                 </div>
             </div>
+
             <!-- Comment text -->
             <div class="row px-3">
                 <p class="post-text pt-1">{{ comment.body }}</p>
             </div>
+
             <!-- Comment end -->
             {% endfor %}
             {% else %}
