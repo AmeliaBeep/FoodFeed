@@ -9,7 +9,7 @@ class Post(models.Model):
     image = CloudinaryField('image', default='static\images\default.jpg')
     text = models.TextField(max_length=1000)
     created_on = models.DateTimeField(auto_now_add=True)
-    #updated_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["-created_on"]

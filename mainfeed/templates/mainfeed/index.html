@@ -21,11 +21,17 @@
                     <!-- Buttons to edit and delete -->
                     <div class="col-3 d-inline-flex justify-content-end">
                         {% if user.is_authenticated and user == post.author %}
-                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" href="{% url 'create_comment' post.id %}" aria-label="Edit post"><i class="fa-regular fa-pen-to-square"></i></a>
+                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
+                            href="{% url 'edit_post' post.id %}" aria-label="Edit post">
+                            <i class="fa-regular fa-pen-to-square"></i></a>
                         {% endif %}
-                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" href="{% url 'create_comment' post.id %}" aria-label="Create a comment"><i class="fa-regular fa-copy"></i></a>
+                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
+                            href="{% url 'create_comment' post.id %}" aria-label="Copy post link">
+                            <i class="fa-regular fa-copy"></i></a>
                         {% if user.is_authenticated and user == post.author %}
-                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" href="{% url 'create_comment' post.id %}" aria-label="Create a comment"><i class="fa-regular fa-trash-can"></i></a>
+                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
+                        href="{% url 'create_comment' post.id %}" aria-label="Delete post">
+                        <i class="fa-regular fa-trash-can"></i></a>
                         {% endif %}
                     </div>
                 </div>

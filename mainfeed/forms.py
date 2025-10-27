@@ -12,6 +12,11 @@ class PostForm(forms.ModelForm):
         options={"folder": "foodfeed/", "crop": "limit", "width": 600, "height": 600,}
      )
     
+class PostTextForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('text',)
+    
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
