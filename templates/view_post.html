@@ -4,68 +4,94 @@
 
 {% block content %}
 
-<!-- Post view and interaction options -->
+<!-- Content container-->
 <div class="container-fluid">
-
     <div class="row d-flex justify-content-evenly mt-3">
-        <!-- Show signed in users a message depending on interaction type -->
+
         {% if user.is_authenticated %}
+        <!-- Greeting container -->
         <div class="col-12 text-center">
+
             {% with create_comment_url='create-comment' %}
             {% if create_comment_url in request.path %}
             <!-- Create comment greeting -->
             <h2>Comment on this post!</h2>
             {% endif %}
             {% endwith %}
+
             {% with edit_comment_url='edit-comment' %}
-            {% if edit_comment_url in request.path %}
+            {% if edit_comment_url in request.path and user == post.author %}
             <!-- Edit comment greeting -->
             <h2>Edit this post comment!</h2>
             {% endif %}
             {% endwith %}
+
             {% with edit_post_url='edit-post' %}
             {% if edit_post_url in request.path and user == post.author %}
             <!-- Edit post greeting-->
             <h2>Edit this post!</h2>
             {% endif %}
             {% endwith %}
+
         </div>
         {% endif %}
-        <!-- Post -->
-        <div class="col-lg-6 main-container">
+
+        <!-- Post container -->
+        <div class="col-lg-6 mx-2 content-container">
+
+            <!-- Post start -->
             <div class="row d-flex justify-content-around my-4">
-                <article class="post-container rounded px-0">
-                    <!-- Post text -->
+                <article class="content-background-colour rounded px-0">
+
+                    <!-- Post header -->
                     <div class="pt-2 px-3">
-                <div class="row">
-                    <div class="col post-header-text align-content-center">
-                        <h2>{{ post.author }} | {{ post.created_on}}</h2>
+                        <div class="row">
+                            <div class="col post-header-text align-content-center">
+                                <h2>{{ post.author }} • <span>{{ post.created_on|date:'H:i | d-m-Y'}}</span></h2>
+                            </div>
+                        </div>
+                        <!-- Post text-->
+                        <div class="row">
+                            <p class="post-text pt-1">{{ post.text }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <p class="post-text pt-1">{{ post.text }}</p>
-                </div>
-            </div>
+
                     <!-- Post photo -->
                     <div class="post-image-container d-flex justify-content-center">
                         <img class="img-fluid" src="{{ post.image.url }}" alt="post image">
                     </div>
+
                     <!-- Post comments -->
-                    <div class="comment-container">
-                        {% if post.comments.exists %}
-                        {% for comment in post.comments.all %}
-                        <div class="row px-3">
-                            <h3 class="comment-header-text pt-3 ">{{ comment.author }} | {{ comment.created_on}}</h3>
-                            <p class="post-text pt-1">{{ comment.body }}</p>
+                    {% if post.comments.exists %}
+                    
+                    {% for comment in post.comments.all %}
+                    <!-- Comment start -->
+
+                    <!-- Comment header -->
+                    <div class="row px-3 pt-3 ">
+                        <div class="col comment-header-text align-content-center">
+                            <h3>{{ comment.author }} • <span>{{ post.created_on|date:'H:i | d-m-Y'}}</span></h3>
                         </div>
-                        {% endfor %}
-                        {% else %}
-                        <div class="no-comments"></div>
-                        {% endif %}
                     </div>
+
+                    <!-- Comment text -->
+                    <div class="row px-3">
+                        <p class="post-text pt-1">{{ comment.body }}</p>
+                    </div>
+
+                    <!-- Comment end -->
+                    {% endfor %}
+                    {% else %}
+                    <div class="no-comments"></div>
+                    {% endif %}
+
                 </article>
             </div>
+            
+            <!-- Post end -->
         </div>
+
+        <!-- Interaction content goes here -->
         {% block view_target_comment %}
         {% endblock view_target_comment%}
 

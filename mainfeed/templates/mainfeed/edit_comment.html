@@ -3,10 +3,14 @@
 {% load crispy_forms_tags %}
 
 {% block edit_target_comment %}
-<!-- Form to edit comment -->
+
+<!-- Comment Edit Form container -->
 <div class="row d-flex justify-content-center my-4">
-{% if user.is_authenticated %}
-    <div class="post-container rounded py-2">
+
+    {% if user.is_authenticated %}
+    <div class="content-background-colour rounded py-2">
+
+        <!-- Form content -->
         <form id="commentForm" method="post">
             <div class="row">
                 {{ comment_form | crispy }}
@@ -17,9 +21,13 @@
             class="page-button rounded btn text-center">Submit</button>
         </div>
         </form>
+
     </div>
+
     {% else %}
-    <h2 class="text-center">Log in to edit your comment</h2>
+    <!-- Unauthenticated users text -->
+    <h2 class="text-center">Log in to edit your comments</h2>
     {% endif %}
 </div>
+
 {% endblock %}

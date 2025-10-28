@@ -1,12 +1,14 @@
 /* CSS Variables */
 :root {
-    --brand-primary-colour: #ff9524;
-    --brand-secondary-colour: #f7bc7e;
-    --brand-primary-colour-dimmed: #ff952481;
-    --background-black: #141414;
-    --component-colour: #252525; 
-    --logo-text-size: 1.6rem
+    --brand-primary-colour: #ff9524; /* Primary orange used in logo and site styling */
+    --brand-primary-colour-dimmed: #ff952480; /* Primary orange at 50% opacity */
+    --brand-secondary-colour: #f7bc7e; /* Lighter orange used in logo */ 
+    --background-black: #141414; /* Black background */
+    --primary-grey-colour: #252525; /* Primary grey used on most content backgrounds */
+    --secondary-grey-colour: #383838; /* Secondary grey */
+    --logo-text-size: 1.6rem;
 }
+
 
 /* Global styles */
 body {
@@ -18,20 +20,52 @@ main {
     margin-bottom: 50px;
 }
 
-.main-container {
+/* Content conatiner styles */
+.content-container {
     max-width: 350px;
     padding-bottom: 8px;
 }
 
-.site-alert{
-    position: fixed;
-    background: blue;
+.content-background-colour {
+    background-color: var(--primary-grey-colour);
 }
 
-/* Navbar styling */
-#navbar {
-    background-color: var(--component-colour);
+.post-image-container {
+    background-color: var(--secondary-grey-colour);
 }
+
+.pagination-container {
+    padding-bottom: 10px;
+}
+
+/* Button styling */
+.page-button {
+    background-color: var(--primary-grey-colour);
+    color: var(--brand-primary-colour);
+    text-decoration: none;
+    display: block;
+    padding: .375rem .75rem;
+}
+
+.page-button:hover {
+    background-color: var(--brand-primary-colour);
+    color: var(--primary-grey-colour);
+}
+
+
+/* Navbar styling */
+
+#navbar {
+    background-color: var(--primary-grey-colour);
+}
+
+.navbar-icon-size {
+    width: 36px;
+    height: 36px;
+}
+
+
+/* Brand logo styling */
 
 #nav-logo-food {
     color: var(--brand-primary-colour);
@@ -45,10 +79,8 @@ main {
     font-weight: 700;
 }
 
-.navbar-icon-size {
-    width: 36px;
-    height: 36px;
-}
+
+/* Navbar icons */
 
 #user-icon {
     font-size: 1.5rem; 
@@ -61,26 +93,26 @@ main {
 
 /* Post styling */
 
-.post-container {
-    background-color: #252525;
-}
-
 .post-header-text h2 {
     font-size: 1.2rem;
     margin: 0;
+    font-weight: 600;
+}
+
+.comment-header-text h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.post-header-text h2 span,
+.comment-header-text h3 span {
+    font-size: 0.95rem;
 }
 
 .post-icon-size {
     width: 28px;
     height: 28px;
-}
-
-.post-image-container {
-    background-color: #383838;
-}
-
-.comment-header-text {
-    font-size: 1.1rem
 }
 
 .delete-post-button, .delete-comment-button {
@@ -97,31 +129,12 @@ main {
 }
 
 
-/* Pagination styling */
-
-.pagination-container {
-    padding-bottom: 10px;
-}
-
-.page-button {
-    background-color: var(--component-colour);
-    color: var(--brand-primary-colour);
-    text-decoration: none;
-    display: block;
-    padding: .375rem .75rem;
-}
-
-.page-button:hover {
-    background-color: var(--brand-primary-colour);
-    color: var(--component-colour);
-}
-
-
 /* Modal styling */
 .delete-modal {
-    background-color: var(--component-colour);
+    background-color: var(--primary-grey-colour);
     color: white;
 }
+
 .delete-modal .close-button {
     color:var(--brand-primary-colour);
     background: none;
@@ -142,6 +155,7 @@ main {
 
 
 /* Icon button centering */
+/* needs to go last to ensure centering applies after individual size changes */
 .icon-button {
     display: flex;
     align-items: center;
@@ -152,21 +166,21 @@ main {
 
 /* Media query: large or landscape phones (576px and up) */
 @media screen and (min-width: 576px) {
-    .main-container {
+    .content-container {
         max-width: 400px;
     }
 }
 
 /* Medium devices (tablets, 768px and up) */
 @media screen and (min-width: 768px) {
-    .main-container {
+    .content-container {
         max-width: 500px;
     }
 }
 
 /* Large devices (laptops and desktops, 992px and up) */
 @media screen and (min-width: 992px) {
-    .main-container {
+    .content-container {
         max-width: 600px;
     }
 }
