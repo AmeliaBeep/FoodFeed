@@ -16,11 +16,11 @@
                     {{ post_form | crispy }}
                     <p>Posting as: {{ user.username }}</p>
                 </div>
-            {% csrf_token %}
-            <div class="row justify-content-center">
-                <button id="submitButton" type="submit" style="width: 77px;"
-                class="page-button rounded btn text-center">Submit</button>
-            </div>
+                {% csrf_token %}
+                <div class="row justify-content-center">
+                    <button id="submitButton" type="submit" style="width: 77px;"
+                        class="page-button rounded btn text-center">Submit</button>
+                </div>
             </form>
         </div>
         {% else %}

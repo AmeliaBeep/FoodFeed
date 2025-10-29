@@ -1,13 +1,5 @@
-import os
-from django.test import RequestFactory, TestCase
-
-from config import settings
-from mainfeed.models import Post
+from django.test import TestCase
 from .forms import PostForm, PostTextForm, CommentForm
-from django.core.files.uploadedfile import TemporaryUploadedFile
-from django.core.files.uploadhandler import TemporaryFileUploadHandler
-from cloudinary.forms import CloudinaryFileField
-from cloudinary.models import CloudinaryField
 import cloudinary.api
 from django.core.files.base import ContentFile
 import requests
@@ -19,8 +11,8 @@ class TestPostForm(TestCase):
     Test cases to validate the PostForm model form.
     """
 
-    #TODO: Mock Cloudinary response in creating test_image
-    #      Prevent PostForm subroutines from uploading test_image     
+    # TODO: Mock Cloudinary response in creating test_image
+    #       Prevent PostForm to_python subroutines from uploading test_image     
     def test_form_is_valid(self):
         """ 
         Tests that PostForm accepts valid text and image fields.

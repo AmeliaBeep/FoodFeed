@@ -10,7 +10,7 @@ class PostForm(forms.ModelForm):
     
     image = CloudinaryFileField(
         options={"folder": "foodfeed/", "crop": "limit", "width": 600, "height": 600,}
-     )
+        )
     
 class PostTextForm(forms.ModelForm):
     class Meta:
