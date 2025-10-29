@@ -7,10 +7,17 @@ from .forms import PostForm, PostTextForm, CommentForm
 
 # Create your views here.
 
+
 class PostList(generic.ListView):
+    """
+    View to list all posts.
+
+    Post objects can be accessed in the template through post_list
+    """
     queryset = Post.objects.all()
     template_name = "mainfeed/index.html"
     paginate_by = 10
+
 
 # TODO: handle empty User
 def create_post(request):
@@ -35,6 +42,13 @@ def create_post(request):
             - Upon handling a GET request, a response containing the page 
             and post create form to render.
     """
+    if not request.user.is_authenticated:
+        messages.add_message(
+            request, messages.INFO,
+            'Sign in to create a post!'
+        )
+        return HttpResponseRedirect(reverse('feed'))
+
     if request.method == "POST":
         post_form = PostForm(request.POST, request.FILES)
         if post_form.is_valid():
@@ -63,6 +77,8 @@ def create_post(request):
         )
 
 # TODO: handle empty or unauthorised User
+
+
 def edit_post(request, post_id):
     """
     Handles POST and GET requests related to post editing.
@@ -77,7 +93,7 @@ def edit_post(request, post_id):
         request (HttpRequest): The request to process post editing or to 
         serve the corresponding webpage
         post_id (int): The id of the post to edit.
-        
+
 
     Returns:
         Union[HttpRequest, HttpResponse]:
@@ -86,19 +102,27 @@ def edit_post(request, post_id):
             - Upon handling a GET request, a response containing the page 
             and the post edit form to render.
     """
+
+    post = get_object_or_404(Post, pk=post_id)
+    if not request.user.is_authenticated or request.user != post.author:
+        messages.add_message(
+            request, messages.INFO,
+            'Sign in to edit posts'
+        )
+        return HttpResponseRedirect(reverse('feed'))
+
     if request.method == "POST":
-        post = get_object_or_404(Post, pk=post_id)
         post_form = PostTextForm(request.POST, instance=post)
 
         if post_form.is_valid() and post.author == request.user:
             post = post_form.save(commit=True)
             messages.add_message(request, messages.SUCCESS, 'Post Updated!')
         else:
-            messages.add_message(request, messages.ERROR, 'Error updating post!')
+            messages.add_message(request, messages.ERROR,
+                                 'Error updating post!')
         return HttpResponseRedirect(reverse('feed'))
 
-    else:    
-        post = get_object_or_404(Post, pk=post_id)
+    else:
 
         post_text_form = PostTextForm()
         return render(
@@ -111,6 +135,8 @@ def edit_post(request, post_id):
         )
 
 # TODO: handle empty or unauthorised User
+
+
 def delete_post(request, post_id):
     """
     Handles a request to delete a post.
@@ -122,29 +148,20 @@ def delete_post(request, post_id):
     Returns:
         HttpResponse: a redirect request including a success message.
     """
+
     post = get_object_or_404(Post, pk=post_id)
 
-    if post.author == request.user:
+    if request.user.is_authenticated and request.user == post.author:
         post.delete()
         messages.add_message(request, messages.SUCCESS, 'Post Deleted!')
     else:
-        messages.add_message(request, messages.ERROR, 'Error deleting post!')
+        messages.add_message(request, messages.ERROR, 'Error Deleting Post!')
     return HttpResponseRedirect(reverse('feed'))
 
-# def view_comment(request, post_id, comment_id):
-#     post = get_object_or_404(Post, pk=post_id)
-#     comment = get_object_or_404(Comment, pk=comment_id)
-
-#     return render(
-#             request,
-#             "mainfeed/view_comment.html",
-#             {
-#                 "post": post,
-#                 "comment": comment,
-#             },
-#         )
 
 # TODO: handle empty User
+
+
 def create_comment(request, post_id):
     """
     Handles POST and GET requests related to comment creation.
@@ -169,28 +186,36 @@ def create_comment(request, post_id):
             - Upon handling a GET request, a response containing the page 
             and comment create form to render.
     """
+    post = get_object_or_404(Post, pk=post_id)
+    if not request.user.is_authenticated or request.user != post.author:
+        messages.add_message(
+            request, messages.INFO,
+            'Sign in to create a comment!'
+        )
+        return HttpResponseRedirect(reverse('feed'))
+
     if request.method == "POST":
-            comment_form = CommentForm(request.POST)
-            if comment_form.is_valid():
-                comment = comment_form.save(commit=False)
-                comment.author = request.user
-                queryset = Post.objects.filter(pk=post_id)
-                comment.post =  get_object_or_404(queryset)
-                comment.save()
-                messages.add_message(
-                    request, messages.SUCCESS,
-                    'Comment submitted successfully!'
-                )
-                return HttpResponseRedirect(reverse('feed'))
-            else:
-                messages.add_message(
-                    request, messages.ERROR,
-                    'Comment failed to submit'
-                )
-    else:    
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.author = request.user
+            queryset = Post.objects.filter(pk=post_id)
+            comment.post = get_object_or_404(queryset)
+            comment.save()
+            messages.add_message(
+                request, messages.SUCCESS,
+                'Comment submitted successfully!'
+            )
+            return HttpResponseRedirect(reverse('feed'))
+        else:
+            messages.add_message(
+                request, messages.ERROR,
+                'Comment failed to submit'
+            )
+    else:
         post = get_object_or_404(Post, pk=post_id)
 
-        comment_form = CommentForm() 
+        comment_form = CommentForm()
         return render(
             request,
             "mainfeed/create_comment.html",
@@ -201,6 +226,8 @@ def create_comment(request, post_id):
         )
 
 # TODO: handle empty or unauthorised User
+
+
 def edit_comment(request, post_id, comment_id):
     """
     Handles POST and GET requests related to comment editing.
@@ -223,19 +250,28 @@ def edit_comment(request, post_id, comment_id):
             success message.
             - Upon handling a GET request, a response containing the page 
             and comment edit form to render.
-    """    
+    """
+    comment = get_object_or_404(Comment, pk=comment_id)
+
+    if not request.user.is_authenticated or request.user != comment.author:
+        messages.add_message(
+            request, messages.INFO,
+            'Sign in to edit comments!'
+        )
+        return HttpResponseRedirect(reverse('feed'))
+
     if request.method == "POST":
-        comment = get_object_or_404(Comment, pk=comment_id)
         comment_form = CommentForm(request.POST, instance=comment)
 
         if comment_form.is_valid() and comment.author == request.user:
             comment = comment_form.save(commit=True)
             messages.add_message(request, messages.SUCCESS, 'Comment Updated!')
         else:
-            messages.add_message(request, messages.ERROR, 'Error updating comment!')
+            messages.add_message(request, messages.ERROR,
+                                 'Error updating comment!')
         return HttpResponseRedirect(reverse('feed'))
 
-    else:    
+    else:
         post = get_object_or_404(Post, pk=post_id)
         comment = get_object_or_404(Comment, pk=comment_id)
         comment_form = CommentForm()
@@ -247,9 +283,11 @@ def edit_comment(request, post_id, comment_id):
                 "comment": comment,
                 "comment_form": comment_form,
             },
-        ) 
+        )
 
 # TODO: handle empty or unauthorised User
+
+
 def delete_comment(request, comment_id):
     """
     Handles a request to delete a comment.
@@ -263,9 +301,10 @@ def delete_comment(request, comment_id):
     """
     comment = get_object_or_404(Comment, pk=comment_id)
 
-    if comment.author == request.user:
+    if request.user.is_authenticated and comment.author == request.user:
         comment.delete()
         messages.add_message(request, messages.SUCCESS, 'Comment Deleted!')
     else:
-        messages.add_message(request, messages.ERROR, 'Error deleting comment!')
+        messages.add_message(request, messages.ERROR,
+                             'Error deleting comment!')
     return HttpResponseRedirect(reverse('feed'))
