@@ -1,11 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
+from userprofile.models import UserProfile
 from cloudinary.models import CloudinaryField
 
 # Create your models here
 
 class Post(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="users_posts")
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="users_posts")
     image = CloudinaryField('image', default='static/images/default.jpg')
     text = models.TextField(max_length=1000)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -19,7 +19,7 @@ class Post(models.Model):
     
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="commenter")
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="commenter")
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
