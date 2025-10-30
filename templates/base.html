@@ -1,5 +1,6 @@
 {% load static %}
 
+
 {% url 'account_login' as login_url %}
 {% url 'account_signup' as signup_url %}
 {% url 'account_logout' as logout_url %}
@@ -42,7 +43,7 @@
 
                     <!-- User profile button -->
                     <li class="nav-item mx-2">
-                        <a id="user-icon" class="nav-link page-button icon-button navbar-icon-size rounded-circle" href="{% url 'user_profile' %}"
+                        <a id="user-icon" class="nav-link page-button icon-button navbar-icon-size rounded-circle" href="{% url 'user_profile' user.id%}"
                         aria-label="Placeholder visit home">
                             <i class="fa-regular fa-user"></i></a>
                     </li>
