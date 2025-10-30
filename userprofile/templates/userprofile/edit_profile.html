@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load static %}
+<!-- User profile content-->
+ <div class="container-fluid">
+    <div class="row d-flex justify-content-evenly mt-3">
+        <div class="col-lg-6 mx-2 content-container">
+            
+            <!-- Profile section -->
+            <div class="row mt-4 pb-2">
+                <div class="col content-background-colour rounded">
+
+                    <div class="row">
+                        <div class="col-4 ms-1 my-3">         
+                            <div class="ms-1 profile-image-container d-flex justify-content-center">
+                                {% if "no-profile-image" in profile.image.url %}
+                                <img class="img-fluid" src="{% static 'images/no-user-image.jpg' %}" alt="Placeholder image - user has not uploaded a profile picture">
+                                {% else %}
+                                <img class="img-fluid" src="{{ profile.image.url }}" width="75%" alt="{{ profile.user }}'s profile picture">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-7 my-3 profile-name ms-auto d-flex flex-column align-items-end ">
+                            <div class="mb-auto">
+
+                            </div>
+                            <div class="pe-2">
+                                <h1 class="text-end">{{ profile.user }}</h1>  
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if "no-bio" not in profile.bio %}
+                    <hr class="content-divider mt-1">
+                    <div class="row ms-0 mb-2 profile-bio">
+                        <h2 class="ps-1">{{ profile.bio }}</h2>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-6 mx-2 content-container">
+            <div class="row d-flex justify-content-center my-4">
+
+                {% if user.is_authenticated and profile.user == user %}
+                <!-- Post Edit Form container -->
+                <div class="content-background-colour rounded py-2">
+
+                    <!-- Form content -->
+                    <form id="userProfileForm" method="post">
+                        <div class="row">
+                            {{ user_profile_form | crispy }}
+                        </div>
+                        {% csrf_token %}
+                        <div class="row justify-content-center">
+                            <button id="submitButton" type="submit" style="width: 77px;"
+                                class="page-button rounded btn text-center">Submit</button>
+                        </div>
+                    </form>
+
+                </div>
+
+                {% else %}
+                <!-- Unauthenticated users text -->
+                <h2 class="text-center">Log in to edit your profile details.</h2>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main feed pagination -->
+
+
+<!-- Delete post or comment confirmation modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1"
+  aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content delete-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    Delete content?</h5>
+                <button type="button" class="close-button icon-button"
+                data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" id="deleteModalBody">
+                Are you sure you want to delete your content?
+                This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                data-bs-dismiss="modal">Close</button>
+                <a id="deleteConfirm" href="#" class="btn
+                btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extras %}
+    <script src="{% static 'js/edit_content.js' %}"></script>
+{% endblock %}
