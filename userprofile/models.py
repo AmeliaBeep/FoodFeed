@@ -10,7 +10,7 @@ class UserProfile(models.Model):
     """
     A UserProfile based on User that adds a bio and profile picture.
 
-    A one-to-one relationship is created between the fields in the User model.
+    A one-to-one relationship is created between this model and the User model.
 
     AUTH_USER_MODEL defaults to 'auth.User' if not set manually.
     """

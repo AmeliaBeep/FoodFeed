@@ -14,11 +14,11 @@
             <div class="pt-2 px-3">
                 <div class="row">
                     <div class="col post-header-text align-content-center">
-                        <h2>{{ post.author }} • <span>{{ post.created_on|date:'H:i | d-m-Y'}}</span></h2>
+                        <h2>{{ post.author.user }} • <span>{{ post.created_on|date:'H:i | d-m-Y'}}</span></h2>
                     </div>
                     <!-- Buttons to edit, copy link and delete -->
                     <div class="col-3 d-inline-flex justify-content-end">
-                        {% if user.is_authenticated and user == post.author %}
+                        {% if user.is_authenticated and user == post.author.user %}
                         <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
                             href="{% url 'edit_post' post.id %}" aria-label="Edit post">
                             <i class="fa-regular fa-pen-to-square"></i></a>
@@ -26,7 +26,7 @@
                         <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
                             href="{% url 'create_comment' post.id %}" aria-label="Copy post link">
                             <i class="fa-regular fa-copy"></i></a>
-                        {% if user.is_authenticated and user == post.author %}
+                        {% if user.is_authenticated and user == post.author.user %}
                         <button class="mx-1 delete-post-button page-button post-icon-size icon-button rounded-circle" 
                             post_id="{{ post.id }}" aria-label="Delete post">
                             <i class="fa-regular fa-trash-can" post_id="{{ post.id }}"></i></button>
@@ -58,17 +58,17 @@
             <!-- Comment header -->
             <div class="row px-3 pt-3 ">
                 <div class="col comment-header-text align-content-center">
-                    <h3>{{ comment.author }} • <span>{{ post.created_on|date:'H:i | d-m-Y'}}</span></h3>
+                    <h3>{{ comment.author.user }} • <span>{{ post.created_on|date:'H:i | d-m-Y'}}</span></h3>
                 </div>
 
                 <!-- Buttons to edit, copy link and delete -->
                 <div class="col-3 d-inline-flex justify-content-end">
-                    {% if user.is_authenticated and user == comment.author %}
+                    {% if user.is_authenticated and user == comment.author.user %}
                     <a class="mx-1 page-button comment-icon-size icon-button rounded-circle" 
                         href="{% url 'edit_comment' post.id comment.id %}" aria-label="Edit comment">
                         <i class="fa-regular fa-pen-to-square"></i></a>
                     {% endif %}
-                    {% if user.is_authenticated and user == comment.author %}
+                    {% if user.is_authenticated and user == comment.author.user %}
                     <button class="mx-1 delete-comment-button page-button comment-icon-size icon-button rounded-circle" 
                         comment_id="{{ comment.id }}" aria-label="Delete comment">
                         <i class="fa-regular fa-trash-can" comment_id="{{ comment.id }}"></i></button>

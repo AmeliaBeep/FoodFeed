@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<!-- User profile content-->
+<div class="content-container container-fluid">
+
+    <h1>{{ profile.user }}</h1>        
+    <!-- Post start -->
+    <div class="row d-flex justify-content-center my-4">
+        <article class="content-background-colour rounded px-0">
+
+            <!-- Post header -->
+            <div class="pt-2 px-3">
+                <div class="row">
+                    
+                </div>
+                <!-- Post text -->
+                <div class="row">
+                    <p class="post-text pt-1">{{ profile.bio }}</p>
+                </div>
+            </div>
+
+            <!-- Post photo -->
+            <div class="post-image-container d-flex justify-content-center">
+                <img class="img-fluid" src="{{ profile.image.url }}" alt="post image">
+            </div>
+
+            <!-- Post comments -->
+            <div class="row justify-content-center mt-2">
+                <a class="page-button rounded text-center" href="#" style="width: 150px;" aria-label="Create a comment"></a>   
+            </div>
+
+        </article>
+    </div>
+    <!-- Post end -->
+
+
+</div>
+
+<!-- Main feed pagination -->
+
+
+<!-- Delete post or comment confirmation modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1"
+  aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content delete-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    Delete content?</h5>
+                <button type="button" class="close-button icon-button"
+                data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" id="deleteModalBody">
+                Are you sure you want to delete your content?
+                This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                data-bs-dismiss="modal">Close</button>
+                <a id="deleteConfirm" href="#" class="btn
+                btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extras %}
+    <script src="{% static 'js/edit_content.js' %}"></script>
+{% endblock %}

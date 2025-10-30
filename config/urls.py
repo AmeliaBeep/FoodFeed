@@ -21,4 +21,5 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path('admin/', admin.site.urls),
     path("", include("mainfeed.urls"), name="main-feed-urls"),
+    path("", include("userprofile.urls"), name="user-profile-urls"),
 ]
