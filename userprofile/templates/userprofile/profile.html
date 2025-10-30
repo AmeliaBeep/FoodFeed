@@ -4,8 +4,52 @@
 {% load static %}
 <!-- User profile content-->
 <div class="content-container container-fluid">
+    
+    <!-- Profile section -->
+    <div class="row mt-4 pb-2">
+        <div class="col content-background-colour rounded">
 
-    <h1>{{ profile.user }}</h1>        
+            <div class="row">
+                <div class="col-4 ms-1 my-3">         
+                    <div class="ms-1 profile-image-container d-flex justify-content-center">
+                        {% if "no-profile-image" in profile.image.url %}
+                        <img class="img-fluid" src="{% static 'images/no-user-image.jpg' %}" alt="Placeholder image - user has not uploaded a profile picture">
+                        {% else %}
+                        <img class="img-fluid" src="{{ profile.image.url }}" width="75%" alt="{{ profile.user }}'s profile picture">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-7 my-3 profile-name ms-auto d-flex flex-column align-items-end ">
+                    <div class="mb-auto">
+                        {% if user == profile.user %}
+                        <a class="page-button rounded" 
+                            href="{% url 'edit_user_profile' profile.id %}" aria-label="Edit profile">Edit profile</a>
+                        {% endif %}
+                    </div>
+                    <div class="pe-2">
+                        <h1 class="text-end">{{ profile.user }}</h1>  
+                    </div>
+                </div>
+            </div>
+
+            {% if "no-bio" not in profile.bio %}
+            <hr class="content-divider mt-1">
+            <div class="row ms-0 mb-2 profile-bio">
+                <h2 class="ps-1">{{ profile.bio }}</h2>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+
+    <!-- User post history -->
+    {% if posts is none %}
+    <div class="row my-4">
+        <h2 class="text-center">Try making a post to see it here!<h2>
+    </div>
+    {% else %}
+    {% for post in posts %}
     <!-- Post start -->
     <div class="row d-flex justify-content-center my-4">
         <article class="content-background-colour rounded px-0">
@@ -13,29 +57,90 @@
             <!-- Post header -->
             <div class="pt-2 px-3">
                 <div class="row">
-                    
+                    <div class="col post-header-text align-content-center">
+                        <h2>{{ post.author.user }} • <span>{{ post.created_on|date:'H:i | d-m-Y'}}</span></h2>
+                    </div>
+
+                    <!-- Buttons to edit, copy link and delete -->
+                    <div class="col-3 d-inline-flex justify-content-end">
+
+                        {% if user.is_authenticated and user == post.author.user %}
+                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
+                            href="{% url 'edit_post' post.id %}" aria-label="Edit post">
+                            <i class="fa-regular fa-pen-to-square"></i></a>
+                        {% endif %}
+
+                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
+                            href="{% url 'create_comment' post.id %}" aria-label="Copy post link">
+                            <i class="fa-regular fa-copy"></i></a>
+
+                        {% if user.is_authenticated and user == post.author.user %}
+                        <button class="mx-1 delete-post-button page-button post-icon-size icon-button rounded-circle" 
+                            post_id="{{ post.id }}" aria-label="Delete post">
+                            <i class="fa-regular fa-trash-can" post_id="{{ post.id }}"></i></button>
+                        {% endif %}
+
+                    </div>
                 </div>
+
                 <!-- Post text -->
                 <div class="row">
-                    <p class="post-text pt-1">{{ profile.bio }}</p>
+                    <p class="pt-1">{{ post.text }}</p>
                 </div>
             </div>
 
             <!-- Post photo -->
             <div class="post-image-container d-flex justify-content-center">
-                <img class="img-fluid" src="{{ profile.image.url }}" alt="post image">
+                <img class="img-fluid" src="{{ post.image.url }}" alt="post image">
             </div>
 
             <!-- Post comments -->
+            {% if user.is_authenticated %}
             <div class="row justify-content-center mt-2">
-                <a class="page-button rounded text-center" href="#" style="width: 150px;" aria-label="Create a comment"></a>   
+                <a class="page-button rounded text-center" href="{% url 'create_comment' post.id %}" style="width: 150px;" aria-label="Create a comment">Make a comment</a>   
+            </div>
+            {% endif %}
+
+            {% if post.comments.exists %}
+            {% for comment in post.comments.all %}
+            <!-- Comment start -->
+
+            <!-- Comment header -->
+            <div class="row px-3 pt-3 ">
+                <div class="col comment-header-text align-content-center">
+                    <h3>{{ comment.author.user }} • <span>{{ post.created_on|date:'H:i | d-m-Y'}}</span></h3>
+                </div>
+
+                <!-- Buttons to edit, copy link and delete -->
+                <div class="col-3 d-inline-flex justify-content-end">
+                    {% if user.is_authenticated and user == comment.author.user %}
+                    <a class="mx-1 page-button comment-icon-size icon-button rounded-circle" 
+                        href="{% url 'edit_comment' post.id comment.id %}" aria-label="Edit comment">
+                        <i class="fa-regular fa-pen-to-square"></i></a>
+                    {% endif %}
+                    {% if user.is_authenticated and user == comment.author.user %}
+                    <button class="mx-1 delete-comment-button page-button comment-icon-size icon-button rounded-circle" 
+                        comment_id="{{ comment.id }}" aria-label="Delete comment">
+                        <i class="fa-regular fa-trash-can" comment_id="{{ comment.id }}"></i></button>
+                    {% endif %}
+                </div>
             </div>
 
+            <!-- Comment text -->
+            <div class="row px-3">
+                <p class="pt-1">{{ comment.body }}</p>
+            </div>
+
+            <!-- Comment end -->
+            {% endfor %}
+            {% else %}
+            <div class="no-comments"></div>
+            {% endif %}
         </article>
     </div>
     <!-- Post end -->
-
-
+    {% endfor %}
+    {% endif %}
 </div>
 
 <!-- Main feed pagination -->

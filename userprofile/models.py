@@ -15,7 +15,7 @@ class UserProfile(models.Model):
     AUTH_USER_MODEL defaults to 'auth.User' if not set manually.
     """
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user_profile")
     bio = models.TextField(max_length=800, default="no-bio")
     image = CloudinaryField('image', default='no-profile-image')
 
