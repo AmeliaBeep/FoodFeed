@@ -6,6 +6,7 @@
     --background-black: #141414; /* Black background */
     --primary-grey-colour: #252525; /* Primary grey used on most content backgrounds */
     --secondary-grey-colour: #383838; /* Secondary grey */
+    --delete-red-colour: #ff3924;
     --logo-text-size: 1.6rem;
 }
 
@@ -21,6 +22,10 @@ main {
 }
 
 /* Content conatiner styles */
+.content-divider {
+    color: var(--brand-primary-colour);
+}
+
 .content-container {
     max-width: 350px;
     padding-bottom: 8px;
@@ -38,8 +43,15 @@ main {
     padding-bottom: 10px;
 }
 
+.profile-image-container {
+    background-color: var(--secondary-grey-colour);
+    border: 2px solid var(--brand-primary-colour-dimmed);
+}
+
 /* Button styling */
-.page-button {
+.page-button,
+.page-button:visited,
+.page-button:active {
     background-color: var(--primary-grey-colour);
     color: var(--brand-primary-colour);
     text-decoration: none;
@@ -129,6 +141,17 @@ main {
 }
 
 
+/* Profile styling */
+.profile-name h1 {
+    font-size: 1.4rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.profile-bio h2 {
+    font-size: 1rem;
+}
+
 /* Modal styling */
 .delete-modal {
     background-color: var(--primary-grey-colour);
@@ -141,10 +164,29 @@ main {
     border: none;
 }
 
-.delete-modal .close-button:hover {
+.delete-button,
+.delete-button:visited,
+.delete-button:hover,
+.delete-button:active {
+    background-color: var(--delete-red-colour);
+    border-color: var(--delete-red-colour);
+    color: white
+}
+
+.delete-modal .close-button:hover,
+.delete-button:visited,
+.delete-button:hover,
+.delete-button:active  {
     filter: brightness(120%)
 }
 
+.modal-header,
+.modal-footer {
+    border: none;
+}
+
+
+/**
 .delete-modal .modal-header {
     border-bottom: 1px solid var(--brand-primary-colour-dimmed);
 }
@@ -152,7 +194,7 @@ main {
 .delete-modal .modal-footer {
     border-top: 1px solid var(--brand-primary-colour-dimmed);
 }
-
+*/
 
 /* Icon button centering */
 /* needs to go last to ensure centering applies after individual size changes */

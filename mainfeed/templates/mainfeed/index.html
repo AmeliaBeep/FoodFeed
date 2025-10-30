@@ -16,26 +16,32 @@
                     <div class="col post-header-text align-content-center">
                         <h2>{{ post.author.user }} • <span>{{ post.created_on|date:'H:i | d-m-Y'}}</span></h2>
                     </div>
+
                     <!-- Buttons to edit, copy link and delete -->
                     <div class="col-3 d-inline-flex justify-content-end">
+
                         {% if user.is_authenticated and user == post.author.user %}
                         <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
                             href="{% url 'edit_post' post.id %}" aria-label="Edit post">
                             <i class="fa-regular fa-pen-to-square"></i></a>
                         {% endif %}
+
                         <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
                             href="{% url 'create_comment' post.id %}" aria-label="Copy post link">
                             <i class="fa-regular fa-copy"></i></a>
+
                         {% if user.is_authenticated and user == post.author.user %}
                         <button class="mx-1 delete-post-button page-button post-icon-size icon-button rounded-circle" 
                             post_id="{{ post.id }}" aria-label="Delete post">
                             <i class="fa-regular fa-trash-can" post_id="{{ post.id }}"></i></button>
                         {% endif %}
+
                     </div>
                 </div>
+
                 <!-- Post text -->
                 <div class="row">
-                    <p class="post-text pt-1">{{ post.text }}</p>
+                    <p class="pt-1">{{ post.text }}</p>
                 </div>
             </div>
 
@@ -78,7 +84,7 @@
 
             <!-- Comment text -->
             <div class="row px-3">
-                <p class="post-text pt-1">{{ comment.body }}</p>
+                <p class="pt-1">{{ comment.body }}</p>
             </div>
 
             <!-- Comment end -->
@@ -123,22 +129,21 @@
 <div class="modal fade" id="deleteModal" tabindex="-1"
   aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content delete-modal">
+        <div class="modal-content p-1 delete-modal">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteModalLabel">
                     Delete content?</h5>
                 <button type="button" class="close-button icon-button"
                 data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
             </div>
+            <hr class="content-divider mx-3 my-1">
             <div class="modal-body" id="deleteModalBody">
                 Are you sure you want to delete your content?
                 This action cannot be undone.
             </div>
+            <hr class="content-divider mx-3 my-1">
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                data-bs-dismiss="modal">Close</button>
-                <a id="deleteConfirm" href="#" class="btn
-                btn-danger">Delete</a>
+                <a id="deleteConfirm" href="#" class="page-button delete-button rounded">Delete</a>
             </div>
         </div>
     </div>
