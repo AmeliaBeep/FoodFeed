@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+
+from userprofile.models import UserProfile
 from .models import Post, Comment
 from .forms import PostForm, PostTextForm, CommentForm
 
@@ -52,8 +54,10 @@ def create_post(request):
     if request.method == "POST":
         post_form = PostForm(request.POST, request.FILES)
         if post_form.is_valid():
+            profile_queryset = UserProfile.objects.filter(user=request.user)
+            author_profile = get_object_or_404(profile_queryset)
             post = post_form.save(commit=False)
-            post.author.user = request.user
+            post.author = author_profile
             post.save()
             messages.add_message(
                 request, messages.SUCCESS,
@@ -187,7 +191,7 @@ def create_comment(request, post_id):
             and comment create form to render.
     """
     post = get_object_or_404(Post, pk=post_id)
-    if not request.user.is_authenticated or request.user != post.author.user:
+    if not request.user.is_authenticated:
         messages.add_message(
             request, messages.INFO,
             'Sign in to create a comment!'
@@ -197,10 +201,12 @@ def create_comment(request, post_id):
     if request.method == "POST":
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
-            comment = comment_form.save(commit=False)
-            comment.author.user = request.user
             queryset = Post.objects.filter(pk=post_id)
+            profile_queryset = UserProfile.objects.filter(user=request.user)
+            author_profile = get_object_or_404(profile_queryset)
+            comment = comment_form.save(commit=False)
             comment.post = get_object_or_404(queryset)
+            comment.author = author_profile
             comment.save()
             messages.add_message(
                 request, messages.SUCCESS,
