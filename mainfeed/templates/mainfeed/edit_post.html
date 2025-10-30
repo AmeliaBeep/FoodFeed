@@ -9,7 +9,7 @@
 <div class="col-lg-6 mx-2 content-container">
     <div class="row d-flex justify-content-center my-4">
 
-        {% if user.is_authenticated and user == post.author %}
+        {% if user.is_authenticated and user == post.author.user %}
         <!-- Post Edit Form container -->
         <div class="content-background-colour rounded py-2">
 

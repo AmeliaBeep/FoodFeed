@@ -20,14 +20,14 @@
             {% endwith %}
 
             {% with edit_comment_url='edit-comment' %}
-            {% if edit_comment_url in request.path and user == post.author %}
+            {% if edit_comment_url in request.path and user == post.author.user %}
             <!-- Edit comment greeting -->
             <h2>Edit this post comment!</h2>
             {% endif %}
             {% endwith %}
 
             {% with edit_post_url='edit-post' %}
-            {% if edit_post_url in request.path and user == post.author %}
+            {% if edit_post_url in request.path and user == post.author.user %}
             <!-- Edit post greeting-->
             <h2>Edit this post!</h2>
             {% endif %}

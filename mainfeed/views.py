@@ -53,7 +53,7 @@ def create_post(request):
         post_form = PostForm(request.POST, request.FILES)
         if post_form.is_valid():
             post = post_form.save(commit=False)
-            post.author = request.user
+            post.author.user = request.user
             post.save()
             messages.add_message(
                 request, messages.SUCCESS,
@@ -104,7 +104,7 @@ def edit_post(request, post_id):
     """
 
     post = get_object_or_404(Post, pk=post_id)
-    if not request.user.is_authenticated or request.user != post.author:
+    if not request.user.is_authenticated or request.user != post.author.user:
         messages.add_message(
             request, messages.INFO,
             'Sign in to edit posts'
@@ -114,7 +114,7 @@ def edit_post(request, post_id):
     if request.method == "POST":
         post_form = PostTextForm(request.POST, instance=post)
 
-        if post_form.is_valid() and post.author == request.user:
+        if post_form.is_valid() and post.author.user == request.user:
             post = post_form.save(commit=True)
             messages.add_message(request, messages.SUCCESS, 'Post Updated!')
         else:
@@ -151,7 +151,7 @@ def delete_post(request, post_id):
 
     post = get_object_or_404(Post, pk=post_id)
 
-    if request.user.is_authenticated and request.user == post.author:
+    if request.user.is_authenticated and request.user == post.author.user:
         post.delete()
         messages.add_message(request, messages.SUCCESS, 'Post Deleted!')
     else:
@@ -187,7 +187,7 @@ def create_comment(request, post_id):
             and comment create form to render.
     """
     post = get_object_or_404(Post, pk=post_id)
-    if not request.user.is_authenticated or request.user != post.author:
+    if not request.user.is_authenticated or request.user != post.author.user:
         messages.add_message(
             request, messages.INFO,
             'Sign in to create a comment!'
@@ -198,7 +198,7 @@ def create_comment(request, post_id):
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
-            comment.author = request.user
+            comment.author.user = request.user
             queryset = Post.objects.filter(pk=post_id)
             comment.post = get_object_or_404(queryset)
             comment.save()
@@ -253,7 +253,7 @@ def edit_comment(request, post_id, comment_id):
     """
     comment = get_object_or_404(Comment, pk=comment_id)
 
-    if not request.user.is_authenticated or request.user != comment.author:
+    if not request.user.is_authenticated or request.user != comment.author.user:
         messages.add_message(
             request, messages.INFO,
             'Sign in to edit comments!'
@@ -263,7 +263,7 @@ def edit_comment(request, post_id, comment_id):
     if request.method == "POST":
         comment_form = CommentForm(request.POST, instance=comment)
 
-        if comment_form.is_valid() and comment.author == request.user:
+        if comment_form.is_valid() and comment.author.user == request.user:
             comment = comment_form.save(commit=True)
             messages.add_message(request, messages.SUCCESS, 'Comment Updated!')
         else:
@@ -301,7 +301,7 @@ def delete_comment(request, comment_id):
     """
     comment = get_object_or_404(Comment, pk=comment_id)
 
-    if request.user.is_authenticated and comment.author == request.user:
+    if request.user.is_authenticated and comment.author.user == request.user:
         comment.delete()
         messages.add_message(request, messages.SUCCESS, 'Comment Deleted!')
     else:
