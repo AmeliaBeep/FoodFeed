@@ -16,8 +16,8 @@ class UserProfile(models.Model):
     """
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    bio = models.TextField()
-    image = CloudinaryField('image', default='static/images/no-user-image.jpg')
+    bio = models.TextField(max_length=800, default="no-bio")
+    image = CloudinaryField('image', default='no-profile-image')
 
     def __str__(self):
         return f"{self.user}" 
