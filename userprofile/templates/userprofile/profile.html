@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            {% if "no-bio" not in profile.bio %}
+            {% if profile.bio != "" %}
             <hr class="content-divider mt-1">
             <div class="row ms-0 mb-2 profile-bio">
                 <h2 class="ps-1">{{ profile.bio }}</h2>
