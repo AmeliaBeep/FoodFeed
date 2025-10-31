@@ -79,11 +79,11 @@ def handle_user_profile_edits(request, profile):
     username = request.POST.get('username')    
     user_profile_form = UserProfileForm(data={'bio':bio}, files={'image':image}, instance=profile)
     user_form = UserForm(data={'username':username}, instance=profile.user)
-    imgerrors=user_profile_form.errors
-
 
     if user_profile_form.is_valid() and user_form.is_valid():
-        profile = user_profile_form.save(commit=True)
+        profile = user_profile_form.save(commit=False)
+        temp=profile.image
+        assert False
         user = user_form.save(commit=True)
         messages.add_message(
             request, messages.SUCCESS,
