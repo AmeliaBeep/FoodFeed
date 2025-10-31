@@ -3,11 +3,12 @@ from userprofile.models import UserProfile
 from .forms import UserProfileForm, UserForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+#from magic.identify import Magic, MagicError
 
 # Create your views here.
 
 
-def user_profile(request, user_profile_id):
+def view_user_profile(request, user_profile_id):
     profile = get_object_or_404(UserProfile, pk=user_profile_id)
 
     users_posts = profile.users_posts.all()
@@ -21,7 +22,7 @@ def user_profile(request, user_profile_id):
         },
     )
 
-
+#TODO make it so you get booted out if no changes?
 def edit_user_profile(request, user_profile_id):
     profile = get_object_or_404(UserProfile, pk=user_profile_id)
 
@@ -31,31 +32,16 @@ def edit_user_profile(request, user_profile_id):
             'Unauthorised to edit this profile!'
         )
         return HttpResponseRedirect(reverse('feed'))
+    
     if request.method == "POST":
-        post_form = UserForm(request.POST, request.FILES)
-        if post_form.is_valid():
-            profile_queryset = UserProfile.objects.filter(user=request.user)
-            author_profile = get_object_or_404(profile_queryset)
-            post = post_form.save(commit=False)
-            post.author = author_profile
-            post.save()
-            messages.add_message(
-                request, messages.SUCCESS,
-                'Post submitted successfully!'
-            )
-            return HttpResponseRedirect(reverse('feed'))
-        else:
-            messages.add_message(
-                request, messages.ERROR,
-                'Post failed to submit'
-            )
+        handle_user_profile_edits(request, profile)
+        return HttpResponseRedirect(reverse('feed'))
     else:
         current_bio = profile.bio
         current_image = profile.image
         username = request.user.username
 
-        user_profile_form = UserProfileForm(
-            initial={'bio': current_bio, 'image': current_image})
+        user_profile_form = UserProfileForm(initial={'bio': current_bio, 'image': current_image})
         user_form = UserForm(initial={'username': username})
 
         return render(
@@ -66,4 +52,45 @@ def edit_user_profile(request, user_profile_id):
                 "user_profile_form": user_profile_form,
                 "user_form": user_form,
             },
+        )
+
+# TODO: use magic library to properly verify uploaded file is an image
+    #filetype_fromname = Magic.id_filename(image)
+    #filetype_frombuffer = Magic.id_buffer(image)
+def handle_user_profile_edits(request, profile):
+    try:
+        image = request.FILES.get('image')
+        content_type=image.content_type
+        valid_content = ["image/jpeg", "image/png", "image/svg+xml"]
+        if content_type not in valid_content:
+            raise ValueError
+        
+    except AttributeError:
+        image = None
+
+    except ValueError:
+        image = None
+        messages.add_message(
+            request, messages.ERROR,
+            'File uploaded not one of the accepted types'
+        )
+
+    bio = request.POST.get('bio')
+    username = request.POST.get('username')    
+    user_profile_form = UserProfileForm(data={'bio':bio}, files={'image':image}, instance=profile)
+    user_form = UserForm(data={'username':username}, instance=profile.user)
+    imgerrors=user_profile_form.errors
+
+
+    if user_profile_form.is_valid() and user_form.is_valid():
+        profile = user_profile_form.save(commit=True)
+        user = user_form.save(commit=True)
+        messages.add_message(
+            request, messages.SUCCESS,
+            'Updates submitted successfully!'
+        )
+    else:
+        messages.add_message(
+            request, messages.ERROR,
+            'Post failed to submit'
         )

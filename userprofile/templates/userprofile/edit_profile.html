@@ -14,23 +14,14 @@
                 <div class="content-background-colour rounded py-2">
 
                     <!-- Form content -->
-                    <form id="userForm" method="post">
+                    <form id="profileForm" method="post" enctype='multipart/form-data'>
                         <div class="row">
                             {{ user_form | crispy }}
-                        </div>
-                        {% csrf_token %}
-                        <div class="row justify-content-center">
-                            <button id="submitButton" type="submit" style="width: 77px;"
-                                class="page-button rounded btn text-center">Submit</button>
-                        </div>
-                    </form>
-                    <form id="userProfileForm" method="post">
-                        <div class="row">
                             {{ user_profile_form | crispy }}
                         </div>
                         {% csrf_token %}
                         <div class="row justify-content-center">
-                            <button id="submitButton2" type="submit" style="width: 77px;"
+                            <button id="submitButton" type="submit" style="width: 77px;"
                                 class="page-button rounded btn text-center">Submit</button>
                         </div>
                     </form>
