@@ -10,15 +10,15 @@ onerror="this.src='https://res.cloudinary.com/ds7qeovpw/image/upload/v1761573203
 
 profilePictureUploadDiv.innerHTML =`
 <div class="row"> 
-    <div class="col-5">
+    <div class="col-md-8 mb-2">
         <input type="file" name="image" class="form-control" id="id_image">
     </div>
 
-    <div class="col-5">
+    <div class="col-md-4">
         <div class="input-group">
             <span class="input-group-text">Remove?</span>
-            <div class="form-control">
-            <input class="form-check-input" type="checkbox" name="delete_image_toggle" id="delete_image_toggle" value="delete">
+            <div class="form-control text-end">
+                <input class="form-check-input" type="checkbox" name="delete_image_toggle" id="delete_image_toggle" value="True">
             </div>
         </div>
         <label class= for="delete_image_toggle"></label>
