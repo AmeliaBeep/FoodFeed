@@ -3,6 +3,8 @@ from userprofile.models import UserProfile
 from .forms import UserProfileForm, UserForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+import cloudinary.api
+from cloudinary.uploader import destroy
 # from magic.identify import Magic, MagicError
 
 # Create your views here.
@@ -106,7 +108,8 @@ def handle_user_profile_edits(request, profile):
 
     The image value is determined by handle_set_image to set the image 
     depending on the delete_image_toggle and if a file was submitted. 
-    If remove_image_checked is True then the image will be set to the default placeholder.
+    If remove_image_checked is True then the image will be set to the default placeholder
+    and the previous image hosted on cloudinary will be deleted.
 
     Any valid changes found will be saved to the corresponding profile via saving
     of the respective form objects. The UserProfile includes a key to the
@@ -139,8 +142,13 @@ def handle_user_profile_edits(request, profile):
 
     if user_profile_form.is_valid() and user_form.is_valid():
         profile = user_profile_form.save(commit=False)
+
         if remove_image_checked:
+            uploaded_asset_id = profile.image.public_id
+            cloudinary.uploader.destroy(uploaded_asset_id)
             profile.image = 'no-profile-image'
+
+
         profile.save()
         user_form.save(commit=True)
         messages.add_message(

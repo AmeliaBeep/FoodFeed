@@ -25,5 +25,5 @@ class UserForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
-        self.fields['username'].required = False
+        self.fields['username'].required = True
         self.fields['username'].help_text = "150 characters or fewer. Letters, digits and @/./+/-/_ only."
