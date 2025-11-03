@@ -42,18 +42,29 @@ class TestPostForm(TestCase):
     
     def test_form_is_missing_text(self):
         """ Tests that PostForm rejects submissions with empty text field."""
-        form = PostForm({'text': '', 'image': 'static\images\default.jpg'})
+
+        cloudinary_test_image = cloudinary.api.resource("test_image")
+        test_image_url = cloudinary_test_image.get('url')
+
+        test_image = requests.get(test_image_url)
+
+        test_image_content = ContentFile(test_image.content)
+        test_image_content.name = 'test_image.jpg'
+
+        image = {'image': test_image_content}
+
+        form = PostForm({'text': ''}, {'image': image})
         self.assertFalse(form.is_valid(), msg='Form is valid, but it has no text')
 
     def test_form_is_missing_image(self):
         """ Tests that PostForm rejects submissions with empty image field."""
-        form = PostForm({'text': 'Test post text', 'image': ''})
+        form = PostForm({'text': 'Test post text'}, {'image': ''})
         self.assertFalse(form.is_valid(), msg='Form is valid, but it has no image')
     
     def test_form_has_invalid_image(self):
-        """ Tests that PostForm rejects submissions with invalid image content."""
-        form = PostForm({'text': 'Test post text', 'image':'invalid_image_file'})
-        self.assertFalse(form.is_valid(), msg='Form is valid, but it has an invalid image file')
+        """ Tests that PostForm rejects submissions with invalid file content."""
+        form = PostForm({'text': 'Test post text'}, {'image':'invalid_file'})
+        self.assertFalse(form.is_valid(), msg='Form is valid, but it has an invalid file')
 
     def test_form_is_empty(self):
         """ Tests that PostForm rejects submissions with no fields."""
