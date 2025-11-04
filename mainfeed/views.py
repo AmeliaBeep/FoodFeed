@@ -21,7 +21,6 @@ class PostList(generic.ListView):
     paginate_by = 10
 
 
-# TODO: handle empty User
 def create_post(request):
     """
     Handles POST and GET requests related to post creation.
@@ -80,7 +79,6 @@ def create_post(request):
             }
         )
 
-# TODO: handle empty or unauthorised User
 
 
 def edit_post(request, post_id):
@@ -138,7 +136,6 @@ def edit_post(request, post_id):
             },
         )
 
-# TODO: handle empty or unauthorised User
 
 
 def delete_post(request, post_id):
@@ -163,7 +160,6 @@ def delete_post(request, post_id):
     return HttpResponseRedirect(reverse('feed'))
 
 
-# TODO: handle empty User
 
 
 def create_comment(request, post_id):
@@ -231,7 +227,6 @@ def create_comment(request, post_id):
             },
         )
 
-# TODO: handle empty or unauthorised User
 
 
 def edit_comment(request, post_id, comment_id):
@@ -291,7 +286,6 @@ def edit_comment(request, post_id, comment_id):
             },
         )
 
-# TODO: handle empty or unauthorised User
 
 
 def delete_comment(request, comment_id):
