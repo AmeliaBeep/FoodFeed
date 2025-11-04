@@ -73,11 +73,11 @@ def edit_user_profile(request, user_profile_id):
             request, messages.ERROR,
             'Unauthorised to edit this profile!'
         )
-        return HttpResponseRedirect(reverse('feed'))
+        return HttpResponseRedirect(reverse('user_profile', args=[user_profile_id]))
 
     if request.method == "POST":
         handle_user_profile_edits(request, profile)
-        return HttpResponseRedirect(reverse('feed'))
+        return HttpResponseRedirect(reverse('user_profile', args=[user_profile_id]))
     else:
         current_bio = profile.bio
         current_image = profile.image
@@ -148,7 +148,6 @@ def handle_user_profile_edits(request, profile):
             cloudinary.uploader.destroy(uploaded_asset_id)
             profile.image = 'no-profile-image'
 
-
         profile.save()
         user_form.save(commit=True)
         messages.add_message(
@@ -202,5 +201,5 @@ def handle_set_image(request, remove_image_checked):
             request, messages.ERROR,
             'File uploaded not one of the accepted types. No changes made to profile picture'
         )
-
+    
     return image
