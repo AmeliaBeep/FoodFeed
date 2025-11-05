@@ -66,6 +66,9 @@
                     
                     {% for comment in post.comments.all %}
                     <!-- Comment start -->
+                    {% if not forloop.first %}
+                    <hr class="content-divider my-1 mx-3">
+                    {% endif %}
 
                     <!-- Comment header -->
                     <div class="row px-3 pt-3 ">

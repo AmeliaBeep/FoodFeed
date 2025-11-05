@@ -51,6 +51,7 @@ main {
 /* Button styling */
 .page-button,
 .page-button:visited,
+.page-button:focus,
 .page-button:active {
     background-color: var(--primary-grey-colour);
     color: var(--brand-primary-colour);
@@ -198,7 +199,8 @@ main {
 
 /* Icon button centering */
 /* needs to go last to ensure centering applies after individual size changes */
-.icon-button {
+.icon-button,
+.icon-button:focus {
     display: flex;
     align-items: center;
     justify-content: center;
