@@ -9,20 +9,18 @@ from userprofile.forms import UserForm, UserProfileForm
 
 
 class TestProfileUser(TestCase):
-    """
-    Test cases to validate the UserProfile model.
+    """Test cases to validate the UserProfile model.
 
-    These test cases are those not covered by those in test_forms.py as 
+    These test cases are those not covered by those in test_forms.py as
     UserProfileForm does not handle the user field.
     """
 
-    # TODO: Mock Cloudinary response in creating test_image
-    #       Prevent PostForm to_python subroutines from uploading test_image
     def setUp(self):
+        """Creates user profile for test cases."""
+
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
-
         test_image_content = ContentFile(test_image.content)
         test_image_content.name = 'test_image.jpg'
 
@@ -38,23 +36,20 @@ class TestProfileUser(TestCase):
         self.user = test_user_form.save()
 
     def test_model_is_valid(self):
-        """ 
-        Tests that UserProfile accepts valid user.
-        """
+        """Tests that UserProfile accepts valid user."""
 
         self.user_profile.user = self.user
         self.user_profile.save()
         self.user_profile.full_clean()
 
     def test_model_has_no_user(self):
-        """ 
-        Tests that UserProfile rejects missing user.
-        """
+        """Tests that UserProfile rejects missing user."""
 
         with self.assertRaises(IntegrityError, msg="User Profile able to be saved to database, but no user provided"):
             self.user_profile.save()
 
     def tearDown(self):
-        print(self.user_profile.image.public_id)
+        """Deletes Cloudinary resources uploaded during testing."""
+        
         cloudinary.uploader.destroy(
             self.user_profile.image.public_id)

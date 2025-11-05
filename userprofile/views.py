@@ -1,4 +1,3 @@
-import cloudinary.api
 from cloudinary.uploader import destroy
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -12,15 +11,14 @@ from .forms import UserForm, UserProfileForm
 
 
 def view_user_profile(request, user_profile_id):
-    """
-    Handles POST and GET requests related to profile editing.
+    """Handles POST and GET requests related to profile editing.
 
     For POST requests, the request is processed by handle_user_profile_edits:
 
     For GET requests, render the webpage for editing the profile.
 
     Args:
-        request (HttpRequest): The request to process user profile editing or to 
+        request (HttpRequest): The request to process user profile editing or to
         serve the corresponding webpage.
         user_profile_id (int): The id of the user profile to edit.
 
@@ -44,24 +42,23 @@ def view_user_profile(request, user_profile_id):
 
 
 def edit_user_profile(request, user_profile_id):
-    """
-    Handles POST and GET requests related to profile editing.
+    """Handles POST and GET requests related to profile editing.
 
     For POST requests, the request is processed by handle_user_profile_edits:
 
     For GET requests, render the webpage for editing the profile.
 
     Args:
-        request (HttpRequest): The request to process user profile editing or to 
+        request (HttpRequest): The request to process user profile editing or to
         serve the corresponding webpage.
         user_profile_id (int): The id of the user profile to edit.
 
 
     Returns:
         Union[HttpRequest, HttpResponse]:
-            - Upon handling a POST request, a redirect request including a 
+            - Upon handling a POST request, a redirect request including a
             success message.
-            - Upon handling a GET request, a response containing the page 
+            - Upon handling a GET request, a response containing the page
             and the profile edit form to render.
     """
 
@@ -98,15 +95,14 @@ def edit_user_profile(request, user_profile_id):
 
 
 def handle_user_profile_edits(request, profile):
-    """
-    Handles the request data provided to edit the user profile.
+    """Handles the request data provided to edit the user profile.
 
-    The values for the bio and image, corresponding to the UserProfileForm, 
-    and the username, corresponding to the UserForm, respectively are 
+    The values for the bio and image, corresponding to the UserProfileForm,
+    and the username, corresponding to the UserForm, respectively are
     retrieved. If these indicate no changes were made then the routine returns.
 
-    The image value is determined by handle_set_image to set the image 
-    depending on the delete_image_toggle and if a file was submitted. 
+    The image value is determined by handle_set_image to set the image
+    depending on the delete_image_toggle and if a file was submitted.
     If remove_image_checked is True then the image will be set to the default placeholder
     and the previous image hosted on cloudinary will be deleted.
 
@@ -161,8 +157,7 @@ def handle_user_profile_edits(request, profile):
 
 
 def handle_set_image(request, remove_image_checked):
-    """
-    Gets the valid submitted image or returns none.
+    """Gets the valid submitted image or returns none.
 
     Valid image types are determined by the content-type property
     included in the request. Invalid file types are ignored and None is
@@ -196,5 +191,5 @@ def handle_set_image(request, remove_image_checked):
             request, messages.ERROR,
             'File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format. No changes made to profile picture.'
         )
-    
+
     return image

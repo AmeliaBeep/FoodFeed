@@ -11,38 +11,38 @@ from .models import Comment, Post
 
 
 class PostList(generic.ListView):
-    """
-    View to list all posts.
+    """View to list all posts.
 
     Post objects can be accessed in the template through post_list
     """
+
     queryset = Post.objects.all()
     template_name = "mainfeed/index.html"
     paginate_by = 10
 
 
 def create_post(request):
-    """
-    Handles POST and GET requests related to post creation.
+    """Handles POST and GET requests related to post creation.
 
     For POST requests, a new post is added to the database:
-        - The post has its image and text fields set according to the form 
-        contents included in the request. 
+        - The post has its image and text fields set according to the form
+        contents included in the request.
         - The user who submitted the form is set as the author.
 
     For GET requests, render the webpage for creating posts.
 
     Args:
-        request (HttpRequest): The request to process post creation or to 
+        request (HttpRequest): The request to process post creation or to
         serve the corresponding webpage
 
     Returns:
         Union[HttpRequest, HttpResponse]:
-            - Upon handling a POST request, a redirect request including a 
+            - Upon handling a POST request, a redirect request including a
             success message.
-            - Upon handling a GET request, a response containing the page 
+            - Upon handling a GET request, a response containing the page
             and post create form to render.
     """
+
     if not request.user.is_authenticated:
         messages.add_message(
             request, messages.INFO,
@@ -61,7 +61,8 @@ def create_post(request):
                     request, messages.ERROR,
                     'File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format'
                 )
-                raise ValueError(f'File content_type not in ${valid_content}. Instead it was ${content_type}.')
+                raise ValueError(
+                    f'File content_type not in ${valid_content}. Instead it was ${content_type}.')
         except (AttributeError, ValueError) as error:
             post_form.add_error('image', error)
 
@@ -93,28 +94,26 @@ def create_post(request):
         )
 
 
-
 def edit_post(request, post_id):
-    """
-    Handles POST and GET requests related to post editing.
+    """Handles POST and GET requests related to post editing.
 
     For POST requests, the target post in the database is updated:
-        - The post has its text field set according to the form contents 
+        - The post has its text field set according to the form contents
         included in the request.
 
     For GET requests, render the webpage for editing a target post.
 
     Args:
-        request (HttpRequest): The request to process post editing or to 
+        request (HttpRequest): The request to process post editing or to
         serve the corresponding webpage
         post_id (int): The id of the post to edit.
 
 
     Returns:
         Union[HttpRequest, HttpResponse]:
-            - Upon handling a POST request, a redirect request including a 
+            - Upon handling a POST request, a redirect request including a
             success message.
-            - Upon handling a GET request, a response containing the page 
+            - Upon handling a GET request, a response containing the page
             and the post edit form to render.
     """
 
@@ -136,9 +135,7 @@ def edit_post(request, post_id):
             messages.add_message(request, messages.ERROR,
                                  'Error updating post!')
         return HttpResponseRedirect(reverse('feed'))
-
     else:
-
         post_text_form = PostTextForm(initial={'text': post.text})
         return render(
             request,
@@ -150,10 +147,8 @@ def edit_post(request, post_id):
         )
 
 
-
 def delete_post(request, post_id):
-    """
-    Handles a request to delete a post.
+    """Handles a request to delete a post.
 
     Args:
         request (HttpRequest): The request to process the deletion.
@@ -169,18 +164,16 @@ def delete_post(request, post_id):
         post.delete()
         messages.add_message(request, messages.SUCCESS, 'Post deleted!')
     else:
-        messages.add_message(request, messages.ERROR, 'Not authorised to delete this post!')
+        messages.add_message(request, messages.ERROR,
+                             'Not authorised to delete this post!')
     return HttpResponseRedirect(reverse('feed'))
 
 
-
-
 def create_comment(request, post_id):
-    """
-    Handles POST and GET requests related to comment creation.
+    """Handles POST and GET requests related to comment creation.
 
     For POST requests, a new comment is added to the database:
-        - The comment has its body field set according to the form 
+        - The comment has its body field set according to the form
         contents included in the request.
         - The user who submitted the form is set as the author.
         - The comment is linked to its corresponding post.
@@ -188,17 +181,18 @@ def create_comment(request, post_id):
     For GET requests, render the webpage for creating comments.
 
     Args:
-        request (HttpRequest): The request to process comment creation or to 
+        request (HttpRequest): The request to process comment creation or to
         serve the corresponding webpage
         post_id (int): The id of the post associated with the new comment.
 
     Returns:
         Union[HttpRequest, HttpResponse]:
-            - Upon handling a POST request, a redirect request including a 
+            - Upon handling a POST request, a redirect request including a
             success message.
-            - Upon handling a GET request, a response containing the page 
+            - Upon handling a GET request, a response containing the page
             and comment create form to render.
     """
+
     post = get_object_or_404(Post, pk=post_id)
     if not request.user.is_authenticated:
         messages.add_message(
@@ -242,30 +236,29 @@ def create_comment(request, post_id):
         )
 
 
-
 def edit_comment(request, post_id, comment_id):
-    """
-    Handles POST and GET requests related to comment editing.
+    """Handles POST and GET requests related to comment editing.
 
     For POST requests, the target comment in the database is updated:
-        - The comment has its body field set according to the form 
+        - The comment has its body field set according to the form
         contents included in the request.
 
     For GET requests, render the webpage for editing a target comment.
 
     Args:
-        request (HttpRequest): The request to process comment editing or to 
+        request (HttpRequest): The request to process comment editing or to
         serve the corresponding webpage
         post_id (int): The id of the post associated with the comment.
         comment_id (int): The id of the comment to edit.
 
     Returns:
         Union[HttpRequest, HttpResponse]:
-            - Upon handling a POST request, a redirect request including a 
+            - Upon handling a POST request, a redirect request including a
             success message.
-            - Upon handling a GET request, a response containing the page 
+            - Upon handling a GET request, a response containing the page
             and comment edit form to render.
     """
+
     comment = get_object_or_404(Comment, pk=comment_id)
 
     if not request.user.is_authenticated or request.user != comment.author.user:
@@ -301,10 +294,8 @@ def edit_comment(request, post_id, comment_id):
         )
 
 
-
 def delete_comment(request, comment_id):
-    """
-    Handles a request to delete a comment.
+    """Handles a request to delete a comment.
 
     Args:
         request (HttpRequest): The request to process the deletion.
@@ -313,6 +304,7 @@ def delete_comment(request, comment_id):
     Returns:
         HttpResponse: a redirect request including a success message.
     """
+
     comment = get_object_or_404(Comment, pk=comment_id)
 
     if request.user.is_authenticated and comment.author.user == request.user:

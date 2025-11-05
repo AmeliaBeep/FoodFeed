@@ -16,13 +16,11 @@ from userprofile.models import UserProfile
 
 
 class TestUserProfileView(TestCase):
+    """Test cases to validate the view_user_profile view."""
 
     def setUp(self):
-        """
-        Creates user profile for test cases.
+        """Creates a user profile with two posts to be used in test cases."""
 
-        User profile has a corresponding user and posts.
-        """
         user_profile_form = UserProfileForm({'bio': 'Test bio'}, None)
         user_form = UserForm(data={'username': 'test_username'})
 
@@ -61,12 +59,12 @@ class TestUserProfileView(TestCase):
         self.post_list = Post.objects.all()
 
     def test_render_page(self):
-        """
-        Tests the page renders successfully and includes expected content.
+        """Tests the page renders successfully and includes expected content.
 
         The test user profile has no profile picture which should result
         in the default no-user-image file being used and rendered.
         """
+
         response = self.client.get(
             reverse('user_profile', args=[self.profile_id]))
         self.assertEqual(response.status_code, 200)
@@ -82,15 +80,13 @@ class TestUserProfileView(TestCase):
 
 
 class TestUserProfileEditView(TestCase):
+    """Test cases to validate the edit_user_profile view."""
 
     def setUp(self):
-        """
-        Creates two user profile for test cases.
+        """Creates two user profile for test cases.
 
-        Both user profiles have a corresponding user.
-
-        One test profile has no bio and image, but the second has
-        a bio and profile.
+        One test profile has no bio and image, but the second has a bio
+        and profile set.
         """
         # User with a blank bio and no uploaded image
         self.user_no_bio_image = User.objects.create_user(
@@ -135,7 +131,7 @@ class TestUserProfileEditView(TestCase):
         self.profile_id_set_bio_image = user_profile_set_bio_image.id
 
     def test_redirect_if_unauthenticated(self):
-        """Tests view redirects unathenticated users"""
+        """Tests view redirects unathenticated users."""
 
         response = self.client.get(
             reverse('edit_user_profile', args=[self.profile_id_no_bio_image]))
@@ -144,11 +140,13 @@ class TestUserProfileEditView(TestCase):
 
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
-        self.assertEqual("Unauthorised to edit this profile!", str(messages[0]))
-        self.assertEqual('error', messages[0].level_tag) 
+        self.assertEqual("Unauthorised to edit this profile!",
+                         str(messages[0]))
+        self.assertEqual('error', messages[0].level_tag)
 
     def test_redirect_if_unauthorised(self):
-        """Tests view redirects unathorised users"""
+        """Tests view redirects unathorised users."""
+
         self.client.login(
             username="test_set_bio_or_image", password="password")
         response = self.client.get(
@@ -158,19 +156,19 @@ class TestUserProfileEditView(TestCase):
 
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
-        self.assertEqual("Unauthorised to edit this profile!", str(messages[0]))
-        self.assertEqual('error', messages[0].level_tag) 
+        self.assertEqual("Unauthorised to edit this profile!",
+                         str(messages[0]))
+        self.assertEqual('error', messages[0].level_tag)
 
     def test_render_page_with_no_bio_or_image(self):
-        """
-        Tests the page renders successfully and includes expected content.
+        """Tests the page renders successfully and includes expected content.
 
-        The view should present a page with a profile edit form with fields to
-        edit the username, profile picture and bio. Any pre-existing values
-        for these fields should be shown to the user.
+        The view should present a page with a profile edit form with
+        fields to edit the username, profile picture and bio. Any pre-
+        existing values for these fields should be shown to the user.
 
-        The test user profile used has no profile picture, which should result
-        in the no-profile-image file being used and rendered.
+        The test user profile used has no profile picture, which should
+        result in the no-profile-image file being used and rendered.
         """
 
         self.client.login(
@@ -191,12 +189,11 @@ class TestUserProfileEditView(TestCase):
             response.context['user_profile_form'], UserProfileForm)
 
     def test_render_page_with_set_bio_or_image(self):
-        """
-        Tests the page renders successfully and includes expected content.
+        """Tests the page renders successfully and includes expected content.
 
-        The view should present a page with a profile edit form with fields to
-        edit the username, profile picture and bio. Any pre-existing values
-        for these fields should be shown to the user.
+        The view should present a page with a profile edit form with
+        fields to edit the username, profile picture and bio. Any pre-
+        existing values for these fields should be shown to the user.
 
         The test user profile has a profile picture which should result
         in the test image file being used and rendered.
@@ -220,37 +217,18 @@ class TestUserProfileEditView(TestCase):
             response.context['user_profile_form'], UserProfileForm)
 
     def test_profile_edits_update_all_success(self):
-        """
-        Tests that the view can successfully update the user profile
-        when provided valid changes from an authorised user.
+        """Tests that the view can successfully update the user profile when
+        provided valid changes from an authorised user."""
 
-        The test user profile has its fields checked to verify they
-        have updated. 
-        
-        The new bio and username fields are checked against the expected 
-        values.
-
-        The image field is firstly checked against the original value to
-        to make sure it is different. Then a check for the existence of
-        the public_id attribute is made. 
-
-        The image checking works differently, owing to the fact that
-        the new image's identifying metadata is generated during runtime.
-        The values assigned to fields, such as the public_id, are not 
-        predictable, since cloudinary's endpoint is not mocked.
-
-        Instead the image checks aim to verify that the value has changed
-        and also that an image was properly set.
-        """
         self.client.login(
             username="test_no_bio_or_image", password="password")
 
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
-        new_image = SimpleUploadedFile(name="new profile image", 
-                                        content=test_image.content,
-                                        content_type="image/jpeg")
+        new_image = SimpleUploadedFile(name="new profile image",
+                                       content=test_image.content,
+                                       content_type="image/jpeg")
 
         post_data = {
             'username': 'new_username',
@@ -263,7 +241,8 @@ class TestUserProfileEditView(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/1")
 
-        profile = get_object_or_404(UserProfile, pk=self.profile_id_no_bio_image)
+        profile = get_object_or_404(
+            UserProfile, pk=self.profile_id_no_bio_image)
         self.assertEqual('new_username', profile.user.username)
         self.assertEqual('new test bio', profile.bio)
         self.assertNotEqual('no-profile-image', profile.image)
@@ -273,14 +252,12 @@ class TestUserProfileEditView(TestCase):
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Profile updated!", str(messages[0]))
-        self.assertEqual('success', messages[0].level_tag) 
-
+        self.assertEqual('success', messages[0].level_tag)
 
     def test_profile_edits_no_update(self):
-        """
-        Tests that the view can does not update the user profile
-        when provided no changes from an authorised user.
-        """
+        """Tests that the view can does not update the user profile when
+        provided no changes from an authorised user."""
+
         self.client.login(
             username="test_set_bio_or_image", password="password")
 
@@ -295,18 +272,19 @@ class TestUserProfileEditView(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/2")
 
-        profile = get_object_or_404(UserProfile, pk=self.profile_id_set_bio_image)
-        self.assertEqual(self.user_profile_set_bio_image.user.username, profile.user.username)
+        profile = get_object_or_404(
+            UserProfile, pk=self.profile_id_set_bio_image)
+        self.assertEqual(
+            self.user_profile_set_bio_image.user.username, profile.user.username)
         self.assertEqual(self.user_profile_set_bio_image.bio, profile.bio)
-        self.assertEqual(self.user_profile_set_bio_image.image.public_id, profile.image.public_id)
+        self.assertEqual(
+            self.user_profile_set_bio_image.image.public_id, profile.image.public_id)
 
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(0, len(messages))
 
     def test_profile_edits_empty_username_rejection(self):
-        """
-        Test that username cannot be updated to be empty.
-        """
+        """Test that username cannot be updated to be empty."""
 
         self.client.login(
             username="test_set_bio_or_image", password="password")
@@ -319,33 +297,34 @@ class TestUserProfileEditView(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/2")
 
-        profile = get_object_or_404(UserProfile, pk=self.profile_id_set_bio_image)
+        profile = get_object_or_404(
+            UserProfile, pk=self.profile_id_set_bio_image)
         self.assertNotEqual('', profile.user.username)
-        self.assertEqual(self.user_profile_set_bio_image.user.username, profile.user.username)
+        self.assertEqual(
+            self.user_profile_set_bio_image.user.username, profile.user.username)
 
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Error updating profile!", str(messages[0]))
-        self.assertEqual('error', messages[0].level_tag) 
+        self.assertEqual('error', messages[0].level_tag)
 
         for message in messages:
             print(f"Message: {message}, Level: {message.level_tag}")
 
     def test_profile_edits_invalid_image_rejection(self):
-        """
-        Test that image can only be of JPG, PNG or SVG types.
-        """
+        """Test that image file can only be of JPG, PNG or SVG types."""
 
         self.client.login(
             username="test_set_bio_or_image", password="password")
 
-        cloudinary_test_image = cloudinary.api.resource("invalid_content_type_file")
+        cloudinary_test_image = cloudinary.api.resource(
+            "invalid_content_type_file")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
-        new_image = SimpleUploadedFile(name="invalid_content_type_file", 
-                                        content=test_image.content,
-                                        content_type="application/pdf")
-        
+        new_image = SimpleUploadedFile(name="invalid_content_type_file",
+                                       content=test_image.content,
+                                       content_type="application/pdf")
+
         post_data = {
             'username': self.user_profile_set_bio_image.user.username,
             'bio': self.user_profile_set_bio_image.bio,
@@ -356,32 +335,35 @@ class TestUserProfileEditView(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/2")
 
-        profile = get_object_or_404(UserProfile, pk=self.profile_id_set_bio_image)
-        self.assertEqual(self.user_profile_set_bio_image.image.public_id, profile.image.public_id)
+        profile = get_object_or_404(
+            UserProfile, pk=self.profile_id_set_bio_image)
+        self.assertEqual(
+            self.user_profile_set_bio_image.image.public_id, profile.image.public_id)
 
         messages = list(get_messages(response.wsgi_request))
         for message in messages:
             print(f"Message: {message}, Level: {message.level_tag}")
         self.assertEqual(1, len(messages))
-        self.assertEqual("File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format. No changes made to profile picture.", str(messages[0]))
-        self.assertEqual('error', messages[0].level_tag) 
+        self.assertEqual(
+            "File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format. No changes made to profile picture.", str(messages[0]))
+        self.assertEqual('error', messages[0].level_tag)
 
     def test_profile_edits_delete_image_success(self):
-        """
-        Test that the user profile image is removed when the 
-        request has the delete_image_toggle option checked.
+        """Test that the user profile image is removed when the request has the
+        delete_image_toggle option checked.
 
         Also that any image submitted is ignored and not saved.
         """
+
         self.client.login(
             username="test_set_bio_or_image", password="password")
 
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
-        new_image = SimpleUploadedFile(name="new profile image", 
-                                        content=test_image.content,
-                                        content_type="image/jpeg")
+        new_image = SimpleUploadedFile(name="new profile image",
+                                       content=test_image.content,
+                                       content_type="image/jpeg")
 
         post_data = {
             'username': self.user_profile_set_bio_image.user.username,
@@ -395,15 +377,19 @@ class TestUserProfileEditView(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/2")
 
-        profile = get_object_or_404(UserProfile, pk=self.profile_id_set_bio_image)
-        self.assertNotEqual(str(self.user_profile_set_bio_image.image), str(profile.image))
+        profile = get_object_or_404(
+            UserProfile, pk=self.profile_id_set_bio_image)
+        self.assertNotEqual(
+            str(self.user_profile_set_bio_image.image), str(profile.image))
         self.assertEqual('no-profile-image', str(profile.image))
 
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Profile updated!", str(messages[0]))
-        self.assertEqual('success', messages[0].level_tag) 
+        self.assertEqual('success', messages[0].level_tag)
 
     def tearDown(self):
+        """Deletes Cloudinary resources uploaded during testing."""
+        
         cloudinary.uploader.destroy(
             self.user_profile_set_bio_image.image.public_id)

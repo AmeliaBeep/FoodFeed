@@ -8,21 +8,21 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.shortcuts import get_object_or_404
 from django.test import TestCase
 from django.urls import reverse
-from django.views import generic
-from userprofile.forms import UserForm, UserProfileForm
-from userprofile.models import UserProfile
+from userprofile.forms import UserProfileForm
 
 from mainfeed.forms import PostForm
 from mainfeed.models import Post
-from mainfeed.views import PostList
 
 from .forms import CommentForm, PostForm, PostTextForm
 from .models import Comment, Post
 
 
 class TestCreatePostView(TestCase):
-    """"""
+    """Test cases to validate the create_post view."""
+    
     def setUp(self):
+        """Creates a user profile to be used in test cases."""
+
         self.test_user = User.objects.create_user(
             username="test_user",
             password="password"
@@ -37,7 +37,7 @@ class TestCreatePostView(TestCase):
         self.test_user_profile = test_user_profile
 
     def test_redirect_if_unauthenticated(self):
-        """Tests view redirects unathenticated users"""
+        """Tests view redirects unathenticated users."""
 
         response = self.client.get(
             reverse('create_post'))
@@ -50,7 +50,9 @@ class TestCreatePostView(TestCase):
         self.assertEqual('info', messages[0].level_tag) 
 
     def test_render_create_post_page(self):
-        """"""
+        """Tests the page renders successfully and includes expected
+        content."""
+
         self.client.login(
             username="test_user", password="password")
         response = self.client.get(
@@ -61,7 +63,8 @@ class TestCreatePostView(TestCase):
 
         
     def test_post_create_success(self):
-        """"""
+        """Tests that the view can successfully create a post."""
+
         self.client.login(
             username="test_user", password="password")
         
@@ -96,7 +99,9 @@ class TestCreatePostView(TestCase):
         cloudinary.uploader.destroy(post_made.image.public_id)
 
     def test_create_post_invalid_image_rejection(self):  
-        """"""
+        """Tests that the view won't create a post with an invalid image
+        file."""
+
         self.client.login(
                 username="test_user", password="password")
         
@@ -126,7 +131,8 @@ class TestCreatePostView(TestCase):
         self.assertEqual(0, len(Post.objects.all()))
 
     def test_create_post_invalid_form_rejection(self):  
-        """"""
+        """Tests that an invalid form will fail to make a post."""
+
         self.client.login(
                 username="test_user", password="password")
         
@@ -147,8 +153,11 @@ class TestCreatePostView(TestCase):
         self.assertEqual(0, len(Post.objects.all()))
 
 class TestEditPostView(TestCase):
-    """"""
+    """Test cases to validate the edit_post view."""
+
     def setUp(self):
+        """Creates a user profile with a post to be used in test cases."""
+
         self.test_user = User.objects.create_user(
             username="test_user",
             password="password"
@@ -176,7 +185,7 @@ class TestEditPostView(TestCase):
         self.post = post
 
     def test_redirect_if_unauthenticated(self):
-        """Tests view redirects unathenticated users"""
+        """Tests view redirects unathenticated users."""
 
         response = self.client.get(
             reverse('edit_post', args=[self.post.id]))
@@ -189,7 +198,7 @@ class TestEditPostView(TestCase):
         self.assertEqual('error', messages[0].level_tag) 
 
     def test_redirect_if_unauthorised(self):
-        """Tests view redirects unathorised users"""
+        """Tests view redirects unathorised users."""
 
         User.objects.create_user(
             username="unathorised_user",
@@ -210,7 +219,9 @@ class TestEditPostView(TestCase):
         self.assertEqual('error', messages[0].level_tag) 
 
     def test_render_edit_post_page(self):
-        """"""
+        """Tests the page renders successfully and includes expected
+        content."""
+
         self.client.login(
             username="test_user", password="password")
         response = self.client.get(
@@ -224,7 +235,7 @@ class TestEditPostView(TestCase):
             response.context['post_text_form'], PostTextForm)
         
     def test_edit_post_success(self):
-        """"""
+        """Tests that the view can successfully edit a post."""
 
         self.client.login(
             username="test_user", password="password")
@@ -247,7 +258,8 @@ class TestEditPostView(TestCase):
         self.assertEqual('success', messages[0].level_tag) 
 
     def test_edit_post_invalid_form_rejection(self):  
-        """"""
+        """Tests that an invalid form will fail to edit the post."""
+
         self.client.login(
                 username="test_user", password="password")
         
@@ -268,12 +280,17 @@ class TestEditPostView(TestCase):
         self.assertNotEqual('', post_edited.text)
         
     def tearDown(self):
+        """Deletes Cloudinary resources uploaded during testing."""
+
         cloudinary.uploader.destroy(
             self.post.image.public_id)
 
 class TestDeletePostView(TestCase):
-    """"""
+    """Test cases to validate the delete_post view."""
+
     def setUp(self):
+        """Creates a user profile with a post to be used in test cases."""
+
         self.test_user = User.objects.create_user(
             username="test_user",
             password="password"
@@ -301,7 +318,7 @@ class TestDeletePostView(TestCase):
         self.post = post
 
     def test_redirect_if_unauthenticated(self):
-        """Tests view redirects unathenticated users"""
+        """Tests view redirects unathenticated users."""
 
         response = self.client.get(
             reverse('delete_post', args=[self.post.id]))
@@ -315,7 +332,7 @@ class TestDeletePostView(TestCase):
 
 
     def test_redirect_if_unauthorised(self):
-        """Tests view redirects unathorised users"""
+        """Tests view redirects unathorised users."""
 
         User.objects.create_user(
             username="unathorised_user",
@@ -336,7 +353,7 @@ class TestDeletePostView(TestCase):
         self.assertEqual('error', messages[0].level_tag) 
 
     def test_delete_post_success(self):
-        """"""
+        """Tests that the view can successfully delete a post."""
 
         self.client.login(
                 username="test_user", password="password")
@@ -353,12 +370,16 @@ class TestDeletePostView(TestCase):
         self.assertEqual(0, len(Post.objects.all()))
 
     def tearDown(self):
+        """Deletes Cloudinary resources uploaded during testing."""
+
         cloudinary.uploader.destroy(
             self.post.image.public_id)
 
 class TestCreateCommentView(TestCase):
-    """"""
+    """Test cases to validate the create_comment view."""
+
     def setUp(self):
+        """Creates a user profile with a post to be used in test cases."""
         self.test_user = User.objects.create_user(
             username="test_user",
             password="password"
@@ -386,7 +407,7 @@ class TestCreateCommentView(TestCase):
         self.post = post
     
     def test_redirect_if_unauthenticated(self):
-        """Tests view redirects unathenticated users"""
+        """Tests view redirects unathenticated users."""
 
         response = self.client.get(
             reverse('create_comment', args=[self.post.id]))
@@ -399,7 +420,9 @@ class TestCreateCommentView(TestCase):
         self.assertEqual('info', messages[0].level_tag) 
 
     def test_render_create_comment_page(self):
-        """"""
+        """Tests the page renders successfully and includes expected
+        content."""
+        
         self.client.login(
             username="test_user", password="password")
         response = self.client.get(
@@ -412,7 +435,8 @@ class TestCreateCommentView(TestCase):
 
         
     def test_comment_create_success(self):
-        """"""
+        """Tests that the view can successfully create a comment."""
+
         self.client.login(
             username="test_user", password="password")
         
@@ -435,7 +459,8 @@ class TestCreateCommentView(TestCase):
         self.assertEqual('success', messages[0].level_tag) 
 
     def test_create_comment_invalid_form_rejection(self):  
-        """"""
+        """Tests that an invalid form will fail to make a comment."""
+
         self.client.login(
                 username="test_user", password="password")
         
@@ -455,12 +480,18 @@ class TestCreateCommentView(TestCase):
         self.assertEqual(0, len(Comment.objects.all()))
 
     def tearDown(self):
+        """Deletes Cloudinary resources uploaded during testing."""
+
         cloudinary.uploader.destroy(
             self.post.image.public_id)
 
 class TestEditCommentView(TestCase):
-    """"""
+    """Test cases to validate the edit_comment view."""
+
     def setUp(self):
+        """Creates a user profile with a post and comment to be used in test
+        cases."""
+
         self.test_user = User.objects.create_user(
             username="test_user",
             password="password"
@@ -495,7 +526,7 @@ class TestEditCommentView(TestCase):
         self.comment = comment
 
     def test_redirect_if_unauthenticated(self):
-        """Tests view redirects unathenticated users"""
+        """Tests view redirects unathenticated users."""
 
         response = self.client.get(
             reverse('edit_comment', args=[self.post.id, self.comment.id]))
@@ -508,7 +539,7 @@ class TestEditCommentView(TestCase):
         self.assertEqual('error', messages[0].level_tag) 
 
     def test_redirect_if_unauthorised(self):
-        """Tests view redirects unathorised users"""
+        """Tests view redirects unathorised users."""
 
         User.objects.create_user(
             username="unathorised_user",
@@ -529,7 +560,9 @@ class TestEditCommentView(TestCase):
         self.assertEqual('error', messages[0].level_tag)
 
     def test_render_edit_post_page(self):
-        """"""
+        """Tests the page renders successfully and includes expected
+        content."""
+
         self.client.login(
             username="test_user", password="password")
         response = self.client.get(
@@ -543,7 +576,7 @@ class TestEditCommentView(TestCase):
             response.context['comment_form'], CommentForm)
         
     def test_edit_comment_success(self):
-        """"""
+        """Tests that the view can successfully edit a comment."""
 
         self.client.login(
             username="test_user", password="password")
@@ -566,7 +599,8 @@ class TestEditCommentView(TestCase):
         self.assertEqual('success', messages[0].level_tag) 
 
     def test_edit_comment_invalid_form_rejection(self):  
-        """"""
+        """Tests that an invalid form will fail to edit the comment."""
+
         self.client.login(
                 username="test_user", password="password")
         
@@ -587,12 +621,18 @@ class TestEditCommentView(TestCase):
         self.assertNotEqual('', comment_edited.body)
 
     def tearDown(self):
+        """Deletes Cloudinary resources uploaded during testing."""
+
         cloudinary.uploader.destroy(
             self.post.image.public_id)
 
 class TestDeleteCommentView(TestCase):
-    """"""
+    """Test cases to validate the delete_comment view."""
+
     def setUp(self):
+        """Creates a user profile with a post and comment to be used in test
+        cases."""
+
         self.test_user = User.objects.create_user(
             username="test_user",
             password="password"
@@ -627,7 +667,7 @@ class TestDeleteCommentView(TestCase):
         self.comment = comment
 
     def test_redirect_if_unauthenticated(self):
-        """Tests view redirects unathenticated users"""
+        """Tests view redirects unathenticated users."""
 
         response = self.client.get(
             reverse('delete_comment', args=[self.comment.id]))
@@ -641,7 +681,7 @@ class TestDeleteCommentView(TestCase):
 
 
     def test_redirect_if_unauthorised(self):
-        """Tests view redirects unathorised users"""
+        """Tests view redirects unathorised users."""
 
         User.objects.create_user(
             username="unathorised_user",
@@ -662,7 +702,7 @@ class TestDeleteCommentView(TestCase):
         self.assertEqual('error', messages[0].level_tag) 
 
     def test_delete_comment_success(self):
-        """"""
+        """Tests that the view can successfully delete a comment."""
 
         self.client.login(
                 username="test_user", password="password")
@@ -679,6 +719,7 @@ class TestDeleteCommentView(TestCase):
         self.assertEqual(0, len(Comment.objects.all()))
 
     def tearDown(self):
-        """Deletes Cloudinary resources uploaded during testing"""
+        """Deletes Cloudinary resources uploaded during testing."""
+        
         cloudinary.uploader.destroy(
             self.post.image.public_id)
