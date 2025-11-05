@@ -21,6 +21,10 @@ main {
     margin-bottom: 50px;
 }
 
+h1 {
+    font-size: 1.8rem;
+}
+
 /* Content conatiner styles */
 .content-divider {
     color: var(--brand-primary-colour);
@@ -65,6 +69,16 @@ main {
     color: var(--primary-grey-colour);
 }
 
+#sign-up,
+#sign-in {
+    color: var(--brand-primary-colour);
+    text-decoration: none;
+}
+
+#sign-up:hover
+#sign-in:hover {
+    color: #ff9524b9;
+}
 
 /* Navbar styling */
 

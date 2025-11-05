@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock head_title %}
+
+{% block content %}
+
+<div class="content-container container-fluid">     
+    <div class="my-4">
+        <div class="content-background-colour rounded px-0">
+            <div class="py-2 px-3 ">
+              
+                <div class="row">
+                    <h1>{% trans "Sign In" %}</h1>
+                </div>
+          
+                <div class="row">
+                    <p>{% blocktrans %}If you have not created an account yet, then please
+                        <a id="sign-up" href="{{ signup_url }}" style="color: ">sign up</a> first.{% endblocktrans %}</p>
+                </div>
+                <hr class="content-divider mt-2 mb-4 mx-0">
+
+                <div class="row">
+                    <form class="login" method="POST" action="{% url 'account_login' %}">
+                        {% csrf_token %}
+                        <div class="d-flex flex-column align-items-center">
+                        <div class="d-flex flex-column align-items-end">
+                        {{ form.as_p }}
+                        {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                        {% endif %}
+                        </div>
+                        </div>
+                        <hr class="content-divider mt-2 mb-2 mx-0">
+                        <div class="row justify-content-center">
+                            <button class="page-button rounded border-0 text-center" type="submit" style="width: 85px;" >{% trans "Sign In" %}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    
+{% endblock content %}
