@@ -1,22 +1,23 @@
-from django.shortcuts import get_object_or_404
-from django.contrib.messages import get_messages
-from django.test import TestCase
-from django.urls import reverse
-from mainfeed.forms import PostForm
-from mainfeed.models import Post
-from mainfeed.views import PostList
-from userprofile.forms import UserForm, UserProfileForm
 import cloudinary.api
 import requests
 from cloudinary.uploader import destroy
-from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
-from userprofile.models import UserProfile
+from django.contrib.messages import get_messages
+from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.shortcuts import get_object_or_404
+from django.test import TestCase
+from django.urls import reverse
 from django.views import generic
+from userprofile.forms import UserForm, UserProfileForm
+from userprofile.models import UserProfile
 
-from .models import Post, Comment
-from .forms import PostForm, PostTextForm, CommentForm
+from mainfeed.forms import PostForm
+from mainfeed.models import Post
+from mainfeed.views import PostList
+
+from .forms import CommentForm, PostForm, PostTextForm
+from .models import Comment, Post
 
 
 class TestCreatePostView(TestCase):

@@ -1,9 +1,10 @@
-from django.test import TestCase
-from .forms import PostForm, PostTextForm, CommentForm
 import cloudinary.api
-from django.core.files.base import ContentFile
 import requests
 from cloudinary.uploader import destroy
+from django.core.files.base import ContentFile
+from django.test import TestCase
+
+from .forms import CommentForm, PostForm, PostTextForm
 
 
 class TestPostForm(TestCase):

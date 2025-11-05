@@ -1,17 +1,18 @@
+import cloudinary.api
+import requests
+from cloudinary.uploader import destroy
+from django.contrib.auth.models import User
+from django.contrib.messages import get_messages
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.shortcuts import get_object_or_404
 from django.test import TestCase
 from django.urls import reverse
 from mainfeed.forms import PostForm
 from mainfeed.models import Post
+
 from userprofile.forms import UserForm, UserProfileForm
-import cloudinary.api
-import requests
-from cloudinary.uploader import destroy
-from django.core.files.base import ContentFile
-from django.contrib.auth.models import User
 from userprofile.models import UserProfile
-from django.core.files.uploadedfile import SimpleUploadedFile
-from django.contrib.messages import get_messages
 
 
 class TestUserProfileView(TestCase):

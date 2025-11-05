@@ -1,10 +1,10 @@
-from django.test import TestCase
-from .forms import UserProfileForm, UserForm
-from django.contrib.auth.models import User
 import cloudinary.api
-from django.core.files.base import ContentFile
 import requests
 from cloudinary.uploader import destroy
+from django.core.files.base import ContentFile
+from django.test import TestCase
+
+from .forms import UserForm, UserProfileForm
 
 
 class TestProfileUserForm(TestCase):

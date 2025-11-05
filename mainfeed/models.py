@@ -1,6 +1,6 @@
+from cloudinary.models import CloudinaryField
 from django.db import models
 from userprofile.models import UserProfile
-from cloudinary.models import CloudinaryField
 
 # Create your models here
 

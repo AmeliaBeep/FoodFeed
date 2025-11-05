@@ -1,11 +1,11 @@
-from django.test import TestCase
-
-from userprofile.forms import UserForm, UserProfileForm
 import cloudinary.api
 import requests
 from cloudinary.uploader import destroy
 from django.core.files.base import ContentFile
 from django.db.utils import IntegrityError
+from django.test import TestCase
+
+from userprofile.forms import UserForm, UserProfileForm
 
 
 class TestProfileUser(TestCase):

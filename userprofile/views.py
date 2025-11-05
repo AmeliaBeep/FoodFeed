@@ -1,11 +1,12 @@
-from django.shortcuts import get_object_or_404, render, reverse
-from userprofile.models import UserProfile
-from .forms import UserProfileForm, UserForm
-from django.contrib import messages
-from django.http import HttpResponseRedirect
 import cloudinary.api
 from cloudinary.uploader import destroy
-# from magic.identify import Magic, MagicError
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, reverse
+
+from userprofile.models import UserProfile
+
+from .forms import UserForm, UserProfileForm
 
 # Create your views here.
 
@@ -40,8 +41,6 @@ def view_user_profile(request, user_profile_id):
             "posts": users_posts,
         },
     )
-
-# TODO make it so you get booted out if no changes?
 
 
 def edit_user_profile(request, user_profile_id):
@@ -159,10 +158,6 @@ def handle_user_profile_edits(request, profile):
             request, messages.ERROR,
             'Error updating profile!'
         )
-
-# TODO: use magic library to properly verify uploaded file is an image
-    # filetype_fromname = Magic.id_filename(image)
-    # filetype_frombuffer = Magic.id_buffer(image)
 
 
 def handle_set_image(request, remove_image_checked):
