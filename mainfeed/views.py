@@ -52,6 +52,19 @@ def create_post(request):
 
     if request.method == "POST":
         post_form = PostForm(request.POST, request.FILES)
+        try:
+            image = request.FILES.get('image')
+            content_type = image.content_type
+            valid_content = ["image/jpeg", "image/png", "image/svg+xml"]
+            if content_type not in valid_content:
+                messages.add_message(
+                    request, messages.ERROR,
+                    'File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format'
+                )
+                raise ValueError(f'File content_type not in ${valid_content}. Instead it was ${content_type}.')
+        except (AttributeError, ValueError) as error:
+            post_form.add_error('image', error)
+
         if post_form.is_valid():
             profile_queryset = UserProfile.objects.filter(user=request.user)
             author_profile = get_object_or_404(profile_queryset)
@@ -108,8 +121,8 @@ def edit_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     if not request.user.is_authenticated or request.user != post.author.user:
         messages.add_message(
-            request, messages.INFO,
-            'Sign in to edit posts'
+            request, messages.ERROR,
+            'Not authorised to edit this post!'
         )
         return HttpResponseRedirect(reverse('feed'))
 
@@ -118,7 +131,7 @@ def edit_post(request, post_id):
 
         if post_form.is_valid() and post.author.user == request.user:
             post = post_form.save(commit=True)
-            messages.add_message(request, messages.SUCCESS, 'Post Updated!')
+            messages.add_message(request, messages.SUCCESS, 'Post updated!')
         else:
             messages.add_message(request, messages.ERROR,
                                  'Error updating post!')
@@ -126,7 +139,7 @@ def edit_post(request, post_id):
 
     else:
 
-        post_text_form = PostTextForm()
+        post_text_form = PostTextForm(initial={'text': post.text})
         return render(
             request,
             "mainfeed/edit_post.html",
@@ -154,9 +167,9 @@ def delete_post(request, post_id):
 
     if request.user.is_authenticated and request.user == post.author.user:
         post.delete()
-        messages.add_message(request, messages.SUCCESS, 'Post Deleted!')
+        messages.add_message(request, messages.SUCCESS, 'Post deleted!')
     else:
-        messages.add_message(request, messages.ERROR, 'Error Deleting Post!')
+        messages.add_message(request, messages.ERROR, 'Not authorised to delete this post!')
     return HttpResponseRedirect(reverse('feed'))
 
 
@@ -214,6 +227,7 @@ def create_comment(request, post_id):
                 request, messages.ERROR,
                 'Comment failed to submit'
             )
+            return HttpResponseRedirect(reverse('feed'))
     else:
         post = get_object_or_404(Post, pk=post_id)
 
@@ -256,8 +270,8 @@ def edit_comment(request, post_id, comment_id):
 
     if not request.user.is_authenticated or request.user != comment.author.user:
         messages.add_message(
-            request, messages.INFO,
-            'Sign in to edit comments!'
+            request, messages.ERROR,
+            'Not authorised to edit this comment!'
         )
         return HttpResponseRedirect(reverse('feed'))
 
@@ -266,7 +280,7 @@ def edit_comment(request, post_id, comment_id):
 
         if comment_form.is_valid() and comment.author.user == request.user:
             comment = comment_form.save(commit=True)
-            messages.add_message(request, messages.SUCCESS, 'Comment Updated!')
+            messages.add_message(request, messages.SUCCESS, 'Comment updated!')
         else:
             messages.add_message(request, messages.ERROR,
                                  'Error updating comment!')
@@ -275,7 +289,7 @@ def edit_comment(request, post_id, comment_id):
     else:
         post = get_object_or_404(Post, pk=post_id)
         comment = get_object_or_404(Comment, pk=comment_id)
-        comment_form = CommentForm()
+        comment_form = CommentForm(initial={'body': comment.body})
         return render(
             request,
             "mainfeed/edit_comment.html",
@@ -303,8 +317,8 @@ def delete_comment(request, comment_id):
 
     if request.user.is_authenticated and comment.author.user == request.user:
         comment.delete()
-        messages.add_message(request, messages.SUCCESS, 'Comment Deleted!')
+        messages.add_message(request, messages.SUCCESS, 'Comment deleted!')
     else:
         messages.add_message(request, messages.ERROR,
-                             'Error deleting comment!')
+                             'Not authorised to delete this comment!')
     return HttpResponseRedirect(reverse('feed'))
