@@ -152,12 +152,12 @@ def handle_user_profile_edits(request, profile):
         user_form.save(commit=True)
         messages.add_message(
             request, messages.SUCCESS,
-            'Updates submitted successfully!'
+            'Profile updated!'
         )
     else:
         messages.add_message(
             request, messages.ERROR,
-            'Post failed to submit'
+            'Error updating profile!'
         )
 
 # TODO: use magic library to properly verify uploaded file is an image
@@ -199,7 +199,7 @@ def handle_set_image(request, remove_image_checked):
         image = None
         messages.add_message(
             request, messages.ERROR,
-            'File uploaded not one of the accepted types. No changes made to profile picture'
+            'File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format. No changes made to profile picture.'
         )
     
     return image
