@@ -70,7 +70,7 @@
                             <i class="fa-regular fa-pen-to-square"></i></a>
                         {% endif %}
 
-                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
+                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle copy-link" 
                             href="{% url 'create_comment' post.id %}" aria-label="Copy post link">
                             <i class="fa-regular fa-copy"></i></a>
 
@@ -121,7 +121,7 @@
                 <!-- Buttons to edit, copy link and delete -->
                 <div class="col-3 d-inline-flex justify-content-end">
                     {% if user.is_authenticated and user == comment.author.user %}
-                    <a class="mx-1 page-button comment-icon-size icon-button rounded-circle" 
+                    <a class="mx-1 page-button comment-icon-size icon-button rounded-circle copy-link" 
                         href="{% url 'edit_comment' post.id comment.id %}" aria-label="Edit comment">
                         <i class="fa-regular fa-pen-to-square"></i></a>
                     {% endif %}
@@ -181,5 +181,6 @@
 {% endblock %}
 
 {% block extras %}
-    <script src="{% static 'js/edit_content.js' %}"></script>
+    <script src="{% static 'js/copy_to_clipboard.js' %}"></script>
+    <script src="{% static 'js/edit_delete_modal_content.js' %}"></script>
 {% endblock %}

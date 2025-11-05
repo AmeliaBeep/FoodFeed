@@ -26,7 +26,7 @@
                             <i class="fa-regular fa-pen-to-square"></i></a>
                         {% endif %}
 
-                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
+                        <a class="mx-1 page-button post-icon-size icon-button rounded-circle copy-link" 
                             href="{% url 'view_post' post.id %}" aria-label="Copy post link">
                             <i class="fa-regular fa-copy"></i></a>
 
@@ -162,4 +162,5 @@
 
 {% block extras %}
     <script src="{% static 'js/copy_to_clipboard.js' %}"></script>
+    <script src="{% static 'js/edit_delete_modal_content.js' %}"></script>
 {% endblock %}
