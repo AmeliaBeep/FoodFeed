@@ -20,6 +20,29 @@ class PostList(generic.ListView):
     template_name = "mainfeed/index.html"
     paginate_by = 10
 
+def view_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    return render(
+            request,
+            "mainfeed/view_post.html",
+            {
+                "post": post,
+            },
+        )
+
+def view_comment(request, post_id, comment_id):
+
+    post = get_object_or_404(Post, pk=post_id)
+    comment = get_object_or_404(Comment, pk=comment_id)
+    
+    return render(
+            request,
+            "mainfeed/view_comment.html",
+            {
+                "post": post,
+                "comment": comment
+            },
+        )
 
 def create_post(request):
     """Handles POST and GET requests related to post creation.

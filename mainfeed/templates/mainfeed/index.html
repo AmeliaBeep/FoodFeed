@@ -27,7 +27,7 @@
                         {% endif %}
 
                         <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
-                            href="{% url 'create_comment' post.id %}" aria-label="Copy post link">
+                            href="{% url 'view_post' post.id %}" aria-label="Copy post link">
                             <i class="fa-regular fa-copy"></i></a>
 
                         {% if user.is_authenticated and user == post.author.user %}
@@ -60,7 +60,12 @@
             {% if post.comments.exists %}
             {% for comment in post.comments.all %}
             <!-- Comment start -->
-            <hr class="content-divider mt-2 mb-1 mx-3">
+            {% if forloop.first and user.is_authenticated %}
+                <hr class="content-divider mt-2 mb-1 mx-3">
+            {% endif %}
+            {% if not forloop.first %}
+                <hr class="content-divider mt-2 mb-1 mx-3">
+            {% endif %}
 
             <!-- Comment header -->
             <div class="row px-3 pt-3 ">
@@ -75,6 +80,9 @@
                         href="{% url 'edit_comment' post.id comment.id %}" aria-label="Edit comment">
                         <i class="fa-regular fa-pen-to-square"></i></a>
                     {% endif %}
+                    <a class="mx-1 page-button post-icon-size icon-button rounded-circle" 
+                            href="{% url 'view_comment' post.id comment.id %}" aria-label="Copy post link">
+                            <i class="fa-regular fa-copy"></i></a>
                     {% if user.is_authenticated and user == comment.author.user %}
                     <button class="mx-1 delete-comment-button page-button comment-icon-size icon-button rounded-circle" 
                         comment_id="{{ comment.id }}" aria-label="Delete comment">

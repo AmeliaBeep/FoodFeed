@@ -104,7 +104,13 @@
             {% if post.comments.exists %}
             {% for comment in post.comments.all %}
             <!-- Comment start -->
-            <hr class="content-divider my-1 mx-3">
+            
+            {% if forloop.first and user.is_authenticated %}
+                <hr class="content-divider mt-2 mb-1 mx-3">
+            {% endif %}
+            {% if not forloop.first %}
+                <hr class="content-divider mt-2 mb-1 mx-3">
+            {% endif %}
 
             <!-- Comment header -->
             <div class="row px-3 pt-3 ">
