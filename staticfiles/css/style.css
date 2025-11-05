@@ -1,14 +1,19 @@
 /* CSS Variables */
 :root {
-    --component-colour: #252525; 
-    --brand-primary-colour: #ff9524;
-    --brand-secondary-colour: #f7bc7e;
-    --logo-text-size: 1.6rem
+    --brand-primary-colour: #ff9524; /* Primary orange used in logo and site styling */
+    --brand-primary-colour-dimmed: #ff952480; /* Primary orange at 50% opacity */
+    --brand-secondary-colour: #f7bc7e; /* Lighter orange used in logo */ 
+    --background-black: #141414; /* Black background */
+    --primary-grey-colour: #252525; /* Primary grey used on most content backgrounds */
+    --secondary-grey-colour: #383838; /* Secondary grey */
+    --delete-red-colour: #ff3924;
+    --logo-text-size: 1.6rem;
 }
+
 
 /* Global styles */
 body {
-    background-color: #141414;
+    background-color: var(--background-black);
     color:white;
 }
 
@@ -16,15 +21,78 @@ main {
     margin-bottom: 50px;
 }
 
-.main-container {
+h1 {
+    font-size: 1.8rem;
+}
+
+/* Content conatiner styles */
+.content-divider {
+    color: var(--brand-primary-colour);
+}
+
+.content-container {
     max-width: 350px;
     padding-bottom: 8px;
 }
 
-/* Navbar styling */
-#navbar {
-    background-color: #252525;
+.content-background-colour {
+    background-color: var(--primary-grey-colour);
 }
+
+.post-image-container {
+    background-color: var(--secondary-grey-colour);
+}
+
+.pagination-container {
+    padding-bottom: 10px;
+}
+
+.profile-image-container {
+    background-color: var(--background-black);
+    border: 2px solid var(--brand-primary-colour-dimmed);
+}
+
+/* Button styling */
+.page-button,
+.page-button:visited,
+.page-button:focus,
+.page-button:active {
+    background-color: var(--primary-grey-colour);
+    color: var(--brand-primary-colour);
+    text-decoration: none;
+    display: block;
+    padding: .375rem .75rem;
+}
+
+.page-button:hover {
+    background-color: var(--brand-primary-colour);
+    color: var(--primary-grey-colour);
+}
+
+#sign-up,
+#sign-in {
+    color: var(--brand-primary-colour);
+    text-decoration: none;
+}
+
+#sign-up:hover
+#sign-in:hover {
+    color: #ff9524b9;
+}
+
+/* Navbar styling */
+
+#navbar {
+    background-color: var(--primary-grey-colour);
+}
+
+.navbar-icon-size {
+    width: 36px;
+    height: 36px;
+}
+
+
+/* Brand logo styling */
 
 #nav-logo-food {
     color: var(--brand-primary-colour);
@@ -38,49 +106,8 @@ main {
     font-weight: 700;
 }
 
-/* Post styling */
 
-.post-container {
-    background-color: #252525;
-}
-
-.post-header {
-    font-size: 1.2rem
-}
-
-.comment-header {
-    font-size: 1.1rem
-}
-
-.no-comments {
-    height: 0.6rem;
-}
-
-/* Button styling */
-.pagination-container {
-    padding-bottom: 10px;
-}
-
-.page-button {
-    background-color: var(--component-colour);
-    color: var(--brand-primary-colour);
-    text-decoration: none;
-    display: block;
-    padding: .375rem .75rem;
-}
-
-.page-button:hover {
-    background-color: var(--brand-primary-colour);
-    color: var(--component-colour);
-}
-
-.icon-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-}
+/* Navbar icons */
 
 #user-icon {
     font-size: 1.5rem; 
@@ -90,25 +117,129 @@ main {
     font-size: 1.7rem; 
 }
 
+
+/* Post styling */
+
+.post-header-text h2 {
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.comment-header-text h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.post-header-text h2 span,
+.comment-header-text h3 span {
+    font-size: 0.95rem;
+}
+
+.post-icon-size {
+    width: 28px;
+    height: 28px;
+}
+
+.delete-post-button, .delete-comment-button {
+    border: none;
+}
+
+.comment-icon-size {
+    width: 28px;
+    height: 28px;
+}
+
+.no-comments {
+    height: 0.6rem;
+}
+
+
+/* Profile styling */
+.profile-name h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.profile-bio h2 {
+    font-size: 1rem;
+}
+
+/* Modal styling */
+.delete-modal {
+    background-color: var(--primary-grey-colour);
+    color: white;
+}
+
+.delete-modal .close-button {
+    color:var(--brand-primary-colour);
+    background: none;
+    border: none;
+}
+
+.delete-button,
+.delete-button:visited,
+.delete-button:hover,
+.delete-button:active {
+    background-color: var(--delete-red-colour);
+    border-color: var(--delete-red-colour);
+    color: white
+}
+
+.delete-modal .close-button:hover,
+.delete-button:visited,
+.delete-button:hover,
+.delete-button:active  {
+    filter: brightness(120%)
+}
+
+.modal-header,
+.modal-footer {
+    border: none;
+}
+
+
+/**
+.delete-modal .modal-header {
+    border-bottom: 1px solid var(--brand-primary-colour-dimmed);
+}
+
+.delete-modal .modal-footer {
+    border-top: 1px solid var(--brand-primary-colour-dimmed);
+}
+*/
+
+/* Icon button centering */
+/* needs to go last to ensure centering applies after individual size changes */
+.icon-button,
+.icon-button:focus,
+.icon-button:active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* Media queries */
 
 /* Media query: large or landscape phones (576px and up) */
 @media screen and (min-width: 576px) {
-    .main-container {
+    .content-container {
         max-width: 400px;
     }
 }
 
 /* Medium devices (tablets, 768px and up) */
 @media screen and (min-width: 768px) {
-    .main-container {
+    .content-container {
         max-width: 500px;
     }
 }
 
 /* Large devices (laptops and desktops, 992px and up) */
 @media screen and (min-width: 992px) {
-    .main-container {
+    .content-container {
         max-width: 600px;
     }
 }

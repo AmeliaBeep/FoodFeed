@@ -1,0 +1,26 @@
+let currentImage = document.querySelector("#div_id_image div div");
+let imageLink = currentImage.querySelector("a");
+let profilePictureUploadInput = document.querySelector("#id_image");
+let profilePictureUploadDiv = profilePictureUploadInput.parentElement;
+
+
+currentImage.innerHTML = `<img class="mx-auto" width=30% src=${imageLink} 
+style="border: 1px solid black" 
+onerror="this.src='https://res.cloudinary.com/ds7qeovpw/image/upload/v1761573203/foodfeed/no-user-image.jpg'">`;
+
+profilePictureUploadDiv.innerHTML =`
+<div class="row"> 
+    <div class="col-md-8 mb-2">
+        <input type="file" name="image" class="form-control" id="id_image">
+    </div>
+
+    <div class="col-md-4">
+        <div class="input-group">
+            <span class="input-group-text">Remove?</span>
+            <div class="form-control text-end">
+                <input class="form-check-input" type="checkbox" name="delete_image_toggle" id="delete_image_toggle" value="True">
+            </div>
+        </div>
+        <label class= for="delete_image_toggle"></label>
+    </div>
+</div>`;
