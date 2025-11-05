@@ -8,11 +8,10 @@ import cloudinary.api
 import requests
 from cloudinary.uploader import destroy
 from django.core.files.base import ContentFile
-from django.db.utils import IntegrityError
 from django.contrib.auth.models import User
-from django.utils.datastructures import MultiValueDict
 from userprofile.models import UserProfile
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.contrib.messages import get_messages
 
 
 class TestUserProfileView(TestCase):
@@ -142,6 +141,11 @@ class TestUserProfileEditView(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/1")
 
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(1, len(messages))
+        self.assertEqual("Unauthorised to edit this profile!", str(messages[0]))
+        self.assertEqual('error', messages[0].level_tag) 
+
     def test_redirect_if_unauthorised(self):
         """Tests view redirects unathorised users"""
         self.client.login(
@@ -150,6 +154,11 @@ class TestUserProfileEditView(TestCase):
             reverse('edit_user_profile', args=[self.profile_id_no_bio_image]))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/1")
+
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(1, len(messages))
+        self.assertEqual("Unauthorised to edit this profile!", str(messages[0]))
+        self.assertEqual('error', messages[0].level_tag) 
 
     def test_render_page_with_no_bio_or_image(self):
         """
@@ -260,6 +269,11 @@ class TestUserProfileEditView(TestCase):
         if not hasattr(profile.image, 'public_id'):
             self.fail
 
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(1, len(messages))
+        self.assertEqual("Profile updated!", str(messages[0]))
+        self.assertEqual('success', messages[0].level_tag) 
+
 
     def test_profile_edits_no_update(self):
         """
@@ -285,6 +299,8 @@ class TestUserProfileEditView(TestCase):
         self.assertEqual(self.user_profile_set_bio_image.bio, profile.bio)
         self.assertEqual(self.user_profile_set_bio_image.image.public_id, profile.image.public_id)
 
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(0, len(messages))
 
     def test_profile_edits_empty_username_rejection(self):
         """
@@ -306,6 +322,48 @@ class TestUserProfileEditView(TestCase):
         self.assertNotEqual('', profile.user.username)
         self.assertEqual(self.user_profile_set_bio_image.user.username, profile.user.username)
 
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(1, len(messages))
+        self.assertEqual("Error updating profile!", str(messages[0]))
+        self.assertEqual('error', messages[0].level_tag) 
+
+        for message in messages:
+            print(f"Message: {message}, Level: {message.level_tag}")
+
+    def test_profile_edits_invalid_image_rejection(self):
+        """
+        Test that image can only be of JPG, PNG or SVG types.
+        """
+
+        self.client.login(
+            username="test_set_bio_or_image", password="password")
+
+        cloudinary_test_image = cloudinary.api.resource("invalid_content_type_file")
+        test_image_url = cloudinary_test_image.get('url')
+        test_image = requests.get(test_image_url)
+        new_image = SimpleUploadedFile(name="invalid_content_type_file", 
+                                        content=test_image.content,
+                                        content_type="application/pdf")
+        
+        post_data = {
+            'username': self.user_profile_set_bio_image.user.username,
+            'bio': self.user_profile_set_bio_image.bio,
+            'image': new_image
+        }
+        response = self.client.post(
+            path=reverse('edit_user_profile', args=[self.profile_id_set_bio_image]), data=post_data)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/user-profile/2")
+
+        profile = get_object_or_404(UserProfile, pk=self.profile_id_set_bio_image)
+        self.assertEqual(self.user_profile_set_bio_image.image.public_id, profile.image.public_id)
+
+        messages = list(get_messages(response.wsgi_request))
+        for message in messages:
+            print(f"Message: {message}, Level: {message.level_tag}")
+        self.assertEqual(1, len(messages))
+        self.assertEqual("File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format. No changes made to profile picture.", str(messages[0]))
+        self.assertEqual('error', messages[0].level_tag) 
 
     def test_profile_edits_delete_image_success(self):
         """
@@ -339,6 +397,11 @@ class TestUserProfileEditView(TestCase):
         profile = get_object_or_404(UserProfile, pk=self.profile_id_set_bio_image)
         self.assertNotEqual(str(self.user_profile_set_bio_image.image), str(profile.image))
         self.assertEqual('no-profile-image', str(profile.image))
+
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(1, len(messages))
+        self.assertEqual("Profile updated!", str(messages[0]))
+        self.assertEqual('success', messages[0].level_tag) 
 
     def tearDown(self):
         cloudinary.uploader.destroy(
