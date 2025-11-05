@@ -123,9 +123,9 @@ class TestCreatePostView(TestCase):
 
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(2, len(messages))
-        self.assertEqual("File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format", str(messages[0]))
+        self.assertEqual("File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format.", str(messages[0]))
         self.assertEqual('error', messages[0].level_tag,) 
-        self.assertEqual("Post failed to submit", str(messages[1]))
+        self.assertEqual("Post failed to submit!", str(messages[1]))
         self.assertEqual('error', messages[1].level_tag,) 
 
         self.assertEqual(0, len(Post.objects.all()))
@@ -147,7 +147,7 @@ class TestCreatePostView(TestCase):
 
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
-        self.assertEqual("Post failed to submit", str(messages[0]))
+        self.assertEqual("Post failed to submit!", str(messages[0]))
         self.assertEqual('error', messages[0].level_tag,) 
 
         self.assertEqual(0, len(Post.objects.all()))
@@ -474,7 +474,7 @@ class TestCreateCommentView(TestCase):
 
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
-        self.assertEqual("Comment failed to submit", str(messages[0]))
+        self.assertEqual("Comment failed to submit!", str(messages[0]))
         self.assertEqual('error', messages[0].level_tag,) 
 
         self.assertEqual(0, len(Comment.objects.all()))
@@ -720,6 +720,6 @@ class TestDeleteCommentView(TestCase):
 
     def tearDown(self):
         """Deletes Cloudinary resources uploaded during testing."""
-        
+
         cloudinary.uploader.destroy(
             self.post.image.public_id)

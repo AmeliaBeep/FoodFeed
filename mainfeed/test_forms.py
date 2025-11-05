@@ -26,7 +26,7 @@ class TestPostForm(TestCase):
         form = PostForm({'text': 'Test post text'}, image)
 
         self.assertTrue(form.is_valid(),
-                        msg='Form is not valid, but it should be')
+                        msg='Form is not valid, but it should be.')
 
         uploaded_asset_id = form.cleaned_data['image'].public_id
         cloudinary.uploader.destroy(uploaded_asset_id)
@@ -46,14 +46,14 @@ class TestPostForm(TestCase):
 
         form = PostForm({'text': ''}, {'image': image})
         self.assertFalse(
-            form.is_valid(), msg='Form is valid, but it has no text')
+            form.is_valid(), msg='Form is valid, but it has no text.')
 
     def test_form_is_missing_image(self):
         """Tests that PostForm rejects submissions with empty image field."""
 
         form = PostForm({'text': 'Test post text'}, {'image': ''})
         self.assertFalse(
-            form.is_valid(), msg='Form is valid, but it has no image')
+            form.is_valid(), msg='Form is valid, but it has no image.')
 
     def test_form_has_invalid_image(self):
         """Tests that PostForm rejects submissions with invalid file
@@ -61,14 +61,14 @@ class TestPostForm(TestCase):
 
         form = PostForm({'text': 'Test post text'}, {'image': 'invalid_file'})
         self.assertFalse(
-            form.is_valid(), msg='Form is valid, but it has an invalid file')
+            form.is_valid(), msg='Form is valid, but it has an invalid file.')
 
     def test_form_is_empty(self):
         """Tests that PostForm rejects submissions with no fields."""
 
         form = PostForm({})
         self.assertFalse(
-            form.is_valid(), msg='Form is valid, but it has no fields')
+            form.is_valid(), msg='Form is valid, but it has no fields.')
 
 
 class TestPostTextForm(TestCase):
@@ -79,7 +79,7 @@ class TestPostTextForm(TestCase):
 
         form = PostTextForm({'text': 'Test post text'})
         self.assertTrue(form.is_valid(),
-                        msg='Form is not valid, but it should be')
+                        msg='Form is not valid, but it should be.')
 
     def test_form_is_missing_text(self):
         """Tests that PostTextForm rejects submissions with empty text
@@ -87,14 +87,14 @@ class TestPostTextForm(TestCase):
 
         form = PostTextForm({'text': ''})
         self.assertFalse(
-            form.is_valid(), msg='Form is valid, but it has no text')
+            form.is_valid(), msg='Form is valid, but it has no text.')
 
     def test_form_is_empty(self):
         """Tests that PostTextForm rejects submissions with no fields."""
 
         form = PostTextForm({})
         self.assertFalse(
-            form.is_valid(), msg='Form is valid, but it has no fields')
+            form.is_valid(), msg='Form is valid, but it has no fields.')
 
 
 class TestCommentForm(TestCase):
@@ -105,18 +105,18 @@ class TestCommentForm(TestCase):
 
         form = CommentForm({'body': 'Test comment text'})
         self.assertTrue(form.is_valid(),
-                        msg='Form is not valid, but it should be')
+                        msg='Form is not valid, but it should be.')
 
     def test_form_is_missing_text(self):
         """Tests that CommentForm rejects submissions with empty body field."""
 
         form = CommentForm({'body': ''})
         self.assertFalse(
-            form.is_valid(), msg='Form is valid, but it has no body')
+            form.is_valid(), msg='Form is valid, but it has no body.')
 
     def test_form_is_empty(self):
         """Tests that CommentForm rejects submissions with no fields."""
 
         form = CommentForm({})
         self.assertFalse(
-            form.is_valid(), msg='Form is valid, but it has no fields')
+            form.is_valid(), msg='Form is valid, but it has no fields.')

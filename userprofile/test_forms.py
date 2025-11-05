@@ -11,7 +11,7 @@ class TestProfileUserForm(TestCase):
     """Test cases to validate the UserProfileForm model form."""
 
     def test_form_is_valid(self):
-        """Tests that PostForm accepts valid bio and image fields."""
+        """Tests that UserProfileForm accepts valid bio and image fields."""
 
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
@@ -26,7 +26,7 @@ class TestProfileUserForm(TestCase):
         form = UserProfileForm({'bio': 'Test bio text'}, image)
 
         self.assertTrue(form.is_valid(),
-                        msg='Form is not valid, but it should be')
+                        msg='Form is not valid, but it should be.')
 
         uploaded_asset_id = form.cleaned_data['image'].public_id
         cloudinary.uploader.destroy(uploaded_asset_id)
@@ -47,7 +47,7 @@ class TestProfileUserForm(TestCase):
         form = UserProfileForm(data={'bio': ''}, files=image)
 
         self.assertTrue(
-            form.is_valid(), msg='Form is invalid, but empty bio should be accepted')
+            form.is_valid(), msg='Form is invalid, but empty bio should be accepted.')
         uploaded_asset_id = form.cleaned_data['image'].public_id
         cloudinary.uploader.destroy(uploaded_asset_id)
 
@@ -57,7 +57,7 @@ class TestProfileUserForm(TestCase):
 
         form = UserProfileForm({'bio': 'Test text bio'}, {'image': ""})
         self.assertTrue(
-            form.is_valid(), msg='Form is invalid, but empty image should be accepted')
+            form.is_valid(), msg='Form is invalid, but empty image should be accepted.')
 
     def test_form_has_none_image(self):
         """Tests that UserProfileForm accepts submissions with None image
@@ -65,7 +65,7 @@ class TestProfileUserForm(TestCase):
 
         form = UserProfileForm({'bio': 'Test text bio'}, {'image': None})
         self.assertTrue(
-            form.is_valid(), msg='Form is invalid, but None image should be accepted')
+            form.is_valid(), msg='Form is invalid, but None image should be accepted.')
 
     def test_form_has_invalid_image(self):
         """Tests that UserProfileForm rejects submissions with invalid image
@@ -74,14 +74,14 @@ class TestProfileUserForm(TestCase):
         form = UserProfileForm({'text': 'Test post text'}, {
                                'image': 'invalid_file'})
         self.assertFalse(
-            form.is_valid(), msg='Form is valid, but it has an invalid image file')
+            form.is_valid(), msg='Form is valid, but it has an invalid image file.')
 
     def test_form_is_empty(self):
         """Tests that UserProfileForm accepts submissions with no fields."""
 
         form = UserProfileForm({})
         self.assertTrue(
-            form.is_valid(), msg='Form is invalid, but no fields should be accepted')
+            form.is_valid(), msg='Form is invalid, but no fields should be accepted.')
 
 
 class TestUserForm(TestCase):

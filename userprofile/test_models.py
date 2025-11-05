@@ -45,11 +45,11 @@ class TestProfileUser(TestCase):
     def test_model_has_no_user(self):
         """Tests that UserProfile rejects missing user."""
 
-        with self.assertRaises(IntegrityError, msg="User Profile able to be saved to database, but no user provided"):
+        with self.assertRaises(IntegrityError, msg="User Profile able to be saved to database, but no user provided."):
             self.user_profile.save()
 
     def tearDown(self):
         """Deletes Cloudinary resources uploaded during testing."""
-        
+
         cloudinary.uploader.destroy(
             self.user_profile.image.public_id)

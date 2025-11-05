@@ -59,7 +59,7 @@ def create_post(request):
             if content_type not in valid_content:
                 messages.add_message(
                     request, messages.ERROR,
-                    'File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format'
+                    'File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format.'
                 )
                 raise ValueError(
                     f'File content_type not in ${valid_content}. Instead it was ${content_type}.')
@@ -80,7 +80,7 @@ def create_post(request):
         else:
             messages.add_message(
                 request, messages.ERROR,
-                'Post failed to submit'
+                'Post failed to submit!'
             )
             return HttpResponseRedirect(reverse('feed'))
     else:
@@ -219,7 +219,7 @@ def create_comment(request, post_id):
         else:
             messages.add_message(
                 request, messages.ERROR,
-                'Comment failed to submit'
+                'Comment failed to submit!'
             )
             return HttpResponseRedirect(reverse('feed'))
     else:

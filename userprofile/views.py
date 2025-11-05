@@ -1,3 +1,4 @@
+import cloudinary.api
 from cloudinary.uploader import destroy
 from django.contrib import messages
 from django.http import HttpResponseRedirect

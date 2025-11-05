@@ -83,7 +83,7 @@ class TestUserProfileEditView(TestCase):
     """Test cases to validate the edit_user_profile view."""
 
     def setUp(self):
-        """Creates two user profile for test cases.
+        """Creates two user profiles for test cases.
 
         One test profile has no bio and image, but the second has a bio
         and profile set.
@@ -131,7 +131,7 @@ class TestUserProfileEditView(TestCase):
         self.profile_id_set_bio_image = user_profile_set_bio_image.id
 
     def test_redirect_if_unauthenticated(self):
-        """Tests view redirects unathenticated users."""
+        """Tests view redirects unauthenticated users."""
 
         response = self.client.get(
             reverse('edit_user_profile', args=[self.profile_id_no_bio_image]))
@@ -145,7 +145,7 @@ class TestUserProfileEditView(TestCase):
         self.assertEqual('error', messages[0].level_tag)
 
     def test_redirect_if_unauthorised(self):
-        """Tests view redirects unathorised users."""
+        """Tests view redirects unauthorised users."""
 
         self.client.login(
             username="test_set_bio_or_image", password="password")
@@ -255,7 +255,7 @@ class TestUserProfileEditView(TestCase):
         self.assertEqual('success', messages[0].level_tag)
 
     def test_profile_edits_no_update(self):
-        """Tests that the view can does not update the user profile when
+        """Tests that the view does not update the user profile when
         provided no changes from an authorised user."""
 
         self.client.login(
@@ -308,9 +308,6 @@ class TestUserProfileEditView(TestCase):
         self.assertEqual("Error updating profile!", str(messages[0]))
         self.assertEqual('error', messages[0].level_tag)
 
-        for message in messages:
-            print(f"Message: {message}, Level: {message.level_tag}")
-
     def test_profile_edits_invalid_image_rejection(self):
         """Test that image file can only be of JPG, PNG or SVG types."""
 
@@ -341,8 +338,6 @@ class TestUserProfileEditView(TestCase):
             self.user_profile_set_bio_image.image.public_id, profile.image.public_id)
 
         messages = list(get_messages(response.wsgi_request))
-        for message in messages:
-            print(f"Message: {message}, Level: {message.level_tag}")
         self.assertEqual(1, len(messages))
         self.assertEqual(
             "File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format. No changes made to profile picture.", str(messages[0]))
