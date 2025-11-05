@@ -677,3 +677,8 @@ class TestDeleteCommentView(TestCase):
         self.assertEqual('success', messages[0].level_tag,) 
 
         self.assertEqual(0, len(Comment.objects.all()))
+
+    def tearDown(self):
+        """Deletes Cloudinary resources uploaded during testing"""
+        cloudinary.uploader.destroy(
+            self.post.image.public_id)
