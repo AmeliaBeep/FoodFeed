@@ -15,22 +15,41 @@ from userprofile.forms import UserForm, UserProfileForm
 from userprofile.models import UserProfile
 
 
+class TestCreateUserProfile(TestCase):
+    """Test case to validate the create_user_profile"""
+
+    def test_create_user_profile(self):
+        """Tests if a user profile is created when a user is
+        created."""
+
+        test_user = User.objects.create_user(
+            username="test_username",
+            password="password"
+        )
+
+        self.assertEqual('test_username', str(test_user.user_profile))
+        self.assertEqual('no-profile-image', test_user.user_profile.image)
+        self.assertEqual('', test_user.user_profile.bio)
+
+
 class TestUserProfileView(TestCase):
     """Test cases to validate the view_user_profile view."""
 
     def setUp(self):
         """Creates a user profile with two posts to be used in test cases."""
 
-        user_profile_form = UserProfileForm({'bio': 'Test bio'}, None)
-        user_form = UserForm(data={'username': 'test_username'})
+        self.test_user = User.objects.create_user(
+            username="test_username",
+            password="password"
+        )
 
-        self.user = user_form.save()
+        user_profile = self.test_user.user_profile
+        user_profile_form = UserProfileForm(
+            {'bio': 'Test bio text'}, None, instance=user_profile)
 
-        user_profile = user_profile_form.save(commit=False)
-        user_profile.user = self.user
-
-        user_profile.save()
+        user_profile = user_profile_form.save(commit=True)
         self.user_profile = user_profile
+
         self.profile_id = user_profile.id
 
         cloudinary_test_image = cloudinary.api.resource("test_image")
@@ -70,7 +89,7 @@ class TestUserProfileView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"test_username", response.content)
         self.assertIn(b"no-user-image.jpg", response.content)
-        self.assertIn(b"Test bio", response.content)
+        self.assertIn(b"Test bio text", response.content)
         self.assertIn(b"Test post one", response.content)
         self.assertIn(b"Test post two", response.content)
 
@@ -88,20 +107,14 @@ class TestUserProfileEditView(TestCase):
         One test profile has no bio and image, but the second has a bio
         and profile set.
         """
+
         # User with a blank bio and no uploaded image
         self.user_no_bio_image = User.objects.create_user(
             username="test_no_bio_or_image",
             password="password"
         )
-
-        user_profile_form_no_bio_image = UserProfileForm({'bio': ''}, None)
-        user_profile_no_bio_image = user_profile_form_no_bio_image.save(
-            commit=False)
-        user_profile_no_bio_image.user = self.user_no_bio_image
-
-        user_profile_no_bio_image.save()
-        self.user_profile_no_bio_image = user_profile_no_bio_image
-        self.profile_id_no_bio_image = user_profile_no_bio_image.id
+        self.user_profile_no_bio_image = self.user_no_bio_image.user_profile
+        self.profile_id_no_bio_image = self.user_profile_no_bio_image.id
 
         # User with a set bio and uploaded image
         self.user_set_bio_image = User.objects.create_user(
@@ -111,24 +124,19 @@ class TestUserProfileEditView(TestCase):
 
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
-
         test_image = requests.get(test_image_url)
-
         test_image_content = ContentFile(test_image.content)
         test_image_content.name = 'test_image.jpg'
-
         image = {'image': test_image_content}
 
-        user_profile_form_set_bio_image = UserProfileForm(
-            {'bio': 'Test bio text'}, image)
-
-        user_profile_set_bio_image = user_profile_form_set_bio_image.save(
-            commit=False)
-        user_profile_set_bio_image.user = self.user_set_bio_image
-
-        user_profile_set_bio_image.save()
+        user_profile_set_bio_image = self.user_set_bio_image.user_profile
+        user_profile_set_bio_image_form = UserProfileForm(
+            {'bio': 'Test bio text'}, image, instance=user_profile_set_bio_image)
+        user_profile_set_bio_image = user_profile_set_bio_image_form.save(
+            commit=True)
         self.user_profile_set_bio_image = user_profile_set_bio_image
-        self.profile_id_set_bio_image = user_profile_set_bio_image.id
+
+        self.profile_id_set_bio_image = self.user_profile_set_bio_image.id
 
     def test_redirect_if_unauthenticated(self):
         """Tests view redirects unauthenticated users."""
@@ -385,6 +393,6 @@ class TestUserProfileEditView(TestCase):
 
     def tearDown(self):
         """Deletes Cloudinary resources uploaded during testing."""
-        
+
         cloudinary.uploader.destroy(
             self.user_profile_set_bio_image.image.public_id)

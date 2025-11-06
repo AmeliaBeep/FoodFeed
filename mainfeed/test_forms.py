@@ -44,7 +44,7 @@ class TestPostForm(TestCase):
 
         image = {'image': test_image_content}
 
-        form = PostForm({'text': ''}, {'image': image})
+        form = PostForm({'text': ''}, image)
         self.assertFalse(
             form.is_valid(), msg='Form is valid, but it has no text.')
 

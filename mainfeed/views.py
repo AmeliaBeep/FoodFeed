@@ -21,6 +21,16 @@ class PostList(generic.ListView):
     paginate_by = 10
 
 def view_post(request, post_id):
+    """Handles a request to view a post.
+
+    Args:
+        request (HttpRequest): The request to render the post.
+        post_id (int): The id of the posy to display.
+
+    Returns:
+        HttpResponse: a response containing the post to render.
+    """
+
     post = get_object_or_404(Post, pk=post_id)
     return render(
             request,
@@ -30,19 +40,6 @@ def view_post(request, post_id):
             },
         )
 
-def view_comment(request, post_id, comment_id):
-
-    post = get_object_or_404(Post, pk=post_id)
-    comment = get_object_or_404(Comment, pk=comment_id)
-    
-    return render(
-            request,
-            "mainfeed/view_comment.html",
-            {
-                "post": post,
-                "comment": comment
-            },
-        )
 
 def create_post(request):
     """Handles POST and GET requests related to post creation.
@@ -190,6 +187,32 @@ def delete_post(request, post_id):
         messages.add_message(request, messages.ERROR,
                              'Not authorised to delete this post!')
     return HttpResponseRedirect(reverse('feed'))
+
+
+def view_comment(request, post_id, comment_id):
+    """Handles a request to view a comment.
+
+    Args:
+        request (HttpRequest): The request to render the comment.
+        post_id (int): The id of the post containing the comment.
+        comment_id (int): The id of the comment to display.
+
+    Returns:
+        HttpResponse: a response containing the comment and its 
+        corresponding post to render.
+    """
+
+    post = get_object_or_404(Post, pk=post_id)
+    comment = get_object_or_404(Comment, pk=comment_id)
+    
+    return render(
+            request,
+            "mainfeed/view_comment.html",
+            {
+                "post": post,
+                "comment": comment
+            },
+        )
 
 
 def create_comment(request, post_id):
