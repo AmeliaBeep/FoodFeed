@@ -1,6 +1,9 @@
 import cloudinary.api
 from cloudinary.uploader import destroy
+from django.contrib.auth.models import User
 from django.contrib import messages
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, reverse
 
@@ -9,6 +12,12 @@ from userprofile.models import UserProfile
 from .forms import UserForm, UserProfileForm
 
 # Create your views here.
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
 
 
 def view_user_profile(request, user_profile_id):
