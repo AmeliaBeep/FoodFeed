@@ -24,5 +24,5 @@ function updateModal(e, contentType) {
   let contentId = e.target.getAttribute(content_id);
   deleteModalLabel.innerText = `Delete ${contentType}?`
   deleteModalBody.innerText = `Are you sure you want to delete your ${contentType}? This action cannot be undone.`
-  deleteConfirm.href = `delete-${contentType}/${contentId}`;
+  deleteConfirm.href = `/delete-${contentType}/${contentId}`;
 }
