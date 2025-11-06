@@ -77,7 +77,7 @@
                 <div class="col-3 d-inline-flex justify-content-end">
                     {% if user.is_authenticated and user == comment.author.user %}
                     <a class="mx-1 page-button comment-icon-size icon-button rounded-circle" 
-                        href="{% url 'view_comment' post.id comment.id %}" aria-label="Edit comment">
+                        href="{% url 'edit_comment' post.id comment.id %}" aria-label="Edit comment">
                         <i class="fa-regular fa-pen-to-square"></i></a>
                     {% endif %}
                     <a class="mx-1 copy-link page-button post-icon-size icon-button rounded-circle"
