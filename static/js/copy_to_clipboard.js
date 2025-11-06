@@ -4,7 +4,7 @@ for (let item of copyLinkItems) {
     let link = item.getAttribute('href');
     item.addEventListener("click", (e) => {
         e.preventDefault();
-        let textToCopy = window.location.href;
+        let textToCopy = window.location.hostname;
         textToCopy += link;
         navigator.clipboard.writeText(textToCopy)
         .then(() => {
