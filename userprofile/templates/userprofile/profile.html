@@ -15,7 +15,7 @@
                         {% if "no-profile-image" in profile.image.url %}
                         <img class="img-fluid" src="{% static 'images/no-user-image.jpg' %}" alt="Placeholder image - user has not uploaded a profile picture">
                         {% else %}
-                        <img class="img-fluid" src="{{ profile.image.url }}" width="75%" alt="{{ profile.user }}'s profile picture">
+                        <img class="profile-image-square" src="{{ profile.image.url }}" alt="{{ profile.user }}'s profile picture">
                         {% endif %}
                     </div>
                 </div>

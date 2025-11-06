@@ -5,7 +5,7 @@
     --brand-secondary-colour: #f7bc7e; /* Lighter orange used in logo */ 
     --background-black: #141414; /* Black background */
     --primary-grey-colour: #252525; /* Primary grey used on most content backgrounds */
-    --secondary-grey-colour: #383838; /* Secondary grey */
+    --secondary-grey-colour: #090909; /* Secondary grey */
     --delete-red-colour: #ff3924;
     --logo-text-size: 1.6rem;
 }
@@ -15,6 +15,7 @@
 body {
     background-color: var(--background-black);
     color:white;
+    margin-top: 65px;
 }
 
 main {
@@ -24,6 +25,7 @@ main {
 h1 {
     font-size: 1.8rem;
 }
+
 
 /* Content conatiner styles */
 .content-divider {
@@ -37,6 +39,7 @@ h1 {
 
 .content-background-colour {
     background-color: var(--primary-grey-colour);
+    box-shadow: 0px 1px 1px 1px rgba(37, 37, 37, 0.269);
 }
 
 .post-image-container {
@@ -50,7 +53,9 @@ h1 {
 .profile-image-container {
     background-color: var(--background-black);
     border: 2px solid var(--brand-primary-colour-dimmed);
+    aspect-ratio: 1 / 1;
 }
+
 
 /* Button styling */
 .page-button,
@@ -80,10 +85,11 @@ h1 {
     color: #ff9524b9;
 }
 
-/* Navbar styling */
 
+/* Navbar styling */
 #navbar {
     background-color: var(--primary-grey-colour);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-icon-size {
@@ -93,7 +99,6 @@ h1 {
 
 
 /* Brand logo styling */
-
 #nav-logo-food {
     color: var(--brand-primary-colour);
     font-size: var(--logo-text-size);
@@ -108,7 +113,6 @@ h1 {
 
 
 /* Navbar icons */
-
 #user-icon {
     font-size: 1.5rem; 
 }
@@ -119,7 +123,6 @@ h1 {
 
 
 /* Post styling */
-
 .post-header-text h2 {
     font-size: 1.2rem;
     margin: 0;
@@ -167,6 +170,13 @@ h1 {
     font-size: 1rem;
 }
 
+.profile-image-square {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+
 /* Modal styling */
 .delete-modal {
     background-color: var(--primary-grey-colour);
@@ -201,16 +211,6 @@ h1 {
 }
 
 
-/**
-.delete-modal .modal-header {
-    border-bottom: 1px solid var(--brand-primary-colour-dimmed);
-}
-
-.delete-modal .modal-footer {
-    border-top: 1px solid var(--brand-primary-colour-dimmed);
-}
-*/
-
 /* Icon button centering */
 /* needs to go last to ensure centering applies after individual size changes */
 .icon-button,
@@ -221,8 +221,8 @@ h1 {
     justify-content: center;
 }
 
-/* Media queries */
 
+/* Media queries */
 /* Media query: large or landscape phones (576px and up) */
 @media screen and (min-width: 576px) {
     .content-container {
