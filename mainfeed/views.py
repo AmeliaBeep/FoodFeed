@@ -25,7 +25,7 @@ def view_post(request, post_id):
 
     Args:
         request (HttpRequest): The request to render the post.
-        post_id (int): The id of the posy to display.
+        post_id (int): The id of the post to display.
 
     Returns:
         HttpResponse: a response containing the post to render.
@@ -63,6 +63,7 @@ def create_post(request):
             and post create form to render.
     """
 
+    # Redirect unauthenticated users back to home page.
     if not request.user.is_authenticated:
         messages.add_message(
             request, messages.INFO,
@@ -70,8 +71,12 @@ def create_post(request):
         )
         return HttpResponseRedirect(reverse('feed'))
 
+    # Handle if POST request
     if request.method == "POST":
         post_form = PostForm(request.POST, request.FILES)
+
+        # Get the image from the request.
+        # If unable then add an error to form to make it invalid.
         try:
             image = request.FILES.get('image')
             content_type = image.content_type
@@ -82,10 +87,11 @@ def create_post(request):
                     'File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format.'
                 )
                 raise ValueError(
-                    f'File content_type not in ${valid_content}. Instead it was ${content_type}.')
+                    f'File content_type not in {valid_content}. Instead it was {content_type}.')
         except (AttributeError, ValueError) as error:
             post_form.add_error('image', error)
 
+        # Save valid post or redirect on error.
         if post_form.is_valid():
             profile_queryset = UserProfile.objects.filter(user=request.user)
             author_profile = get_object_or_404(profile_queryset)
@@ -103,6 +109,8 @@ def create_post(request):
                 'Post failed to submit!'
             )
             return HttpResponseRedirect(reverse('feed'))
+        
+    # Render page if GET request.
     else:
         post_form = PostForm()
         return render(
@@ -138,6 +146,8 @@ def edit_post(request, post_id):
     """
 
     post = get_object_or_404(Post, pk=post_id)
+
+    # Redirect unauthorised users back to home page
     if not request.user.is_authenticated or request.user != post.author.user:
         messages.add_message(
             request, messages.ERROR,
@@ -145,9 +155,11 @@ def edit_post(request, post_id):
         )
         return HttpResponseRedirect(reverse('feed'))
 
+    # Handle if POST request
     if request.method == "POST":
         post_form = PostTextForm(request.POST, instance=post)
 
+        # Save valid post update or redirect on error.
         if post_form.is_valid() and post.author.user == request.user:
             post = post_form.save(commit=True)
             messages.add_message(request, messages.SUCCESS, 'Post updated!')
@@ -155,6 +167,8 @@ def edit_post(request, post_id):
             messages.add_message(request, messages.ERROR,
                                  'Error updating post!')
         return HttpResponseRedirect(reverse('feed'))
+    
+    # Render page if GET request.
     else:
         post_text_form = PostTextForm(initial={'text': post.text})
         return render(
@@ -179,7 +193,8 @@ def delete_post(request, post_id):
     """
 
     post = get_object_or_404(Post, pk=post_id)
-
+    
+    # Delete post if authorised or redirect on error.
     if request.user.is_authenticated and request.user == post.author.user:
         post.delete()
         messages.add_message(request, messages.SUCCESS, 'Post deleted!')
@@ -240,6 +255,8 @@ def create_comment(request, post_id):
     """
 
     post = get_object_or_404(Post, pk=post_id)
+
+    # Redirect unauthenticated users back to home page.
     if not request.user.is_authenticated:
         messages.add_message(
             request, messages.INFO,
@@ -247,8 +264,11 @@ def create_comment(request, post_id):
         )
         return HttpResponseRedirect(reverse('feed'))
 
+    # Handle if POST request
     if request.method == "POST":
         comment_form = CommentForm(request.POST)
+
+        # Save valid post or redirect on error.
         if comment_form.is_valid():
             queryset = Post.objects.filter(pk=post_id)
             profile_queryset = UserProfile.objects.filter(user=request.user)
@@ -268,6 +288,8 @@ def create_comment(request, post_id):
                 'Comment failed to submit!'
             )
             return HttpResponseRedirect(reverse('feed'))
+    
+    # Render page if GET request.
     else:
         post = get_object_or_404(Post, pk=post_id)
 
@@ -307,6 +329,7 @@ def edit_comment(request, post_id, comment_id):
 
     comment = get_object_or_404(Comment, pk=comment_id)
 
+    # Redirect unauthorised users back to home page.
     if not request.user.is_authenticated or request.user != comment.author.user:
         messages.add_message(
             request, messages.ERROR,
@@ -314,9 +337,11 @@ def edit_comment(request, post_id, comment_id):
         )
         return HttpResponseRedirect(reverse('feed'))
 
+    # Handle if POST request
     if request.method == "POST":
         comment_form = CommentForm(request.POST, instance=comment)
 
+        # Save valid comment update or redirect on error.
         if comment_form.is_valid() and comment.author.user == request.user:
             comment = comment_form.save(commit=True)
             messages.add_message(request, messages.SUCCESS, 'Comment updated!')
@@ -325,6 +350,7 @@ def edit_comment(request, post_id, comment_id):
                                  'Error updating comment!')
         return HttpResponseRedirect(reverse('feed'))
 
+    # Render page if GET request.
     else:
         post = get_object_or_404(Post, pk=post_id)
         comment = get_object_or_404(Comment, pk=comment_id)
@@ -351,6 +377,7 @@ def delete_comment(request, comment_id):
         HttpResponse: a redirect request including a success message.
     """
 
+    # Delete comment if authorised or redirect on error.
     comment = get_object_or_404(Comment, pk=comment_id)
 
     if request.user.is_authenticated and comment.author.user == request.user:

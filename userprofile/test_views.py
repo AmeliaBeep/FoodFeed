@@ -38,6 +38,7 @@ class TestUserProfileView(TestCase):
     def setUp(self):
         """Creates a user profile with two posts to be used in test cases."""
 
+        # Create user and update their profile.
         self.test_user = User.objects.create_user(
             username="test_username",
             password="password"
@@ -52,19 +53,20 @@ class TestUserProfileView(TestCase):
 
         self.profile_id = user_profile.id
 
+        # Get test image and create image objects for test posts.
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
 
         test_image_content = ContentFile(test_image.content)
         test_image_content.name = 'test_image.jpg'
+        image = {'image': test_image_content}
 
         test_image_content_2 = ContentFile(test_image.content)
         test_image_content_2.name = 'test_image.jpg'
-
-        image = {'image': test_image_content}
         image2 = {'image': test_image_content_2}
 
+        # Create test posts.
         post_form_1 = PostForm({'text': 'Test post one'}, image)
         post_1 = post_form_1.save(commit=False)
         post_1.author = self.user_profile
@@ -82,11 +84,19 @@ class TestUserProfileView(TestCase):
 
         The test user profile has no profile picture which should result
         in the default no-user-image file being used and rendered.
+
+        They have two posts which should be visible in a feed below their
+        profile details.
         """
+
 
         response = self.client.get(
             reverse('user_profile', args=[self.profile_id]))
+        
+        # Check response.
         self.assertEqual(response.status_code, 200)
+
+        # Check content rendered.
         self.assertIn(b"test_username", response.content)
         self.assertIn(b"no-user-image.jpg", response.content)
         self.assertIn(b"Test bio text", response.content)
@@ -143,9 +153,12 @@ class TestUserProfileEditView(TestCase):
 
         response = self.client.get(
             reverse('edit_user_profile', args=[self.profile_id_no_bio_image]))
+        
+        # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/1")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Unauthorised to edit this profile!",
@@ -159,9 +172,12 @@ class TestUserProfileEditView(TestCase):
             username="test_set_bio_or_image", password="password")
         response = self.client.get(
             reverse('edit_user_profile', args=[self.profile_id_no_bio_image]))
+        
+        # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/1")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Unauthorised to edit this profile!",
@@ -184,10 +200,12 @@ class TestUserProfileEditView(TestCase):
         response = self.client.get(
             reverse('edit_user_profile', args=[self.profile_id_no_bio_image]))
 
+        # Check response.
         self.assertEqual(response.status_code, 200)
+
+        # Check content rendered.
         self.assertIn(self.user_profile_no_bio_image.user.username.encode(
             'UTF-8'), response.content)
-        # self.assertIn(self.user_profile_no_bio_image.image.url.encode('UTF-8'), response.content)
         self.assertIn(b'no-profile-image', response.content)
         self.assertIn(
             b'<textarea name="bio" cols="40" rows="10" maxlength="800" class="textarea form-control" id="id_bio">\n</textarea>', response.content)
@@ -212,6 +230,7 @@ class TestUserProfileEditView(TestCase):
         response = self.client.get(
             reverse('edit_user_profile', args=[self.profile_id_set_bio_image]))
 
+        # Check content rendered.
         self.assertEqual(response.status_code, 200)
         self.assertIn(self.user_profile_set_bio_image.user.username.encode(
             'UTF-8'), response.content)
@@ -231,6 +250,7 @@ class TestUserProfileEditView(TestCase):
         self.client.login(
             username="test_no_bio_or_image", password="password")
 
+        # Set up details and then make the post request.
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
@@ -246,9 +266,12 @@ class TestUserProfileEditView(TestCase):
 
         response = self.client.post(
             path=reverse('edit_user_profile', args=[self.profile_id_no_bio_image]), data=post_data)
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/1")
 
+        # Verify new values.
         profile = get_object_or_404(
             UserProfile, pk=self.profile_id_no_bio_image)
         self.assertEqual('new_username', profile.user.username)
@@ -257,6 +280,7 @@ class TestUserProfileEditView(TestCase):
         if not hasattr(profile.image, 'public_id'):
             self.fail
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Profile updated!", str(messages[0]))
@@ -269,6 +293,7 @@ class TestUserProfileEditView(TestCase):
         self.client.login(
             username="test_set_bio_or_image", password="password")
 
+        # Set up details and then make the post request.
         post_data = {
             'username': self.user_profile_set_bio_image.user.username,
             'bio': self.user_profile_set_bio_image.bio,
@@ -277,6 +302,8 @@ class TestUserProfileEditView(TestCase):
 
         response = self.client.post(
             path=reverse('edit_user_profile', args=[self.profile_id_set_bio_image]), data=post_data)
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/2")
 
@@ -288,6 +315,7 @@ class TestUserProfileEditView(TestCase):
         self.assertEqual(
             self.user_profile_set_bio_image.image.public_id, profile.image.public_id)
 
+        # Check (no) messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(0, len(messages))
 
@@ -297,20 +325,25 @@ class TestUserProfileEditView(TestCase):
         self.client.login(
             username="test_set_bio_or_image", password="password")
 
+        # Set up details and then make the post request.
         post_data = {
             'username': ''
         }
         response = self.client.post(
             path=reverse('edit_user_profile', args=[self.profile_id_set_bio_image]), data=post_data)
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/2")
 
+        # Verify (no) new values.
         profile = get_object_or_404(
             UserProfile, pk=self.profile_id_set_bio_image)
         self.assertNotEqual('', profile.user.username)
         self.assertEqual(
             self.user_profile_set_bio_image.user.username, profile.user.username)
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Error updating profile!", str(messages[0]))
@@ -322,6 +355,7 @@ class TestUserProfileEditView(TestCase):
         self.client.login(
             username="test_set_bio_or_image", password="password")
 
+        # Set up details and then make the post request.
         cloudinary_test_image = cloudinary.api.resource(
             "invalid_content_type_file")
         test_image_url = cloudinary_test_image.get('url')
@@ -337,14 +371,18 @@ class TestUserProfileEditView(TestCase):
         }
         response = self.client.post(
             path=reverse('edit_user_profile', args=[self.profile_id_set_bio_image]), data=post_data)
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/2")
 
+        # Check (no) new values
         profile = get_object_or_404(
             UserProfile, pk=self.profile_id_set_bio_image)
         self.assertEqual(
             self.user_profile_set_bio_image.image.public_id, profile.image.public_id)
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual(
@@ -361,6 +399,7 @@ class TestUserProfileEditView(TestCase):
         self.client.login(
             username="test_set_bio_or_image", password="password")
 
+        # Set up details and then make the post request.
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
@@ -377,15 +416,19 @@ class TestUserProfileEditView(TestCase):
 
         response = self.client.post(
             path=reverse('edit_user_profile', args=[self.profile_id_set_bio_image]), data=post_data)
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/2")
 
+        # Verify new values
         profile = get_object_or_404(
             UserProfile, pk=self.profile_id_set_bio_image)
         self.assertNotEqual(
             str(self.user_profile_set_bio_image.image), str(profile.image))
         self.assertEqual('no-profile-image', str(profile.image))
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Profile updated!", str(messages[0]))

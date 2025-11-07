@@ -17,7 +17,7 @@ class PostForm(forms.ModelForm):
         super(PostForm, self).__init__(*args, **kwargs)
         self.fields['image'].label = "Image to share"
         self.fields['text'].label = "Post text"
-    
+
 class PostTextForm(forms.ModelForm):
     class Meta:
         model = Post
@@ -26,7 +26,7 @@ class PostTextForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PostTextForm, self).__init__(*args, **kwargs)
         self.fields['text'].label = "Post text"
-    
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment

@@ -15,8 +15,8 @@ class Post(models.Model):
         ordering = ["-created_on"]
     
     def __str__(self):
-        return f"Post written by {self.author} starting '{self.text[:30]}'"
-    
+        return f"Post written by {self.author} starting '{self.text[:40]}'"
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="commenter")

@@ -8,7 +8,6 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.shortcuts import get_object_or_404
 from django.test import TestCase
 from django.urls import reverse
-from userprofile.forms import UserProfileForm
 
 from mainfeed.forms import PostForm
 from mainfeed.models import Post
@@ -26,12 +25,14 @@ class TestPostView(TestCase):
         """Creates a user profile and post to be used in test 
         cases."""
 
+        # Create user and update their profile.
         self.test_user = User.objects.create_user(
             username="test_user",
             password="password"
         )
         self.test_user_profile = self.test_user.user_profile
 
+        # Get test image and create image object for test post.
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
@@ -39,6 +40,7 @@ class TestPostView(TestCase):
         test_image_content.name = 'test_image.jpg'
         image = {'image': test_image_content}
 
+        # Create test post.
         post_form = PostForm({'text': 'Test post text'}, image)
         post = post_form.save(commit=False)
         post.author = self.test_user_profile
@@ -52,6 +54,10 @@ class TestPostView(TestCase):
         response = self.client.get(
             reverse('view_post', args=[self.post.id]))
 
+        # Check response.
+        self.assertEqual(response.status_code, 200)
+
+        # Check content rendered.
         self.assertIsInstance(
             response.context['post'], Post)
 
@@ -69,13 +75,16 @@ class TestCreatePostView(TestCase):
         self.test_user_profile = self.test_user.user_profile
 
     def test_redirect_if_unauthenticated(self):
-        """Tests view redirects unathenticated users."""
+        """Tests view redirects unauthenticated users."""
 
         response = self.client.get(
             reverse('create_post'))
+        
+        # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Sign in to create a post!", str(messages[0]))
@@ -89,7 +98,11 @@ class TestCreatePostView(TestCase):
             username="test_user", password="password")
         response = self.client.get(
             reverse('create_post'))
+        
+        # Check response.
+        self.assertEqual(response.status_code, 200)
 
+        # Check content rendered.
         self.assertIsInstance(
             response.context['post_form'], PostForm)
 
@@ -99,6 +112,7 @@ class TestCreatePostView(TestCase):
         self.client.login(
             username="test_user", password="password")
 
+        # Set up details and then make the post request.
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
@@ -113,15 +127,19 @@ class TestCreatePostView(TestCase):
 
         response = self.client.post(
             path=reverse('create_post'), data=post_data)
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/")
 
+        # Verify new values.
         post_made = get_object_or_404(Post, pk=1)
-
         self.assertEqual('test_user', post_made.author.user.username)
         self.assertEqual('Test post text', post_made.text)
         if not hasattr(post_made.image, 'public_id'):
             self.fail
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Post submitted successfully!", str(messages[0]))
@@ -136,6 +154,7 @@ class TestCreatePostView(TestCase):
         self.client.login(
             username="test_user", password="password")
 
+        # Set up details and then make the post request.
         cloudinary_test_image = cloudinary.api.resource(
             "invalid_content_type_file")
         test_image_url = cloudinary_test_image.get('url')
@@ -151,8 +170,12 @@ class TestCreatePostView(TestCase):
 
         response = self.client.post(
             path=reverse('create_post'), data=post_data)
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(2, len(messages))
         self.assertEqual(
@@ -161,6 +184,7 @@ class TestCreatePostView(TestCase):
         self.assertEqual("Post failed to submit!", str(messages[1]))
         self.assertEqual('error', messages[1].level_tag,)
 
+        # Verify (no) new values.
         self.assertEqual(0, len(Post.objects.all()))
 
     def test_create_post_invalid_form_rejection(self):
@@ -169,6 +193,7 @@ class TestCreatePostView(TestCase):
         self.client.login(
             username="test_user", password="password")
 
+        # Set up details and then make the post request.
         post_data = {
             'text': '',
             'image': ''
@@ -176,13 +201,18 @@ class TestCreatePostView(TestCase):
 
         response = self.client.post(
             path=reverse('create_post'), data=post_data)
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Post failed to submit!", str(messages[0]))
         self.assertEqual('error', messages[0].level_tag,)
 
+        # Verify (no) new values.
         self.assertEqual(0, len(Post.objects.all()))
 
 
@@ -192,12 +222,14 @@ class TestEditPostView(TestCase):
     def setUp(self):
         """Creates a user profile with a post to be used in test cases."""
 
+        # Create user for tests.
         self.test_user = User.objects.create_user(
             username="test_user",
             password="password"
         )
         self.test_user_profile = self.test_user.user_profile
 
+        # Get test image and create image object for test post.
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
@@ -205,6 +237,7 @@ class TestEditPostView(TestCase):
         test_image_content.name = 'test_image.jpg'
         image = {'image': test_image_content}
 
+        # Create test post.
         post_form = PostForm({'text': 'Test post text'}, image)
         post = post_form.save(commit=False)
         post.author = self.test_user_profile
@@ -212,34 +245,40 @@ class TestEditPostView(TestCase):
         self.post = post
 
     def test_redirect_if_unauthenticated(self):
-        """Tests view redirects unathenticated users."""
+        """Tests view redirects unauthenticated users."""
 
         response = self.client.get(
             reverse('edit_post', args=[self.post.id]))
+        
+        # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Not authorised to edit this post!", str(messages[0]))
         self.assertEqual('error', messages[0].level_tag)
 
     def test_redirect_if_unauthorised(self):
-        """Tests view redirects unathorised users."""
+        """Tests view redirects unauthorised users."""
 
         User.objects.create_user(
-            username="unathorised_user",
+            username="unauthorised_user",
             password="password"
         )
 
         self.client.login(
-            username="unathorised_user", password="password")
+            username="unauthorised_user", password="password")
 
         response = self.client.get(
             reverse('edit_post', args=[self.post.id]))
+        
+        # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
-
+    
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Not authorised to edit this post!", str(messages[0]))
@@ -251,9 +290,14 @@ class TestEditPostView(TestCase):
 
         self.client.login(
             username="test_user", password="password")
+        
         response = self.client.get(
             reverse('edit_post', args=[self.post.id]))
 
+        # Check response.
+        self.assertEqual(response.status_code, 200)
+
+        # Check content rendered.
         self.assertIn(self.post.text.encode(
             'UTF-8'), response.content)
         self.assertIsInstance(
@@ -267,18 +311,23 @@ class TestEditPostView(TestCase):
         self.client.login(
             username="test_user", password="password")
 
+        # Set up details and then make the post request.
         post_data = {
             'text': 'Test edited post text',
         }
 
         response = self.client.post(
             path=reverse('edit_post', args=[self.post.id]), data=post_data)
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/")
 
+        # Verify new values.
         post_edited = get_object_or_404(Post, pk=1)
-
         self.assertEqual('Test edited post text', post_edited.text)
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Post updated!", str(messages[0]))
@@ -290,19 +339,25 @@ class TestEditPostView(TestCase):
         self.client.login(
             username="test_user", password="password")
 
+        # Set up details and then make the post request.
         post_data = {
             'text': ''
         }
 
         response = self.client.post(
             path=reverse('edit_post', args=[self.post.id]), data=post_data)
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Error updating post!", str(messages[0]))
         self.assertEqual('error', messages[0].level_tag,)
 
+        # Verify (no) new values.
         post_edited = get_object_or_404(Post, pk=1)
         self.assertNotEqual('', post_edited.text)
 
@@ -319,12 +374,14 @@ class TestDeletePostView(TestCase):
     def setUp(self):
         """Creates a user profile with a post to be used in test cases."""
 
+        # Create user for tests.
         self.test_user = User.objects.create_user(
             username="test_user",
             password="password"
         )
         self.test_user_profile = self.test_user.user_profile
 
+        # Get test image and create image object for test post.
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
@@ -332,6 +389,7 @@ class TestDeletePostView(TestCase):
         test_image_content.name = 'test_image.jpg'
         image = {'image': test_image_content}
 
+        # Create test post.
         post_form = PostForm({'text': 'Test post text'}, image)
         post = post_form.save(commit=False)
         post.author = self.test_user_profile
@@ -339,13 +397,16 @@ class TestDeletePostView(TestCase):
         self.post = post
 
     def test_redirect_if_unauthenticated(self):
-        """Tests view redirects unathenticated users."""
+        """Tests view redirects unauthenticated users."""
 
         response = self.client.get(
             reverse('delete_post', args=[self.post.id]))
+        
+        # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual(
@@ -353,21 +414,24 @@ class TestDeletePostView(TestCase):
         self.assertEqual('error', messages[0].level_tag)
 
     def test_redirect_if_unauthorised(self):
-        """Tests view redirects unathorised users."""
+        """Tests view redirects unauthorised users."""
 
         User.objects.create_user(
-            username="unathorised_user",
+            username="unauthorised_user",
             password="password"
         )
 
         self.client.login(
-            username="unathorised_user", password="password")
+            username="unauthorised_user", password="password")
 
         response = self.client.get(
             reverse('delete_post', args=[self.post.id]))
+        
+        # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual(
@@ -382,13 +446,18 @@ class TestDeletePostView(TestCase):
 
         response = self.client.post(
             path=reverse('delete_post', args=[self.post.id]))
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Post deleted!", str(messages[0]))
         self.assertEqual('success', messages[0].level_tag,)
 
+        # Verify deletion.
         self.assertEqual(0, len(Post.objects.all()))
 
     def tearDown(self):
@@ -407,12 +476,14 @@ class TestCommentView(TestCase):
         """Creates a user profile and post and comment to be used 
         in test cases."""
 
+        # Create user for tests.
         self.test_user = User.objects.create_user(
             username="test_user",
             password="password"
         )
         self.test_user_profile = self.test_user.user_profile
 
+        # Get test image and create image object for test post.
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
@@ -420,12 +491,14 @@ class TestCommentView(TestCase):
         test_image_content.name = 'test_image.jpg'
         image = {'image': test_image_content}
 
+        # Create test post.
         post_form = PostForm({'text': 'Test post text'}, image)
         post = post_form.save(commit=False)
         post.author = self.test_user_profile
         post.save()
         self.post = post
 
+        # Create test comment.
         self.comment = Comment.objects.create(
             body='Test comment text',
             post=self.post,
@@ -439,6 +512,10 @@ class TestCommentView(TestCase):
         response = self.client.get(
             reverse('view_comment', args=[self.post.id, self.comment.id]))
 
+        # Check response.
+        self.assertEqual(response.status_code, 200)
+
+        # Check content rendered.
         self.assertIsInstance(
             response.context['post'], Post)
         self.assertIsInstance(
@@ -451,12 +528,14 @@ class TestCreateCommentView(TestCase):
     def setUp(self):
         """Creates a user profile with a post to be used in test cases."""
 
+        # Create user for tests.
         self.test_user = User.objects.create_user(
             username="test_user",
             password="password"
         )
         self.test_user_profile = self.test_user.user_profile
 
+        # Get test image and create image object for test post.
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
@@ -464,6 +543,7 @@ class TestCreateCommentView(TestCase):
         test_image_content.name = 'test_image.jpg'
         image = {'image': test_image_content}
 
+        # Create test post.
         post_form = PostForm({'text': 'Test post text'}, image)
         post = post_form.save(commit=False)
         post.author = self.test_user_profile
@@ -471,13 +551,16 @@ class TestCreateCommentView(TestCase):
         self.post = post
 
     def test_redirect_if_unauthenticated(self):
-        """Tests view redirects unathenticated users."""
+        """Tests view redirects unauthenticated users."""
 
         response = self.client.get(
             reverse('create_comment', args=[self.post.id]))
+        
+        # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Sign in to create a comment!", str(messages[0]))
@@ -489,9 +572,14 @@ class TestCreateCommentView(TestCase):
 
         self.client.login(
             username="test_user", password="password")
+        
         response = self.client.get(
             reverse('create_comment', args=[self.post.id]))
 
+        # Check response.
+        self.assertEqual(response.status_code, 200)
+
+        # Check content rendered.
         self.assertIsInstance(
             response.context['post'], Post)
         self.assertIsInstance(
@@ -503,19 +591,25 @@ class TestCreateCommentView(TestCase):
         self.client.login(
             username="test_user", password="password")
 
+        # Set up details and then make the post request.
         post_data = {
             'body': 'Test comment text'
         }
 
         response = self.client.post(
             path=reverse('create_comment', args=[self.post.id]), data=post_data)
+        
+
+        # Check response.
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/")
 
+        # Verify new values.
         comment_made = get_object_or_404(Comment, pk=1)
-
         self.assertEqual('test_user', comment_made.author.user.username)
         self.assertEqual('Test comment text', comment_made.body)
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Comment submitted successfully!", str(messages[0]))
@@ -527,19 +621,25 @@ class TestCreateCommentView(TestCase):
         self.client.login(
             username="test_user", password="password")
 
+        # Set up details and then make the post request.
         post_data = {
             'body': '',
         }
 
         response = self.client.post(
             path=reverse('create_comment', args=[self.post.id]), data=post_data)
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Comment failed to submit!", str(messages[0]))
         self.assertEqual('error', messages[0].level_tag,)
 
+        # Verify (no) new values.
         self.assertEqual(0, len(Comment.objects.all()))
 
     def tearDown(self):
@@ -556,12 +656,14 @@ class TestEditCommentView(TestCase):
         """Creates a user profile with a post and comment to be used in test
         cases."""
 
+        # Create user for tests.
         self.test_user = User.objects.create_user(
             username="test_user",
             password="password"
         )
         self.test_user_profile = self.test_user.user_profile
 
+        # Get test image and create image object for test post.
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
@@ -569,12 +671,14 @@ class TestEditCommentView(TestCase):
         test_image_content.name = 'test_image.jpg'
         image = {'image': test_image_content}
 
+        # Create test post.
         post_form = PostForm({'text': 'Test post text'}, image)
         post = post_form.save(commit=False)
         post.author = self.test_user_profile
         post.save()
         self.post = post
 
+        # Create test comment.
         self.comment = Comment.objects.create(
             body='Test comment text',
             post=self.post,
@@ -582,13 +686,16 @@ class TestEditCommentView(TestCase):
         )
 
     def test_redirect_if_unauthenticated(self):
-        """Tests view redirects unathenticated users."""
+        """Tests view redirects unauthenticated users."""
 
         response = self.client.get(
             reverse('edit_comment', args=[self.post.id, self.comment.id]))
+        
+        # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual(
@@ -596,21 +703,24 @@ class TestEditCommentView(TestCase):
         self.assertEqual('error', messages[0].level_tag)
 
     def test_redirect_if_unauthorised(self):
-        """Tests view redirects unathorised users."""
+        """Tests view redirects unauthorised users."""
 
         User.objects.create_user(
-            username="unathorised_user",
+            username="unauthorised_user",
             password="password"
         )
 
         self.client.login(
-            username="unathorised_user", password="password")
+            username="unauthorised_user", password="password")
 
         response = self.client.get(
             reverse('edit_comment', args=[self.post.id, self.comment.id]))
+        
+        # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual(
@@ -623,9 +733,14 @@ class TestEditCommentView(TestCase):
 
         self.client.login(
             username="test_user", password="password")
+        
         response = self.client.get(
             reverse('edit_comment', args=[self.post.id, self.comment.id]))
 
+        # Check response.
+        self.assertEqual(response.status_code, 200)
+
+        # Check content rendered.
         self.assertIsInstance(
             response.context['post'], Post)
         self.assertIsInstance(
@@ -639,18 +754,23 @@ class TestEditCommentView(TestCase):
         self.client.login(
             username="test_user", password="password")
 
+        # Set up details and then make the post request.
         post_data = {
             'body': 'Test edited comment text',
         }
 
         response = self.client.post(
             path=reverse('edit_comment', args=[self.post.id, self.comment.id]), data=post_data)
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/")
 
+        # Verify new values.
         comment_edited = get_object_or_404(Comment, pk=1)
-
         self.assertEqual('Test edited comment text', comment_edited.body)
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Comment updated!", str(messages[0]))
@@ -662,19 +782,25 @@ class TestEditCommentView(TestCase):
         self.client.login(
             username="test_user", password="password")
 
+        # Set up details and then make the post request.
         post_data = {
             'body': ''
         }
 
         response = self.client.post(
             path=reverse('edit_comment', args=[self.post.id, self.comment.id]), data=post_data)
+       
+       # Check response.
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Error updating comment!", str(messages[0]))
         self.assertEqual('error', messages[0].level_tag,)
 
+        # Verify (no) new values.
         comment_edited = get_object_or_404(Comment, pk=1)
         self.assertNotEqual('', comment_edited.body)
 
@@ -692,12 +818,14 @@ class TestDeleteCommentView(TestCase):
         """Creates a user profile with a post and comment to be used in test
         cases."""
 
+        # Create user for tests.
         self.test_user = User.objects.create_user(
             username="test_user",
             password="password"
         )
         self.test_user_profile = self.test_user.user_profile
 
+        # Get test image and create image object for test post.
         cloudinary_test_image = cloudinary.api.resource("test_image")
         test_image_url = cloudinary_test_image.get('url')
         test_image = requests.get(test_image_url)
@@ -705,12 +833,14 @@ class TestDeleteCommentView(TestCase):
         test_image_content.name = 'test_image.jpg'
         image = {'image': test_image_content}
 
+        # Create test post.
         post_form = PostForm({'text': 'Test post text'}, image)
         post = post_form.save(commit=False)
         post.author = self.test_user_profile
         post.save()
         self.post = post
 
+        # Create test comment.
         self.comment = Comment.objects.create(
             body='Test comment text',
             post=self.post,
@@ -722,9 +852,12 @@ class TestDeleteCommentView(TestCase):
 
         response = self.client.get(
             reverse('delete_comment', args=[self.comment.id]))
+        
+        # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual(
@@ -735,18 +868,21 @@ class TestDeleteCommentView(TestCase):
         """Tests view redirects unathorised users."""
 
         User.objects.create_user(
-            username="unathorised_user",
+            username="unauthorised_user",
             password="password"
         )
 
         self.client.login(
-            username="unathorised_user", password="password")
+            username="unauthorised_user", password="password")
 
         response = self.client.get(
             reverse('delete_comment', args=[self.comment.id]))
+        
+        # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual(
@@ -761,13 +897,17 @@ class TestDeleteCommentView(TestCase):
 
         response = self.client.post(
             path=reverse('delete_comment', args=[self.comment.id]))
+        
+        # Check response.
         self.assertEqual(response.status_code, 302)
 
+        # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual("Comment deleted!", str(messages[0]))
         self.assertEqual('success', messages[0].level_tag,)
 
+        # Verify deletion.
         self.assertEqual(0, len(Comment.objects.all()))
 
     def tearDown(self):
