@@ -14,7 +14,9 @@
             <div class="pt-2 px-3">
                 <div class="row">
                     <div class="col post-header-text align-content-center">
-                        <h2>{{ post.author.user }} • <span>{{ post.created_on|date:'H:i | d-m-Y'}}</span></h2>
+                        <h2><span class="author-name">
+                            <a class="author-profile-link" href="{% url 'user_profile' post.author.id %}">{{ post.author }}</a></span>
+                            <span class="datetime">{{ post.created_on | date:'H:i | d-m-Y'}}</span></h2>
                     </div>
 
                     <!-- Buttons to edit, copy link and delete -->
@@ -70,7 +72,9 @@
             <!-- Comment header -->
             <div class="row px-3 pt-3 ">
                 <div class="col comment-header-text align-content-center">
-                    <h3>{{ comment.author.user }} • <span>{{ post.created_on|date:'H:i | d-m-Y'}}</span></h3>
+                    <h3><span class="author-name">
+                        <a class="author-profile-link" href="{% url 'user_profile' comment.author.id %}">{{ comment.author.user }}</a></span>
+                        <span class="datetime">{{ comment.created_on|date:'H:i | d-m-Y'}}</span></h3>
                 </div>
 
                 <!-- Buttons to edit, copy link and delete -->

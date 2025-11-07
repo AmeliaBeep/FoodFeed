@@ -14,7 +14,9 @@
             <!-- Comment header -->
             <div class="row px-3 pt-3 ">
                 <div class="col comment-header-text align-content-center">
-                    <h3>{{ comment.author }} • <span>{{ post.created_on|date:'H:i | d-m-Y'}}</span></h3>
+                    <h3><span class="author-name">
+                        <a class="author-profile-link" href="{% url 'user_profile' comment.author.id %}">{{ comment.author.user }}</a></span>
+                        <span class="datetime">{{ comment.created_on|date:'H:i | d-m-Y'}}</span></h3>
                 </div>
             </div>
 

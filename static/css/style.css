@@ -33,7 +33,7 @@ h1 {
 }
 
 .content-container {
-    max-width: 350px;
+    max-width: 365px;
     padding-bottom: 8px;
 }
 
@@ -127,17 +127,44 @@ h1 {
     font-size: 1.2rem;
     margin: 0;
     font-weight: 600;
+    display: inline-block;
 }
 
 .comment-header-text h3 {
     font-size: 1.1rem;
     margin: 0;
     font-weight: 600;
+    display: inline-block;
 }
 
-.post-header-text h2 span,
-.comment-header-text h3 span {
+.author-profile-link,
+.author-profile-link:visited,
+.author-profile-link:active {
+    color: white;
+    text-decoration: none;
+    display: inline;
+}
+
+.author-profile-link:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.author-name {
+    display: inline;
+}
+
+.author-name::after {
+    content: ' ';
+    letter-spacing: 1em;
+    background: radial-gradient(circle at center center, white, white 10%, transparent 0%);
+    padding-bottom: 6px;
+}
+
+.post-header-text h2 .datetime,
+.comment-header-text h3 .datetime {
     font-size: 0.95rem;
+    text-wrap: nowrap;
 }
 
 .post-icon-size {
@@ -226,20 +253,20 @@ h1 {
 /* Media query: large or landscape phones (576px and up) */
 @media screen and (min-width: 576px) {
     .content-container {
-        max-width: 400px;
+        max-width: 450px;
     }
 }
 
 /* Medium devices (tablets, 768px and up) */
 @media screen and (min-width: 768px) {
     .content-container {
-        max-width: 500px;
+        max-width: 570px;
     }
 }
 
 /* Large devices (laptops and desktops, 992px and up) */
 @media screen and (min-width: 992px) {
     .content-container {
-        max-width: 600px;
+        max-width: 620px;
     }
 }
