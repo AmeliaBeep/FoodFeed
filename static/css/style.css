@@ -33,7 +33,7 @@ h1 {
 }
 
 .content-container {
-    max-width: 365px;
+    width: 92vw;
     padding-bottom: 8px;
 }
 
@@ -248,25 +248,34 @@ h1 {
     justify-content: center;
 }
 
-
 /* Media queries */
+
+/* Media query: medium-large phones (420px and up) */
+@media screen and (min-width: 420px) {
+    .content-container {
+        min-width: 385px;
+        max-width: 95vw;
+    }
+}
+
 /* Media query: large or landscape phones (576px and up) */
 @media screen and (min-width: 576px) {
     .content-container {
-        max-width: 450px;
+        max-width: 530px;
     }
 }
 
 /* Medium devices (tablets, 768px and up) */
 @media screen and (min-width: 768px) {
     .content-container {
-        max-width: 570px;
+        min-width: 530px;
+        max-width: 60vw;
     }
 }
 
 /* Large devices (laptops and desktops, 992px and up) */
 @media screen and (min-width: 992px) {
     .content-container {
-        max-width: 620px;
+        max-width: 595px;
     }
 }

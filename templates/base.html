@@ -37,20 +37,20 @@
     <!-- Navigation -->
     <nav id="navbar" class="navbar navbar-expand fixed-top">
         <div class="container-fluid ">
-            <a class="navbar-brand ms-2" href="{% url 'feed' %}"><span id="nav-logo-food">Food</span><span id="nav-logo-feed">Feed</span></a>
+            <a class="navbar-brand ms-2 me-1" href="{% url 'feed' %}"><span id="nav-logo-food">Food</span><span id="nav-logo-feed">Feed</span></a>
             <div class="justify-content-end" id="navbarText">
                 <ul class="navbar-nav me-1">
 
                     {% if user.is_authenticated %}
                     <!-- Create post button -->
-                    <li class="nav-item mx-2">
+                    <li class="nav-item mx-1 mx-sm-2">
                         <a id="create-icon" class="nav-link page-button icon-button navbar-icon-size rounded-circle"
                         href="{% url 'create_post' %}" aria-label="Create a post">
                             <i class="fa-solid fa-plus"></i></a>   
                     </li>
 
                     <!-- User profile button -->
-                    <li class="nav-item mx-2">
+                    <li class="nav-item mx-1 mx-sm-2">
                         <a id="user-icon" class="nav-link page-button icon-button navbar-icon-size rounded-circle" href="{% url 'user_profile' user.user_profile.id %}"
                         aria-label="View your profile">
                             <i class="fa-regular fa-user"></i></a>
@@ -63,13 +63,13 @@
 
                     {% else %}
                     <!-- Register account -->
-                    <li class="nav-item mx-2">
+                    <li class="nav-item mx-1 mx-sm-2">
                         <a class="nav-link page-button rounded {% if request.path == signup_url %}active{% endif %}"
                             href="{% url 'account_signup' %}">Register</a>
                     </li>
 
                     <!-- Login account -->
-                    <li class="nav-item mx-2">
+                    <li class="nav-item mx-1 mx-sm-2">
                         <a class="nav-link page-button rounded {% if request.path == login_url %}active{% endif %}" href="{% url 'account_login' %}">Login</a>
                     </li>
                     {% endif %}
