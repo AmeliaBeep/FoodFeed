@@ -21,7 +21,8 @@ let profilePictureUploadDiv = profilePictureUploadInput.parentElement;
 currentImage.innerHTML = `
 <div class="mx-auto" style="max-width:50%; aspect-ratio: 1 / 1;">
     <img class="profile-image-square" src="${imageLink?.href || ''}" 
-        style="border: 1px solid black" 
+        style="border: 1px solid black"
+        alt="current profile picture" 
         onerror="this.src='https://res.cloudinary.com/ds7qeovpw/image/upload/v1762460798/no-user-image.jpg'">
 </div>`;
 
