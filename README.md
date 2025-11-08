@@ -147,6 +147,7 @@ Their displayed name is sourced from the [Django User model](#user-structure) us
 | Edit profile details | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-update.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-update.png"> |
 | Edit results | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-update-after.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-update-after.png"> |
 | Delete profile details | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-delete.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-delete.png"> |
+| Delete profile picture confirm | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-delete-modal.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-delete-modal.png"> |
 | Delete results | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-delete-after.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-delete-after.png"> |
 
 ### Post and Comment CRUD features
