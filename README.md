@@ -82,7 +82,7 @@ The entity relationship diagram for the site is fairly typical. A single user ca
   <img src="static/images/readme/entity-relationship-diagram.png" alt="Entity relationship diagram displaying relationships between the (default Django) User, User Profile, Post and Comment models" width="55%">
 </div>
 
-#### CRUD operations
+#### CRUD Operations
 
 Posts and comments are similar to one-another, with both having fields pertaining to an author and their specific content type. Users are able to perform full CRUD operations, being able to view posts and comments through feeds and also able to create, update and delete their own instances of both.
 
@@ -90,7 +90,7 @@ The structure of users is more complicated and will be discussed separately. How
 
 Users are able to make and update their content through corresponding forms. Where fields are required, blank submissions are prevented from being posted. If this is bypassed and request reaches the view handler functions, the submission will be rejected at that level.
 
-#### User structure
+#### User Structure
 
 I wanted users to have the ability to have profile pages with a username, bio, and image. The Django project settings provide the ability to provide a custom model to handle users, so creating a custom user model to replace the existing one would have worked. However, this felt like an overcomplicated solution to achieve what is effectively just wanting to add two extra fields to the pre-existing User model.
 
@@ -102,38 +102,65 @@ When users register to the website, the Django project uses the original User mo
 
 ## Website Features
 
-### Overview of CRUD operations
+### Overview of general features
+
+Visitors to the site are able to browse the main feed, view specific posts and browse a user's profile page. They also have the ability to create their own account to then interact with content.
 
 | Feature     | Mobile         | Desktop                   |
 | ----------- | :------------: | :-----------------------: |
-| Public Mainfeed | <img width="57%" src="static/images/readme/feature-screenshots/mobile-feed-signed-in.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-feed-signed-in.png"> |
-| Copy content's URL | <img width="57%" src="static/images/readme/feature-screenshots/mobile-copy-link.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-copy-link.png"> |
-| View specific content | <img width="57%" src="static/images/readme/feature-screenshots/mobile-view-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-view-post.png"> |
-| Register an account | <img width="57%" src="static/images/readme/feature-screenshots/mobile-sign-up.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-sign-up.png"> |
-| Create posts | <img width="57%" src="static/images/readme/feature-screenshots/mobile-create-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-create-post.png"> |
-| Edit posts | <img width="57%" src="static/images/readme/feature-screenshots/mobile-edit-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-edit-post.png"> |
-| Delete posts | <img width="57%" src="static/images/readme/feature-screenshots/mobile-delete-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-delete-post.png"> |
-| Create comments | <img width="57%" src="static/images/readme/feature-screenshots/mobile-create-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-create-comment.png"> |
-| Edit comments | <img width="57%" src="static/images/readme/feature-screenshots/mobile-edit-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-edit-comment.png"> |
-| Delete comments | <img width="57%" src="static/images/readme/feature-screenshots/mobile-delete-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-delete-comment.png"> |
-| User profiles pages | <img width="57%" src="static/images/readme/feature-screenshots/mobile-view-other-profile.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-view-other-profile.png"> |
-| Edit profile details | <img width="57%" src="static/images/readme/feature-screenshots/mobile-edit-profile.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-edit-profile.png"> |
+| View all content in a main feed | <img width="57%" src="static/images/readme/feature-screenshots/general/mobile-feed-signed-out.png"> | <img width="90%" src="static/images/readme/feature-screenshots/general/desktop-feed-signed-out.png"> |
+| Copy content's URL | <img width="57%" src="static/images/readme/feature-screenshots/general/mobile-copy-link.png"> | <img width="90%" src="static/images/readme/feature-screenshots/general/desktop-copy-link.png"> |
+| View specific content | <img width="57%" src="static/images/readme/feature-screenshots/general/mobile-view-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/general/desktop-view-post.png"> |
+| View user's profile page | <img width="57%" src="static/images/readme/feature-screenshots/general/mobile-view-other-profile.png"> | <img width="90%" src="static/images/readme/feature-screenshots/general/desktop-view-other-profile.png"> |
+| Register an account | <img width="57%" src="static/images/readme/feature-screenshots/general/mobile-sign-up.png"> | <img width="90%" src="static/images/readme/feature-screenshots/general/desktop-sign-up.png"> |
 
+### Interacting with the site 
 
+Navigation bar buttons indicate login status and enable users to register, login or logout. Signed in users also have the option to create a post and see their own profile. 
 
+Site content provides the ability to visit user profiles by clicking an author's username. The copy button allows a user to get a URL that allows viewing of that specific content. Signed in author's get further buttons that allow them to edit or delete the content.
 
-* Public home feed of the site's posts.
-* Users can register an account and then log in to the site .
-* Users can create, edit and delete their posts.
-* Users can create, edit and delete their comments.
-* Users can have a profile including:
-  * The ability to update their username.
-  * The ability to upload, update and remove a profile picture.
-  * The ability to upload, update and remove a bio
-  * Their post history.
-* Users can access their profile through the navigation bar profile icon.
-* View a user's profile through clicking on a content author's username.
-* Access a post or comments' URL through a copy link button.
+| UI element  | Images        |
+| ----------- | :------------: |
+| Navigation bar signed in | <img width="45%" src="static/images/readme/feature-screenshots/interaction/nav-logged-in.png"> |
+| Navigation bar signed out | <img width="45%" src="static/images/readme/feature-screenshots/interaction/nav-logged-out.png"> |
+| Navigation account buttons | <p><img width="17%" src="static/images/readme/feature-screenshots/interaction/register.png"> <img width="13%" src="static/images/readme/feature-screenshots/interaction/login.png"> <img width="15%" src="static/images/readme/feature-screenshots/interaction/logout.png"> </p>|
+| View your profile page | <img width="45%" src="static/images/readme/feature-screenshots/interaction/view-own-profile.png"> |
+| View a content author's profile page | <img width="45%" src="static/images/readme/feature-screenshots/interaction/view-own-profile.png"> |
+| Create a post | <img width="45%" src="static/images/readme/feature-screenshots/interaction/create-post.png"> |
+| Edit your content | <img width="45%" src="static/images/readme/feature-screenshots/interaction/edit-content.png"> |
+| Copy content's URL | <img width="45%" src="static/images/readme/feature-screenshots/interaction/copy-url.png"> |
+| Delete your content | <img width="45%" src="static/images/readme/feature-screenshots/interaction/delete-content.png"> |
+| Create a comment | <img width="45%" src="static/images/readme/feature-screenshots/interaction/create-comment.png"> |
+
+### User Profile CRUD features
+
+When a user creates an account they have a blank user profile with only their username. Their profile defaults to displaying the static [no-user-image](static/images/no-user-image.jpg) and having no bio section. 
+
+Their displayed name is sourced from the [Django User model](#user-structure) username field and used in site authentication so, whilst they are free to update it, they are prevented from removing it completely. They are completely free to create, edit and delete their profile image and bio.
+
+| Feature     | Mobile         | Desktop                   |
+| ----------- | :------------: | :-----------------------: |
+| Initial profile view | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-create-before.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-create-before.png"> |
+| Create profile details | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-create.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-create.png"> |
+| Create results | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-create-after.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-create-after.png"> |
+| Edit profile details | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-update.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-update.png"> |
+| Edit results | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-update-after.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-update-after.png"> |
+| Delete profile details | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-delete.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-delete.png"> |
+| Delete results | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-delete-after.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-delete-after.png"> |
+
+### Post and Comment CRUD features
+
+Users have the ability to create, update and delete their posts and comments. They can use [site buttons](#interacting-with-the-site) to access pages with forms, or the delete modal in the case of deletion.
+
+| Feature     | Mobile         | Desktop                   |
+| ----------- | :------------: | :-----------------------: |
+| Create posts | <img width="57%" src="static/images/readme/feature-screenshots/content/mobile-create-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/content/desktop-create-post.png"> |
+| Edit posts | <img width="57%" src="static/images/readme/feature-screenshots/content/mobile-edit-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/content/desktop-edit-post.png"> |
+| Delete posts | <img width="57%" src="static/images/readme/feature-screenshots/content/mobile-delete-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/content/desktop-delete-post.png"> |
+| Create comments | <img width="57%" src="static/images/readme/feature-screenshots/content/mobile-create-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/content/desktop-create-comment.png"> |
+| Edit comments | <img width="57%" src="static/images/readme/feature-screenshots/content/mobile-edit-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/content/desktop-edit-comment.png"> |
+| Delete comments | <img width="57%" src="static/images/readme/feature-screenshots/content/mobile-delete-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/content/desktop-delete-comment.png"> |
 
 ## Validation
 
