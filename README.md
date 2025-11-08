@@ -79,7 +79,7 @@ Their sites adapt to smaller screen sizes by moving their sidebar content to nav
 The entity relationship diagram for the site is fairly typical. A single user can have multiple posts and comments, and a single post can have multiple comments.
 
 <div align="center">
-  <img src="static/images/readme/entity-relationship-diagram.png" alt="Entity relationship diagram displaying relationships between the (default Django) User, User Profile, Post and Comment models" width="66%">
+  <img src="static/images/readme/entity-relationship-diagram.png" alt="Entity relationship diagram displaying relationships between the (default Django) User, User Profile, Post and Comment models" width="55%">
 </div>
 
 #### CRUD operations
@@ -102,22 +102,22 @@ When users register to the website, the Django project uses the original User mo
 
 ## Website Features
 
-### Overview of CRUD oper
+### Overview of CRUD operations
 
 | Feature     | Mobile         | Desktop                   |
 | ----------- | :------------: | :-----------------------: |
-| Public Mainfeed | <img width="50%" src="static/images/readme/feature-screenshots/mobile-feed-signed-in.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-feed-signed-in.png"> |
-| Copy content's URL | <img width="50%" src="static/images/readme/feature-screenshots/mobile-copy-link.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-copy-link.png"> |
-| View specific content | <img width="50%" src="static/images/readme/feature-screenshots/mobile-view-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-view-post.png"> |
-| Register an account | <img width="50%" src="static/images/readme/feature-screenshots/mobile-sign-up.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-sign-up.png"> |
-| Create posts | <img width="50%" src="static/images/readme/feature-screenshots/mobile-create-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-create-post.png"> |
-| Edit posts | <img width="50%" src="static/images/readme/feature-screenshots/mobile-edit-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-edit-post.png"> |
-| Delete posts | <img width="50%" src="static/images/readme/feature-screenshots/mobile-delete-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-delete-post.png"> |
-| Create comments | <img width="50%" src="static/images/readme/feature-screenshots/mobile-create-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-create-comment.png"> |
-| Edit comments | <img width="50%" src="static/images/readme/feature-screenshots/mobile-edit-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-edit-comment.png"> |
-| Delete comments | <img width="50%" src="static/images/readme/feature-screenshots/mobile-delete-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-delete-comment.png"> |
-| User profiles pages | <img width="50%" src="static/images/readme/feature-screenshots/mobile-view-other-profile.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-view-other-profile.png"> |
-| Edit profile details | <img width="50%" src="static/images/readme/feature-screenshots/mobile-edit-profile.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-edit-profile.png"> |
+| Public Mainfeed | <img width="57%" src="static/images/readme/feature-screenshots/mobile-feed-signed-in.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-feed-signed-in.png"> |
+| Copy content's URL | <img width="57%" src="static/images/readme/feature-screenshots/mobile-copy-link.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-copy-link.png"> |
+| View specific content | <img width="57%" src="static/images/readme/feature-screenshots/mobile-view-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-view-post.png"> |
+| Register an account | <img width="57%" src="static/images/readme/feature-screenshots/mobile-sign-up.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-sign-up.png"> |
+| Create posts | <img width="57%" src="static/images/readme/feature-screenshots/mobile-create-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-create-post.png"> |
+| Edit posts | <img width="57%" src="static/images/readme/feature-screenshots/mobile-edit-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-edit-post.png"> |
+| Delete posts | <img width="57%" src="static/images/readme/feature-screenshots/mobile-delete-post.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-delete-post.png"> |
+| Create comments | <img width="57%" src="static/images/readme/feature-screenshots/mobile-create-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-create-comment.png"> |
+| Edit comments | <img width="57%" src="static/images/readme/feature-screenshots/mobile-edit-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-edit-comment.png"> |
+| Delete comments | <img width="57%" src="static/images/readme/feature-screenshots/mobile-delete-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-delete-comment.png"> |
+| User profiles pages | <img width="57%" src="static/images/readme/feature-screenshots/mobile-view-other-profile.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-view-other-profile.png"> |
+| Edit profile details | <img width="57%" src="static/images/readme/feature-screenshots/mobile-edit-profile.png"> | <img width="90%" src="static/images/readme/feature-screenshots/desktop-edit-profile.png"> |
 
 
 
