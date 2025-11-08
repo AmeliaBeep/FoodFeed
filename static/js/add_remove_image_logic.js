@@ -15,11 +15,11 @@ const deleteUndoButton = document.getElementById("deleteUndo");
 removeImageInput.addEventListener("click", (e) => {
     if (e.target.checked == true) {
         deleteModal.show();
-    };
+    }
 });
 
 deleteUndoButton.addEventListener("click", () => {
     let removeImageInput = document.querySelector('#delete_image_toggle');
     removeImageInput.checked = false;
     deleteModal.hide();
-})
+});
