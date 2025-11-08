@@ -11,7 +11,7 @@
  * 
  * The form section for allowing file input is edited 
  * to add an additional input which sets whether the current 
- * image should be removed. 
+ * image should be removed.
  */
 let currentImage = document.querySelector("#div_id_image div div");
 let imageLink = currentImage.querySelector("a");

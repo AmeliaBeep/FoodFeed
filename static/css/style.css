@@ -59,9 +59,9 @@ h1 {
 
 /* Button styling */
 .page-button,
-.page-button:visited,
+.page-button:active,
 .page-button:focus,
-.page-button:active {
+.page-button:visited {
     background-color: var(--primary-grey-colour);
     color: var(--brand-primary-colour);
     text-decoration: none;
@@ -217,24 +217,27 @@ h1 {
 }
 
 .delete-button,
-.delete-button:visited,
+.delete-button:active,
+.delete-button:focus,
 .delete-button:hover,
-.delete-button:active {
+.delete-button:visited {
     background-color: var(--delete-red-colour);
     border-color: var(--delete-red-colour);
     color: white
 }
 
 .delete-modal .close-button:hover,
-.delete-button:visited,
-.delete-button:hover,
-.delete-button:active  {
-    filter: brightness(120%)
+.delete-button:hover {
+    filter: brightness(120%);
 }
 
 .modal-header,
 .modal-footer {
     border: none;
+}
+
+#deleteUndo {
+    background-color: rgb(62, 147, 62);
 }
 
 

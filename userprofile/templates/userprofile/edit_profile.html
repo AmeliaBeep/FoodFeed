@@ -45,22 +45,23 @@
 <div class="modal fade" id="deleteModal" tabindex="-1"
   aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content delete-modal">
+        <div class="modal-content p-1 delete-modal">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteModalLabel">
-                    Delete content?</h5>
+                    This action will remove your profile picture</h5>
                 <button type="button" class="close-button icon-button"
                 data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
             </div>
+            <hr class="content-divider mx-3 my-1">
             <div class="modal-body" id="deleteModalBody">
-                Are you sure you want to delete your content?
-                This action cannot be undone.
+                <p>Are you sure you want to remove your profile picture? 
+                Once these updates are submitted this cannot be undone.</p>
+                <p>Please confirm profile picture removal below.</p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                data-bs-dismiss="modal">Close</button>
-                <a id="deleteConfirm" href="#" class="btn
-                btn-danger">Delete</a>
+            <hr class="content-divider mx-3 my-1">
+            <div class="modal-footer d-flex justify-content-center">
+                <button id="deleteUndo" class="page-button delete-button rounded border-0 mx-2">Undo Removal</button>
+                <button id="deleteConfirm" class="page-button delete-button rounded border-0 mx-2" data-bs-dismiss="modal">Confirm Removal</button>
             </div>
         </div>
     </div>
@@ -69,5 +70,6 @@
 {% endblock %}
 
 {% block extras %}
-    <script src="{% static 'js/tweak_form_image_elements.js' %}"></script>
+    <script src="{% static 'js/extend_profile_form_image_content.js' %}"></script>
+    <script src="{% static 'js/add_remove_image_logic.js' %}"></script>
 {% endblock %}
