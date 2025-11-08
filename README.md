@@ -68,20 +68,11 @@ Structurally the site was inspired by a mixture of Facebook, Reddit and Twitter,
 
 Their sites adapt to smaller screen sizes by moving their sidebar content to navigation bar icons or drop down menus. For FoodFeed it was similarly intended for the sidebar filters and follow list to become accessible through a dropdown found via icons that would prompt drop-down menus.
 
-<figure align="center">
-  <img src="static/images/readme/wireframes/mainfeed.png" alt="Wireframe showing the layout of the main feed on mobile and desktop screen sizes" width="66%">
-  <figcaption>Layout of the home feed</figcaption>
-</figure>
-<hr width="57%">
-<figure align="center">
-  <img src="static/images/readme/wireframes/edit-content.png" alt="Wireframe showing the layout of an edit content page on mobile and desktop screen sizes" width="66%">
-  <figcaption>Layout of a page to submit content</figcaption>
-</figure>
-<hr width="57%">
-<figure align="center">
-  <img src="static/images/readme/wireframes/user-profile.png" alt="Wireframe showing the layout of a profile page on mobile and desktop screen sizes" width="66%">
-  <figcaption>Layout of a profile page</figcaption>
-</figure>
+| Layout     | Wireframe         |
+| ----------- | :------------: |
+| Main feed | <img src="static/images/readme/wireframes/mainfeed.png" alt="Wireframe showing the layout of the main feed on mobile and desktop screen sizes" width="66%"> |
+| A page to submit content | <img src="static/images/readme/wireframes/edit-content.png" alt="Wireframe showing the layout of an edit content page on mobile and desktop screen sizes" width="66%"> |
+| Profile page | <img src="static/images/readme/wireframes/user-profile.png" alt="Wireframe showing the layout of a profile page on mobile and desktop screen sizes" width="66%"> |
 
 ### Database Structure
 
@@ -109,7 +100,9 @@ Currently whichever model is considered the author by posts and comments makes l
 
 When users register to the website, the Django project uses the original User model to create a new user. This action (by default) sends a signal that the `create_user_profile` view function recieves and responds to by creating a corresponding User Profile.
 
-## Website Features !!!!!!!!!!!!!!!!!!
+## Website Features
+
+### Overview of CRUD oper
 
 | Feature     | Mobile         | Desktop                   |
 | ----------- | :------------: | :-----------------------: |
