@@ -21,5 +21,5 @@ removeImageInput.addEventListener("click", (e) => {
 deleteUndoButton.addEventListener("click", () => {
     let removeImageInput = document.querySelector('#delete_image_toggle');
     removeImageInput.checked = false;
-    deleteModal.hide()
-});
+    deleteModal.hide();
+})

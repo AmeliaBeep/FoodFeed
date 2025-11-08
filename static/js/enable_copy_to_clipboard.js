@@ -17,6 +17,6 @@ for (let item of copyLinkItems) {
     navigator.clipboard.writeText(textToCopy)
       .then(() => {
         alert('Link copied to clipboard!');
-      })
+      });
   });
 }
