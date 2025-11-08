@@ -33,7 +33,7 @@ h1 {
 }
 
 .content-container {
-    max-width: 365px;
+    width: 92vw;
     padding-bottom: 8px;
 }
 
@@ -59,9 +59,9 @@ h1 {
 
 /* Button styling */
 .page-button,
-.page-button:visited,
+.page-button:active,
 .page-button:focus,
-.page-button:active {
+.page-button:visited {
     background-color: var(--primary-grey-colour);
     color: var(--brand-primary-colour);
     text-decoration: none;
@@ -217,24 +217,27 @@ h1 {
 }
 
 .delete-button,
-.delete-button:visited,
+.delete-button:active,
+.delete-button:focus,
 .delete-button:hover,
-.delete-button:active {
+.delete-button:visited {
     background-color: var(--delete-red-colour);
     border-color: var(--delete-red-colour);
     color: white
 }
 
 .delete-modal .close-button:hover,
-.delete-button:visited,
-.delete-button:hover,
-.delete-button:active  {
-    filter: brightness(120%)
+.delete-button:hover {
+    filter: brightness(120%);
 }
 
 .modal-header,
 .modal-footer {
     border: none;
+}
+
+#deleteUndo {
+    background-color: rgb(62, 147, 62);
 }
 
 
@@ -248,25 +251,34 @@ h1 {
     justify-content: center;
 }
 
-
 /* Media queries */
+
+/* Media query: medium-large phones (420px and up) */
+@media screen and (min-width: 420px) {
+    .content-container {
+        min-width: 385px;
+        max-width: 95vw;
+    }
+}
+
 /* Media query: large or landscape phones (576px and up) */
 @media screen and (min-width: 576px) {
     .content-container {
-        max-width: 450px;
+        max-width: 530px;
     }
 }
 
 /* Medium devices (tablets, 768px and up) */
 @media screen and (min-width: 768px) {
     .content-container {
-        max-width: 570px;
+        min-width: 530px;
+        max-width: 60vw;
     }
 }
 
 /* Large devices (laptops and desktops, 992px and up) */
 @media screen and (min-width: 992px) {
     .content-container {
-        max-width: 620px;
+        max-width: 595px;
     }
 }
