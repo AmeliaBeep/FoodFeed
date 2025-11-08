@@ -6,7 +6,7 @@ from userprofile.models import UserProfile
 
 class Post(models.Model):
     author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="users_posts")
-    image = CloudinaryField('image', default='static/images/default.jpg')
+    image = CloudinaryField('image')
     text = models.TextField(max_length=1000)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
