@@ -78,8 +78,8 @@
 
                         {% if user.is_authenticated and user == post.author.user %}
                         <button class="mx-1 delete-post-button page-button post-icon-size icon-button rounded-circle" 
-                            post_id="{{ post.id }}" aria-label="Delete post">
-                            <i class="fa-regular fa-trash-can" post_id="{{ post.id }}"></i></button>
+                            data-post-id="{{ post.id }}" aria-label="Delete post">
+                            <i class="fa-regular fa-trash-can" data-post-id="{{ post.id }}"></i></button>
                         {% endif %}
 
                     </div>
@@ -134,8 +134,8 @@
                             <i class="fa-regular fa-copy"></i></a>
                     {% if user.is_authenticated and user == comment.author.user %}
                     <button class="mx-1 delete-comment-button page-button comment-icon-size icon-button rounded-circle" 
-                        comment_id="{{ comment.id }}" aria-label="Delete comment">
-                        <i class="fa-regular fa-trash-can" comment_id="{{ comment.id }}"></i></button>
+                        data-comment-id="{{ comment.id }}" aria-label="Delete comment">
+                        <i class="fa-regular fa-trash-can" data-comment-id="{{ comment.id }}"></i></button>
                     {% endif %}
                 </div>
             </div>
