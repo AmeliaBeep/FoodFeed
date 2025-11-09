@@ -1,6 +1,6 @@
 # FoodFeed
 
-## CONTENTS
+## Contents
 
 * [Purpose and Value](#purpose-and-value)
   * [Application Purpose](#application-purpose)
