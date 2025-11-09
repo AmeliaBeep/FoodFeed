@@ -80,7 +80,7 @@ Their sites adapt to smaller screen sizes by moving their sidebar content to nav
 
 ### Database Structure
 
-The entity‑relationship diagram for the site is fairly typical. A single user can have multiple posts and comments, and a single post can have multiple comments.
+The entity‑relationship diagram for the site is fairly typical. A single user can have multiple posts and comments, and a single post can have multiple comments. It is worth noting that the `updated_on` field is not actually used in the site's current state, but I didn't want to remove it and its data from the model in anticipation of future changes.
 
 <div align="center">
   <img src="static/images/readme/entity-relationship-diagram.png" alt="Entity relationship diagram displaying relationships between the (default Django) User, User Profile, Post and Comment models" width="55%">
