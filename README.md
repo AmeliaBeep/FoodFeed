@@ -2,35 +2,37 @@
 
 ## CONTENTS
 
-* [Purpose and Value](#Purpose-and-Value)
-  * [Application Purpose](#Application-Purpose)
-  * [User Value](#User-Value)
+* [Purpose and Value](#purpose-and-value)
+  * [Application Purpose](#application-purpose)
+  * [User Value](#user-value)
 
-* [Design](#Design)
-  * [Ideation and Styling](#Ideation-and-Styling)
-  * [Website Features](#Website-Features)
-  * [Database Structure](#Database-Structure)
+* [Design](#design)
+  * [Ideation](#ideation-and-styling)
+  * [Wireframes](#wireframes)
+  * [Database Structure](#database-structure)
+    * [CRUD Operations](#crud-operations)
+    * [User Structure](#user-structure)
+  * [Deployment Procedure](#deployment-procedure)
 
+* [Website Features](#website-features)
+  * [Overview of General Features](#overview-of-general-features)
+  * [Interacting with the Site](#interacting-with-the-site)
+  * [User Profile CRUD Features](#user-profile-crud-features)
+  * [Post and Comment CRUD Features](#post-and-comment-crud-features)
 
-* [Deployment](#Deployment)
-  * [Procedure Outline](#Procedure-Outline)
-  * [Securing of Sensitive Information](#Securing-of-Sensitive-Information)
+* [File Validation](#file-validation)
 
-* [Testing](#Testing)
-  * [Automated-Testing](Automated-Testing)
+* [Testing](#testing)
+  * [Site Evaluations](#site-evaluations)
+  * [Automated Test Suite](#automated-test-suite)
+    * [Forms](#forms)
+    * [Post and Comment Views](#post-and-comment-views)
+    * [User and User Profile Views](#user-and-user-profile-views)
+  * [Manual Testing](#manual-testing)
 
-* [Validation](#Validation)
-  * [W3C Validator for HTML](#W3C-Validator-for-HTML)
-  * [W3C Validator for CSS](#W3C-Validator-for-CSS)
-  * [JSHint for JavaScript](#JSHint-for-JavaScript)
-  * [Pylinter for Python](#Pylinter-for-Python)
-  * [Lighthouse performance report](#Lighthouse-performance-report)
-  * [WAVE accessibility report](#Wave-accessibility-report)
+* [Credits](#credits)
 
-* [Credits](#Credits)
-  
-
-* [AI Usage](#AI-Usage)
+* [AI Usage](#ai-Usage)
 
 - - -
 
@@ -102,9 +104,23 @@ Currently whichever model is considered the author by posts and comments makes l
 
 When users register to the website, the Django project uses the original User model to create a new user. This action (by default) sends a signal that the `create_user_profile` view function recieves and responds to by creating a corresponding User Profile.
 
+### Deployment Procedure
+
+The site is hosted on Heroku which required some configuration to enable it to work. The GitHub respository needed connecting to the Heroku application so that its content could be deployed. Automatic deployment is not configured so manual deployments must be made to keep the site up to date.
+
+Application configuration required: 
+* Heroku to be set as an allowed host in the project settings.
+* Create a Procfile supported by the gunicorn library.
+* Static files handled by the whitenoise library.
+
+Heroku configuration required:
+* Adding the `SECRET_KEY` used to authorise its access to the.
+* Adding the `DATABASE_URL` to access the database.
+* Adding the `CLOUDINARY_URL` to access the Cloudinary features.
+
 ## Website Features
 
-### Overview of general features
+### Overview of General Features
 
 Visitors to the site are able to browse the main feed, view specific posts and browse a user's profile page. They also have the ability to create their own account to then interact with content.
 
@@ -116,7 +132,7 @@ Visitors to the site are able to browse the main feed, view specific posts and b
 | View user's profile page | <img width="57%" src="static/images/readme/feature-screenshots/general/mobile-view-other-profile.png"> | <img width="90%" src="static/images/readme/feature-screenshots/general/desktop-view-other-profile.png"> |
 | Register an account | <img width="57%" src="static/images/readme/feature-screenshots/general/mobile-sign-up.png"> | <img width="90%" src="static/images/readme/feature-screenshots/general/desktop-sign-up.png"> |
 
-### Interacting with the site 
+### Interacting with the Site 
 
 Navigation bar buttons indicate login status and enable users to register, login or logout. Signed in users also have the options to create a post and see their own profile. 
 
@@ -168,7 +184,7 @@ Users have the ability to create, update and delete their posts and comments. Th
 
 ## File Validation
 
-All code has been validated and found to have no errors. The results can be seenin the below table.
+All code has been validated and found to have no errors. The results can be seen in the below table.
 | Files validated   | Sample feedback   |
 | ----------- | :------------: |
 | <ul><li>mainfeed/create_comment.html</li><li>mainfeed/create_post.html</li><li>mainfeed/edit_post.html</li><li>mainfeed/edit_comment.html</li><li>mainfeed/index.html</li><li>mainfeed/view_comment.html</li><li>mainfeed/view_post.html</li><li>userprofile/profile.html</li><li>userprofile/edit_profile.html</li><li>templates/account/login.html</li><li>templates/account/logout.html</li><li>templates/account/signup.html</li></ul> | <img width="60%" src="static/images/readme/testing-and-validation-screenshots/html-validation.png"> |
@@ -178,7 +194,7 @@ All code has been validated and found to have no errors. The results can be seen
 
 ## Testing
 
-### Site evaluations
+### Site Evaluations
 
 The tools rated the site highly except for Lighthouse's score for performance. The test was performed on the main feed which contains high quality images. A delay in image rendering is sometimes visible on this page and on the profile view. 
 
