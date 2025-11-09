@@ -7,7 +7,7 @@
   * [User Value](#user-value)
 
 * [Design](#design)
-  * [Ideation](#ideation-and-styling)
+  * [Ideation](#ideation)
   * [Wireframes](#wireframes)
   * [Database Structure](#database-structure)
     * [CRUD Operations](#crud-operations)
@@ -32,18 +32,18 @@
 
 * [Credits](#credits)
 
-* [AI Usage](#ai-Usage)
+* [AI Usage](#ai-usage)
 
 - - -
 
 ## Purpose and Value
 
 ### Application Purpose
-To demonstrate the ability to create a website where users can intuitively perform CRUD operations. For the purpose of showcasing features it has pre-made content with posts, comments and users.
+To demonstrate the ability to create a website where users can intuitively perform CRUD operations. For the purpose of showcasing features, it has pre-made content with posts, comments and users.
 
 ### User Value
 
-User stories were used to understand the features that would most benefit a user using, first having those that would produce an MVP, and then incrementally adding the features believed to offer the most value.
+User stories were used to understand the features that would most benefit a user, first having those that would produce an MVP, and then incrementally adding the features believed to offer the most value.
 
 They were labeled according to the MoSCoW prioritisation system according to the following principles:
 * `must-have` stories would inform the MVP for the website.
@@ -52,9 +52,9 @@ They were labeled according to the MoSCoW prioritisation system according to the
 
 The MVP for this project was considered to be a basic social media feed wherein any user could browse all the posts ever made. They would be able to register for an account and then be able to create, edit and delete their own posts and comments. Additionally they would be able to create, update and delete an account profile picture.
 
-This MVP would fufill CRUD operations and be a functional website, however it would lack features enabling users to better navigate the site and engage with other users. To that end `should-have` stories, that would enable users to view individual posts and follow other users, were seen to be the most crucial. The `could-have` features would have similar motivation, but also would concern the functionality of the site as the amount of content scaled.
+This MVP would fulfil CRUD operations and be a functional website, however it would lack features enabling users to better navigate the site and engage with other users. To that end `should-have` stories, that would enable users to view individual posts and follow other users, were seen to be the most crucial. The `could-have` features would have similar motivations, but also would concern the functionality of the site as the amount of content scaled.
 
-In the end all `must-have` stories were completed, but the `should-have` ability to follow users and the `could-have` features did not have time to be implemented. An Agile approach to the site develeopment means that, despite missing these desired features, the current site is functional and polished.
+In the end, all `must-have` stories were completed, but the `should-have` ability to follow users and the `could-have` features did not have time to be implemented. An Agile approach to the site development means that, despite missing these desired features, the current site is functional and polished.
 
 The project board can be accessed here: [FoodFeed project board](https://github.com/users/AmeliaBeep/projects/3/views/1)
 
@@ -62,15 +62,15 @@ The project board can be accessed here: [FoodFeed project board](https://github.
 
 ### Ideation
 
-The site name was chosen by considering the types of names other social media apps have. Many of their names are derived from core functionality or as a call to action. As a social media app centred around sharing and engaging with posts about food, FoodFeed was chosen to reflect that: afterfall it is a feed of food. Similarly the logo styling was designed to emphasise the "Feed" portion of the name and highlight the way content is presented as a feed.
+The site name was chosen by considering the types of names other social media apps have. Many of their names are derived from core functionality or act as a call to action. As a social media app centred around sharing and engaging with posts about food, FoodFeed was chosen to reflect that: after all, it is a feed of food. Similarly, the logo styling was designed to emphasise the "Feed" portion of the name and highlight the way content is presented as a feed.
 
-The culture of Facebook food groups such as [Roast My Ugly Vegan Food](https://www.facebook.com/groups/834483857375137/) and subreddits like [r/shittyfoodporn](https://www.reddit.com/r/shittyfoodporn/) inspired users stories around allowing users to filter posts to depending on the appearance and taste of the food. A user was envisioned to have the capacity browse a feed of whatever combination of tags they want. For instance they could specifically seek "`ugly looking` but `tasty`" foods which is a popular post type in such communities. Whilst these particular features did not make it to the site, they still informed the `must-have` and `should-have` features that would be required to enable them.
+The culture of Facebook food groups such as [Roast My Ugly Vegan Food](https://www.facebook.com/groups/834483857375137/) and subreddits like [r/shittyfoodporn](https://www.reddit.com/r/shittyfoodporn/) inspired users stories around allowing users to filter posts to depending on the appearance and taste of the food. A user was envisioned to have the capacity to browse a feed of whatever combination of tags they want. For instance they could specifically seek "`ugly looking` but `tasty`" foods which is a popular post type in such communities. Whilst these particular features did not make it to the site, they still informed the `must-have` and `should-have` features that would be required to enable them.
 
 ### Wireframes
 
-Structurally the site was inspired by a mixture of Facebook, Reddit and Twitter, where they primarly all have a central feed and then supplementary features either on their navigation bar or on the sides of the main content. 
+Structurally, the site was inspired by a mixture of Facebook, Reddit and Twitter, where they primarily all have a central feed and then supplementary features either on their navigation bar or on the sides of the main content.
 
-Their sites adapt to smaller screen sizes by moving their sidebar content to navigation bar icons or drop down menus. For FoodFeed it was similarly intended for the sidebar filters and follow list to become accessible through a dropdown found via icons that would prompt drop-down menus.
+Their sites adapt to smaller screen sizes by moving their sidebar content to navigation bar icons or drop‑down menus. For FoodFeed, it was similarly intended for the sidebar filters and follow list to become accessible through a dropdown found via icons that would prompt drop‑down menus.
 
 | Layout     | Wireframe         |
 | ----------- | :------------: |
@@ -80,7 +80,7 @@ Their sites adapt to smaller screen sizes by moving their sidebar content to nav
 
 ### Database Structure
 
-The entity relationship diagram for the site is fairly typical. A single user can have multiple posts and comments, and a single post can have multiple comments.
+The entity‑relationship diagram for the site is fairly typical. A single user can have multiple posts and comments, and a single post can have multiple comments.
 
 <div align="center">
   <img src="static/images/readme/entity-relationship-diagram.png" alt="Entity relationship diagram displaying relationships between the (default Django) User, User Profile, Post and Comment models" width="55%">
@@ -88,11 +88,11 @@ The entity relationship diagram for the site is fairly typical. A single user ca
 
 #### CRUD Operations
 
-Posts and comments are similar to one-another, with both having fields pertaining to an author and their specific content type. Users are able to perform full CRUD operations, being able to view posts and comments through feeds and also able to create, update and delete their own instances of both.
+Posts and comments are similar to one another, with both having fields pertaining to an author and their specific content type. Users are able to perform full CRUD operations, being able to view posts and comments through feeds and also able to create, update, and delete their own instances of both.
 
-The structure of users is more complicated and will be discussed separately. However, they can also perform full CRUD operations on their profile image and bio, with these being visible on their profile pages, and them having the ability to add, update and remove these details.
+The structure of users is more complicated and will be discussed separately. However, they can also perform full CRUD operations on their profile image and bio, with these being visible on their profile pages, and with the ability to add, update and remove these details.
 
-Users are able to make and update their content through corresponding forms. Where fields are required, blank submissions are prevented from being posted. If this is bypassed and request reaches the view handler functions, the submission will be rejected at that level.
+Users are able to make and update their content through corresponding forms. Where fields are required, blank submissions are prevented from being posted. If this is bypassed and the request reaches the view handler functions, the submission will be rejected at that level.
 
 #### User Structure
 
@@ -100,23 +100,23 @@ I wanted users to have the ability to have profile pages with a username, bio, a
 
 As the diagram indicates, the approach used was to define an additional User Profile model with these additional fields. The User Profile can be considered the true representation of users, with User only being used to handle access control.
 
-Currently whichever model is considered the author by posts and comments makes little difference, however I felt the User Profile would be more maintainable and scaleable when considering future features. Features like display names, or profile pictures rendering in posts, all seemed to build on the User Profile model, so it made sense to choose that one in anticipation of future changes.
+Currently whichever model is considered the author by posts and comments makes little difference, however I felt the User Profile would be more maintainable and scalable when considering future features. Features like display names, or profile pictures rendering in posts, all seemed to build on the User Profile model, so it made sense to choose that one in anticipation of future changes.
 
-When users register to the website, the Django project uses the original User model to create a new user. This action (by default) sends a signal that the `create_user_profile` view function recieves and responds to by creating a corresponding User Profile.
+When users register to the website, the Django project uses the original User model to create a new user. This action (by default) sends a signal that the `create_user_profile` view function receives and responds to by creating a corresponding User Profile.
 
 ### Deployment Procedure
 
-The site is hosted on Heroku which required some configuration to enable it to work. The GitHub respository needed connecting to the Heroku application so that its content could be deployed. Automatic deployment is not configured so manual deployments must be made to keep the site up to date.
+The site is hosted on Heroku, which required some configuration to enable it to work. The GitHub repository needed connecting to the Heroku application so that its content could be deployed. Automatic deployment is not configured, so manual deployments must be made to keep the site up to date.
 
-Application configuration required: 
-* Heroku to be set as an allowed host in the project settings.
+Application configuration required:
+* Set Heroku as an allowed host in the project settings.
 * Create a Procfile supported by the gunicorn library.
-* Static files handled by the whitenoise library.
+* Handle static files with the WhiteNoise library.
 
 Heroku configuration required:
-* Adding the `SECRET_KEY` used to authorise its access to the.
-* Adding the `DATABASE_URL` to access the database.
-* Adding the `CLOUDINARY_URL` to access the Cloudinary features.
+* Add the `SECRET_KEY` environment variable to provide authorisation to the Django application.
+* Add the `DATABASE_URL` to access the database.
+* Add the `CLOUDINARY_URL` to access Cloudinary services.
 
 ## Website Features
 
@@ -134,9 +134,9 @@ Visitors to the site are able to browse the main feed, view specific posts and b
 
 ### Interacting with the Site 
 
-Navigation bar buttons indicate login status and enable users to register, login or logout. Signed in users also have the options to create a post and see their own profile. 
+Navigation bar buttons indicate login status and enable users to register, log in, or log out. Signed‑in users also have the options to create a post and see their own profile. 
 
-Site content provides the ability to visit user profiles by clicking an author's username. The copy button allows a user to get a URL that allows viewing of that specific content. Signed in author's get further buttons that allow them to edit or delete the content.
+Site content provides the ability to visit user profiles by clicking an author's username. The copy button allows a user to get a URL that allows viewing of that specific content. Signed‑in authors get further buttons that allow them to edit or delete the content.
 
 | UI element  | Images        |
 | ----------- | :------------: |
@@ -154,7 +154,7 @@ Site content provides the ability to visit user profiles by clicking an author's
 
 ### User Profile CRUD features
 
-When a user creates an account they have a blank user profile with only their username. Their profile defaults to displaying the static [no-user-image](static/images/no-user-image.jpg) and having no bio section. They can update this through the edit profile button in their profile details ection.
+When a user creates an account they have a blank user profile with only their username. Their profile defaults to displaying the static [no-user-image](static/images/no-user-image.jpg) and having no bio section. They can update this through the edit profile button in their profile details section.
 
 Their displayed name is sourced from the [Django User model](#user-structure) username field and used in site authentication so, whilst they are free to update it, they are prevented from removing it completely. They are completely free to create, edit and delete their profile image and bio.
 
@@ -184,7 +184,8 @@ Users have the ability to create, update and delete their posts and comments. Th
 
 ## File Validation
 
-All code has been validated and found to have no errors. The results can be seen in the below table.
+All code has been validated and found to have no errors. The results can be seen in the table below.
+
 | Files validated   | Sample feedback   |
 | ----------- | :------------: |
 | <ul><li>mainfeed/create_comment.html</li><li>mainfeed/create_post.html</li><li>mainfeed/edit_post.html</li><li>mainfeed/edit_comment.html</li><li>mainfeed/index.html</li><li>mainfeed/view_comment.html</li><li>mainfeed/view_post.html</li><li>userprofile/profile.html</li><li>userprofile/edit_profile.html</li><li>templates/account/login.html</li><li>templates/account/logout.html</li><li>templates/account/signup.html</li></ul> | <img width="60%" src="static/images/readme/testing-and-validation-screenshots/html-validation.png"> |
@@ -196,9 +197,9 @@ All code has been validated and found to have no errors. The results can be seen
 
 ### Site Evaluations
 
-The tools rated the site highly except for Lighthouse's score for performance. The test was performed on the main feed which contains high quality images. A delay in image rendering is sometimes visible on this page and on the profile view. 
+The tools rated the site highly except for Lighthouse's score for performance. The test was performed on the main feed, which contains high‑quality images. A delay in image rendering is sometimes visible on this page and on the profile view.
 
-Cloudinary has documentation on [image optimisation](https://cloudinary.com/documentation/image_delivery_options), which did not seem to have an obvious fix, but would be a good start if I wanted to try optimise the image delivery. I did try looking at the platform's optimisation settings available on the website, but did not find swapping the default encoding to chroma subsampling made a difference.
+Cloudinary has documentation on [image optimisation](https://cloudinary.com/documentation/image_delivery_options), which did not seem to have an obvious fix, but would be a good start if I wanted to try to optimise image delivery. I did try looking at the platform's optimisation settings available on the website, but did not find that swapping the default encoding to chroma subsampling made a difference.
 
 | Tool   | Scores   |
 | ----------- | :------------: |
@@ -208,7 +209,7 @@ Cloudinary has documentation on [image optimisation](https://cloudinary.com/docu
 
 ### Automated Test Suite
 
-Testing was primarly achieved through unit tests that checked the processing of data and requests worked as intended. The test suite finds no errors and all 59 cases pass. It is worth noting that it takes a long time to complete the suite, which would be greatly reduced if the Cloudinary endpoint were mocked.
+Testing was primarily achieved through unit tests that checked the processing of data and requests worked as intended. The test suite finds no errors and all 59 cases pass. It is worth noting that it takes a long time to complete the suite, which would be greatly reduced if the Cloudinary endpoint were mocked.
 
 <div align="center">
   <img src="static/images/readme/testing-and-validation-screenshots/test-suite-results.png" alt="Screenshot showcasing 100% pass rate of unit tests" width="55%">
@@ -218,31 +219,30 @@ The unit test coverage is highlighted below, with levels of details depending on
 
 #### Forms
 
-| Scenario |  Coverage Comments |
+| Scenario | Coverage Comments |
 | ----------- | ------------ |
-| Forms recieves valid data | <ul><li>Check correctly formatted data produces valid form instance</li><li>Check form accepts empty values for optional fields</li></ul> |
-| Forms recieves invalid data | <ul><li>Check incorrectly formatted data produces invalid form instance</li><li>Check form rejects missing required fields</li></ul> |
+| Forms receive valid data | <ul><li>Check correctly formatted data produces a valid form instance</li><li>Check the form accepts empty values for optional fields</li></ul> |
+| Forms receive invalid data | <ul><li>Check incorrectly formatted data produces an invalid form instance</li><li>Check the form rejects missing required fields</li></ul> |
 
 #### Post and Comment Views
 
-| Scenario|  Coverage Comments  |
 The `CloudinaryField` used does not have file type validation or subclasses that define file types, so submitted images must be validated as images at the view level. As images are crucial to a post, an invalid image causes the submission to be rejected.
 
-| Scenario|  Coverage Comments  |
+| Scenario | Coverage Comments |
 | ----------- | ------------ |
-| Get specific post or comment content | <ul><li>Verify expected response</li><li>Assert the rendered page has the expected content included</li> |
+| Get specific post or comment content | <ul><li>Verify expected response</li><li>Assert the rendered page has the expected content included</li></ul> |
 | Get post or comment create and update pages | <ul><li>Verify expected response</li><li>Assert the rendered page has the expected content included</li><li>Check unauthorised users are redirected and provided the correct message</li></ul> |
 | Submitting post or comment create and update requests | <ul><li>Verify expected response</li><li>Check unauthorised users are redirected and provided the correct message</li><li>Assert a valid submission results in expected changes and provides the correct message to the user</li><li>Assert submitted images of invalid file types cause the submission to be invalid</li><li>Assert an invalid submission is rejected with no changes made, and then provides the correct message(s) to the user</li></ul> |
 | Deleting post or comment | <ul><li>Verify expected response</li><li>Check unauthorised users are redirected and provided the correct message</li><li>Assert an authorised request results in expected changes and provides the correct message to the user</li></ul> |
 
 #### User and User Profile Views
 
-The `CloudinaryField` used does not have file type validation or subclasses that define specific file types, so submitted images must be validated as images at the view level. Here invalid images are ignored but do not cause the edit submission to be rejected.
+The `CloudinaryField` used does not have file type validation or subclasses that define specific file types, so submitted images must be validated as images at the view level. Here, invalid images are ignored but do not cause the edit submission to be rejected.
 
-| Scenario|  Coverage Comments  |
+| Scenario | Coverage Comments |
 | ----------- | ------------ |
 | New User creation also creates a corresponding User Profile object | <ul><li>Verify a user profile is made and its image and bio fields are set correctly</li></ul> |
-| Get specific profile | <ul><li>Verify expected response</li><li>Assert the rendered page has the expected content included</li> |
+| Get specific profile | <ul><li>Verify expected response</li><li>Assert the rendered page has the expected content included</li></ul> |
 | Get profile editing page | <ul><li>Verify expected response</li><li>Assert the rendered page has the expected content included</li><li>Check unauthorised users are redirected and provided the correct message</li></ul> |
 | Submitting profile create and update requests | <ul><li>Verify expected response</li><li>Check unauthorised users are redirected and provided the correct message</li><li>Assert a valid submission results in expected changes and provides the correct message(s) to the user</li><li>Assert an invalid submission is rejected with no changes made, and then provides the correct message(s) to the user</li></ul> |
 | Profile image is not valid | <ul><li>Verify submitted images of invalid file types are ignored</li><li>Check the user is provided the correct message</li></ul> |
@@ -250,20 +250,20 @@ The `CloudinaryField` used does not have file type validation or subclasses that
 
 ### Manual Testing
 
-Manual tesing was used to check site responsiveness, buttons respond appropriately and that everything generally works as expected. Of particular concern was the JavaScript used in the profile edit submission form. 
+Manual testing was used to check site responsiveness, buttons respond appropriately, and that everything generally works as expected. Of particular concern was the JavaScript used in the profile edit submission form.
 
-The `CloudinaryField` used accepts files generally rather than only images, so rendering the profile edit form it would not visually display the current image. This and the remove image toggle were added through JavaScript in post. I believe this could have also been resolved with a custom widget defined in the `UserProfileForm`, but I didn't feel I had the time to figure out how that might work.
+The `CloudinaryField` used accepts files generally, rather than only images, so when rendering the profile edit form it would not visually display the current image. This and the remove image toggle were added through JavaScript after render. I believe this could also have been resolved with a custom widget defined in the `UserProfileForm`, but I didn't feel I had the time to figure out how that might work.
 
-## Credit
+## Credits
 
 Most assets used are my own, but the following were sourced externally:
 
 * Site icons were sourced from [Font Awesome](https://fontawesome.com/)
-* [Marigold Engevita](https://www.marigoldhealthfoods.co.uk/engevita) 650g product's stock image sourced from one of their [retailers](https://quickvit.co.uk/products/marigold-marigold-catering-engevita-b12-750g)
-* [Garfield](https://models.spriters-resource.com/wii/thegarfieldshowthreatofthespacelasagna/asset/291793/) model asset image which appeared in [The Garfield Show: Threat of the Space Lasagna](https://en.wikipedia.org/wiki/The_Garfield_Show#Video_game)
+* [Marigold Engevita](https://www.marigoldhealthfoods.co.uk/engevita) product image sourced from one of their [retailers](https://quickvit.co.uk/products/marigold-marigold-catering-engevita-b12-750g)
+* [Garfield](https://models.spriters-resource.com/wii/thegarfieldshowthreatofthespacelasagna/asset/291793/) model asset image that appeared in [The Garfield Show: Threat of the Space Lasagna](https://en.wikipedia.org/wiki/The_Garfield_Show#Video_game)
 
 ## AI Usage
 
 GitHub Copilot was used to assist in debugging and suggesting approaches, with it really helping in resolving certain problems that Django documentation, Cloudinary documentation and community discussion didn't seem to address.
 
-I sometimes found it unhelpful even when I tried to be specific: text generated for docstrings would often miss things or unnecessarily hyperfixate on certain aspects; I had a lot of trouble constructing valid image data for testing and its recommendations were off-topic or incorrect.
+I sometimes found it unhelpful even when I tried to be specific: text generated for docstrings would often miss things or unnecessarily hyper‑fixate on certain aspects; I had a lot of trouble constructing valid image data for testing and its recommendations were off‑topic or incorrect.
