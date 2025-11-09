@@ -730,7 +730,7 @@ class TestEditCommentView(TestCase):
             "Not authorised to edit this comment!", str(messages[0]))
         self.assertEqual('error', messages[0].level_tag)
 
-    def test_render_edit_post_page(self):
+    def test_render_edit_comment_page(self):
         """Tests the page renders successfully and includes expected
         content."""
 

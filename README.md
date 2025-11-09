@@ -163,10 +163,63 @@ Users have the ability to create, update and delete their posts and comments. Th
 | Edit comments | <img width="57%" src="static/images/readme/feature-screenshots/content/mobile-edit-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/content/desktop-edit-comment.png"> |
 | Delete comments | <img width="57%" src="static/images/readme/feature-screenshots/content/mobile-delete-comment.png"> | <img width="90%" src="static/images/readme/feature-screenshots/content/desktop-delete-comment.png"> |
 
-## Validation
+## File Validation
+
+All code has been validated and found to have no errors. The results can be seenin the below table.
+| Files validated   | Sample feedback   |
+| ----------- | :------------: |
+| <ul><li>mainfeed/create_comment.html</li><li>mainfeed/create_post.html</li><li>mainfeed/edit_post.html</li><li>mainfeed/edit_comment.html</li><li>mainfeed/index.html</li><li>mainfeed/view_comment.html</li><li>mainfeed/view_post.html</li><li>userprofile/profile.html</li><li>userprofile/edit_profile.html</li><li>templates/account/login.html</li><li>templates/account/logout.html</li><li>templates/account/signup.html</li></ul> | <img width="60%" src="static/images/readme/testing-and-validation-screenshots/html-validation.png"> |
+| <ul><li>styles.css</li></ul> | <img width="60%" src="static/images/readme/testing-and-validation-screenshots/css-validation.png"> |
+| <ul><li>add_remove_image_logic.js</li><li>edit_delete_modal_content.js</li><li>enable_copy_to_clipboard.js</li><li>extend_profile_form_image_content.js</li></ul> | <img width="60%" src="static/images/readme/testing-and-validation-screenshots/javascript-validation.png"> |
+| <ul><li>config/settings.py</li><li>config/urls.py</li><li>mainfeed/admin.py</li><li>mainfeed/forms.py</li><li>mainfeed/models.py</li><li>mainfeed/test_forms.py</li><li>mainfeed/test_views.py</li><li>mainfeed/urls.py</li><li>mainfeed/views.py</li><li>userprofile/admin.py</li><li>userprofile/forms.py</li><li>userprofile/models.py</li><li>userprofile/test_forms.py</li><li>userprofile/test_views.py</li><li>userprofile/views.py</li></ul> | <img width="60%" src="static/images/readme/testing-and-validation-screenshots/python-validation.png"> |
 
 ## Testing
 
+### Site evaluations
+
+The tools rated the site highly except for Lighthouse's score for performance. The test was performed on the main feed which contains high quality images. A delay in image rendering is sometimes visible on this page and on the profile view. 
+
+Cloudinary has documentation on [image optimisation](https://cloudinary.com/documentation/image_delivery_options), which did not seem to have an obvious fix, but would be a good start if I wanted to try optimise the image delivery. I did try looking at the platform's optimisation settings available on the website, but did not find swapping the default encoding to chroma subsampling made a difference.
+
+| Tool   | Scores   |
+| ----------- | :------------: |
+| Lighthouse - mobile | <img width="60%" src="static/images/readme/testing-and-validation-screenshots/lighthouse-mobile.png"> |
+| Lighthouse - desktop | <img width="60%" src="static/images/readme/testing-and-validation-screenshots/lighthouse-desktop.png"> |
+| Web Accessibility Evaluation Tool | <img width="61%" src="static/images/readme/testing-and-validation-screenshots/wave-summary.png"> |
+
+### Automated Test Suite
+
+Testing was primarly achieved through unit tests that checked the processing of data and requests worked as intended. The test suite finds no errors and all 59 cases pass. It is worth noting that it takes a long time to complete the suite, which would be greatly reduced if the Cloudinary endpoint were mocked.
+
+<div align="center">
+  <img src="static/images/readme/testing-and-validation-screenshots/test-suite-results.png" alt="Screenshot showcasing 100% pass rate of unit tests" width="55%">
+</div>
+
+The unit test coverage is highlighted below, with levels of details depending on the complexity of the test cases.
+
+#### Forms
+
+| Scenario |  Coverage Comments |
+| ----------- | ------------ |
+| Forms recieves valid data | <ul><li>Check correctly formatted data produces valid form instance</li><li>Check form accepts empty values for optional fields</li></ul> |
+| Forms recieves invalid data | <ul><li>Check incorrectly formatted data produces invalid form instance</li><li>Check form rejects missing required fields</li></ul> |
+
+#### Post and Comment Views
+
+| Scenario|  Coverage Comments  |
+| ----------- | ------------ |
+| Get specific post or comment content | <ul><li>Verify expected response</li><li>Assert Post or Comment object inclusion</li> |
+| Get post or comment create and update pages | <ul><li>Verify expected response</li><li>Assert the rendered page has the expected PostForm, PostTextForm or CommentForm object inclusion</li><li>Assert that included forms for updating content have expected initial values</li><li>Assert the rendered page has the expected contextual Post or Comment object inclusion</li><li>Check unauthorised users are redirected and provided the correct message</li></ul> |
+| Submitting post create and update requests | |
+| deleting post or comment | |
+
+#### User and User Profile Views
+
+### Manual Testing
+
+Widgets and remove image toggle
+
 ## Credit
 
+Most image assets used are my own 
 ## AI Usage
