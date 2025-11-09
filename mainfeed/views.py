@@ -20,6 +20,7 @@ class PostList(generic.ListView):
     template_name = "mainfeed/index.html"
     paginate_by = 10
 
+
 def view_post(request, post_id):
     """Handles a request to view a post.
 
@@ -33,12 +34,12 @@ def view_post(request, post_id):
 
     post = get_object_or_404(Post, pk=post_id)
     return render(
-            request,
-            "mainfeed/view_post.html",
-            {
-                "post": post,
-            },
-        )
+        request,
+        "mainfeed/view_post.html",
+        {
+            "post": post,
+        },
+    )
 
 
 def create_post(request):
@@ -84,10 +85,12 @@ def create_post(request):
             if content_type not in valid_content:
                 messages.add_message(
                     request, messages.ERROR,
-                    'File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format.'
+                    'File uploaded not one of the accepted types. '
+                    'Please try uploading an image of JPG, PNG or SVG format.'
                 )
                 raise ValueError(
-                    f'File content_type not in {valid_content}. Instead it was {content_type}.')
+                    f'File content_type not in {valid_content}. '
+                    + 'Instead it was {content_type}.')
         except (AttributeError, ValueError) as error:
             post_form.add_error('image', error)
 
@@ -109,7 +112,7 @@ def create_post(request):
                 'Post failed to submit!'
             )
             return HttpResponseRedirect(reverse('feed'))
-        
+
     # Render page if GET request.
     else:
         post_form = PostForm()
@@ -167,7 +170,7 @@ def edit_post(request, post_id):
             messages.add_message(request, messages.ERROR,
                                  'Error updating post!')
         return HttpResponseRedirect(reverse('feed'))
-    
+
     # Render page if GET request.
     else:
         post_text_form = PostTextForm(initial={'text': post.text})
@@ -193,7 +196,7 @@ def delete_post(request, post_id):
     """
 
     post = get_object_or_404(Post, pk=post_id)
-    
+
     # Delete post if authorised or redirect on error.
     if request.user.is_authenticated and request.user == post.author.user:
         post.delete()
@@ -213,21 +216,21 @@ def view_comment(request, post_id, comment_id):
         comment_id (int): The id of the comment to display.
 
     Returns:
-        HttpResponse: a response containing the comment and its 
+        HttpResponse: a response containing the comment and its
         corresponding post to render.
     """
 
     post = get_object_or_404(Post, pk=post_id)
     comment = get_object_or_404(Comment, pk=comment_id)
-    
+
     return render(
-            request,
-            "mainfeed/view_comment.html",
-            {
-                "post": post,
-                "comment": comment
-            },
-        )
+        request,
+        "mainfeed/view_comment.html",
+        {
+            "post": post,
+            "comment": comment
+        },
+    )
 
 
 def create_comment(request, post_id):
@@ -288,7 +291,7 @@ def create_comment(request, post_id):
                 'Comment failed to submit!'
             )
             return HttpResponseRedirect(reverse('feed'))
-    
+
     # Render page if GET request.
     else:
         post = get_object_or_404(Post, pk=post_id)
@@ -330,7 +333,8 @@ def edit_comment(request, post_id, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
 
     # Redirect unauthorised users back to home page.
-    if not request.user.is_authenticated or request.user != comment.author.user:
+    if (not request.user.is_authenticated
+            or request.user != comment.author.user):
         messages.add_message(
             request, messages.ERROR,
             'Not authorised to edit this comment!'

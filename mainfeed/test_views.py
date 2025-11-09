@@ -22,7 +22,7 @@ class TestPostView(TestCase):
     The view is for viewing an individual post."""
 
     def setUp(self):
-        """Creates a user profile and post to be used in test 
+        """Creates a user profile and post to be used in test
         cases."""
 
         # Create user and update their profile.
@@ -79,7 +79,7 @@ class TestCreatePostView(TestCase):
 
         response = self.client.get(
             reverse('create_post'))
-        
+
         # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -98,7 +98,7 @@ class TestCreatePostView(TestCase):
             username="test_user", password="password")
         response = self.client.get(
             reverse('create_post'))
-        
+
         # Check response.
         self.assertEqual(response.status_code, 200)
 
@@ -127,7 +127,7 @@ class TestCreatePostView(TestCase):
 
         response = self.client.post(
             path=reverse('create_post'), data=post_data)
-        
+
         # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -170,7 +170,7 @@ class TestCreatePostView(TestCase):
 
         response = self.client.post(
             path=reverse('create_post'), data=post_data)
-        
+
         # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -179,7 +179,9 @@ class TestCreatePostView(TestCase):
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(2, len(messages))
         self.assertEqual(
-            "File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format.", str(messages[0]))
+            "File uploaded not one of the accepted types. "
+            "Please try uploading an image of JPG, PNG or SVG format.",
+            str(messages[0]))
         self.assertEqual('error', messages[0].level_tag,)
         self.assertEqual("Post failed to submit!", str(messages[1]))
         self.assertEqual('error', messages[1].level_tag,)
@@ -201,7 +203,7 @@ class TestCreatePostView(TestCase):
 
         response = self.client.post(
             path=reverse('create_post'), data=post_data)
-        
+
         # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -249,7 +251,7 @@ class TestEditPostView(TestCase):
 
         response = self.client.get(
             reverse('edit_post', args=[self.post.id]))
-        
+
         # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -273,11 +275,11 @@ class TestEditPostView(TestCase):
 
         response = self.client.get(
             reverse('edit_post', args=[self.post.id]))
-        
+
         # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
-    
+
         # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
@@ -290,7 +292,7 @@ class TestEditPostView(TestCase):
 
         self.client.login(
             username="test_user", password="password")
-        
+
         response = self.client.get(
             reverse('edit_post', args=[self.post.id]))
 
@@ -318,7 +320,7 @@ class TestEditPostView(TestCase):
 
         response = self.client.post(
             path=reverse('edit_post', args=[self.post.id]), data=post_data)
-        
+
         # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -346,7 +348,7 @@ class TestEditPostView(TestCase):
 
         response = self.client.post(
             path=reverse('edit_post', args=[self.post.id]), data=post_data)
-        
+
         # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -401,7 +403,7 @@ class TestDeletePostView(TestCase):
 
         response = self.client.get(
             reverse('delete_post', args=[self.post.id]))
-        
+
         # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -426,7 +428,7 @@ class TestDeletePostView(TestCase):
 
         response = self.client.get(
             reverse('delete_post', args=[self.post.id]))
-        
+
         # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -446,7 +448,7 @@ class TestDeletePostView(TestCase):
 
         response = self.client.post(
             path=reverse('delete_post', args=[self.post.id]))
-        
+
         # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -473,7 +475,7 @@ class TestCommentView(TestCase):
     The view is for viewing an individual comment."""
 
     def setUp(self):
-        """Creates a user profile and post and comment to be used 
+        """Creates a user profile and post and comment to be used
         in test cases."""
 
         # Create user for tests.
@@ -555,7 +557,7 @@ class TestCreateCommentView(TestCase):
 
         response = self.client.get(
             reverse('create_comment', args=[self.post.id]))
-        
+
         # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -572,7 +574,7 @@ class TestCreateCommentView(TestCase):
 
         self.client.login(
             username="test_user", password="password")
-        
+
         response = self.client.get(
             reverse('create_comment', args=[self.post.id]))
 
@@ -597,8 +599,8 @@ class TestCreateCommentView(TestCase):
         }
 
         response = self.client.post(
-            path=reverse('create_comment', args=[self.post.id]), data=post_data)
-        
+            path=reverse('create_comment',
+                         args=[self.post.id]), data=post_data)
 
         # Check response.
         self.assertEqual(response.status_code, 302)
@@ -627,8 +629,9 @@ class TestCreateCommentView(TestCase):
         }
 
         response = self.client.post(
-            path=reverse('create_comment', args=[self.post.id]), data=post_data)
-        
+            path=reverse('create_comment',
+                         args=[self.post.id]), data=post_data)
+
         # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -690,7 +693,7 @@ class TestEditCommentView(TestCase):
 
         response = self.client.get(
             reverse('edit_comment', args=[self.post.id, self.comment.id]))
-        
+
         # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -715,7 +718,7 @@ class TestEditCommentView(TestCase):
 
         response = self.client.get(
             reverse('edit_comment', args=[self.post.id, self.comment.id]))
-        
+
         # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -733,7 +736,7 @@ class TestEditCommentView(TestCase):
 
         self.client.login(
             username="test_user", password="password")
-        
+
         response = self.client.get(
             reverse('edit_comment', args=[self.post.id, self.comment.id]))
 
@@ -760,8 +763,9 @@ class TestEditCommentView(TestCase):
         }
 
         response = self.client.post(
-            path=reverse('edit_comment', args=[self.post.id, self.comment.id]), data=post_data)
-        
+            path=reverse('edit_comment',
+                         args=[self.post.id, self.comment.id]), data=post_data)
+
         # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -788,9 +792,10 @@ class TestEditCommentView(TestCase):
         }
 
         response = self.client.post(
-            path=reverse('edit_comment', args=[self.post.id, self.comment.id]), data=post_data)
-       
-       # Check response.
+            path=reverse('edit_comment',
+                         args=[self.post.id, self.comment.id]), data=post_data)
+
+        # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
 
@@ -852,7 +857,7 @@ class TestDeleteCommentView(TestCase):
 
         response = self.client.get(
             reverse('delete_comment', args=[self.comment.id]))
-        
+
         # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -877,7 +882,7 @@ class TestDeleteCommentView(TestCase):
 
         response = self.client.get(
             reverse('delete_comment', args=[self.comment.id]))
-        
+
         # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/")
@@ -897,7 +902,7 @@ class TestDeleteCommentView(TestCase):
 
         response = self.client.post(
             path=reverse('delete_comment', args=[self.comment.id]))
-        
+
         # Check response.
         self.assertEqual(response.status_code, 302)
 

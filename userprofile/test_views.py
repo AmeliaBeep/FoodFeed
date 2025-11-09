@@ -89,10 +89,9 @@ class TestUserProfileView(TestCase):
         profile details.
         """
 
-
         response = self.client.get(
             reverse('user_profile', args=[self.profile_id]))
-        
+
         # Check response.
         self.assertEqual(response.status_code, 200)
 
@@ -141,7 +140,8 @@ class TestUserProfileEditView(TestCase):
 
         user_profile_set_bio_image = self.user_set_bio_image.user_profile
         user_profile_set_bio_image_form = UserProfileForm(
-            {'bio': 'Test bio text'}, image, instance=user_profile_set_bio_image)
+            {'bio': 'Test bio text'},
+            image, instance=user_profile_set_bio_image)
         user_profile_set_bio_image = user_profile_set_bio_image_form.save(
             commit=True)
         self.user_profile_set_bio_image = user_profile_set_bio_image
@@ -153,7 +153,7 @@ class TestUserProfileEditView(TestCase):
 
         response = self.client.get(
             reverse('edit_user_profile', args=[self.profile_id_no_bio_image]))
-        
+
         # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/1")
@@ -172,7 +172,7 @@ class TestUserProfileEditView(TestCase):
             username="test_set_bio_or_image", password="password")
         response = self.client.get(
             reverse('edit_user_profile', args=[self.profile_id_no_bio_image]))
-        
+
         # Check redirect.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/1")
@@ -208,7 +208,9 @@ class TestUserProfileEditView(TestCase):
             'UTF-8'), response.content)
         self.assertIn(b'no-profile-image', response.content)
         self.assertIn(
-            b'<textarea name="bio" cols="40" rows="10" maxlength="800" class="textarea form-control" id="id_bio">\n</textarea>', response.content)
+            b'<textarea name="bio" cols="40" rows="10" maxlength="800" '
+            + 'class="textarea form-control" id="id_bio">\n</textarea>',
+            response.content)
         self.assertIsInstance(
             response.context['user_form'], UserForm)
         self.assertIsInstance(
@@ -265,8 +267,9 @@ class TestUserProfileEditView(TestCase):
         }
 
         response = self.client.post(
-            path=reverse('edit_user_profile', args=[self.profile_id_no_bio_image]), data=post_data)
-        
+            path=reverse('edit_user_profile',
+                         args=[self.profile_id_no_bio_image]), data=post_data)
+
         # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/1")
@@ -301,8 +304,9 @@ class TestUserProfileEditView(TestCase):
         }
 
         response = self.client.post(
-            path=reverse('edit_user_profile', args=[self.profile_id_set_bio_image]), data=post_data)
-        
+            path=reverse('edit_user_profile',
+                         args=[self.profile_id_set_bio_image]), data=post_data)
+
         # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/2")
@@ -310,10 +314,13 @@ class TestUserProfileEditView(TestCase):
         profile = get_object_or_404(
             UserProfile, pk=self.profile_id_set_bio_image)
         self.assertEqual(
-            self.user_profile_set_bio_image.user.username, profile.user.username)
-        self.assertEqual(self.user_profile_set_bio_image.bio, profile.bio)
+            self.user_profile_set_bio_image.user.username,
+            profile.user.username)
+        self.assertEqual(self.user_profile_set_bio_image.bio,
+                         profile.bio)
         self.assertEqual(
-            self.user_profile_set_bio_image.image.public_id, profile.image.public_id)
+            self.user_profile_set_bio_image.image.public_id,
+            profile.image.public_id)
 
         # Check (no) messages provided to user.
         messages = list(get_messages(response.wsgi_request))
@@ -330,8 +337,9 @@ class TestUserProfileEditView(TestCase):
             'username': ''
         }
         response = self.client.post(
-            path=reverse('edit_user_profile', args=[self.profile_id_set_bio_image]), data=post_data)
-        
+            path=reverse('edit_user_profile',
+                         args=[self.profile_id_set_bio_image]), data=post_data)
+
         # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/2")
@@ -341,7 +349,8 @@ class TestUserProfileEditView(TestCase):
             UserProfile, pk=self.profile_id_set_bio_image)
         self.assertNotEqual('', profile.user.username)
         self.assertEqual(
-            self.user_profile_set_bio_image.user.username, profile.user.username)
+            self.user_profile_set_bio_image.user.username,
+            profile.user.username)
 
         # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
@@ -370,8 +379,9 @@ class TestUserProfileEditView(TestCase):
             'image': new_image
         }
         response = self.client.post(
-            path=reverse('edit_user_profile', args=[self.profile_id_set_bio_image]), data=post_data)
-        
+            path=reverse('edit_user_profile',
+                         args=[self.profile_id_set_bio_image]), data=post_data)
+
         # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/2")
@@ -380,13 +390,17 @@ class TestUserProfileEditView(TestCase):
         profile = get_object_or_404(
             UserProfile, pk=self.profile_id_set_bio_image)
         self.assertEqual(
-            self.user_profile_set_bio_image.image.public_id, profile.image.public_id)
+            self.user_profile_set_bio_image.image.public_id,
+            profile.image.public_id)
 
         # Check messages provided to user.
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(1, len(messages))
         self.assertEqual(
-            "File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format. No changes made to profile picture.", str(messages[0]))
+            "File uploaded not one of the accepted types. "
+            + "Please try uploading an image of JPG, PNG or SVG format. "
+            + "No changes made to profile picture.",
+            str(messages[0]))
         self.assertEqual('error', messages[0].level_tag)
 
     def test_profile_edits_delete_image_success(self):
@@ -415,8 +429,9 @@ class TestUserProfileEditView(TestCase):
         }
 
         response = self.client.post(
-            path=reverse('edit_user_profile', args=[self.profile_id_set_bio_image]), data=post_data)
-        
+            path=reverse('edit_user_profile',
+                         args=[self.profile_id_set_bio_image]), data=post_data)
+
         # Check response.
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, "/user-profile/2")

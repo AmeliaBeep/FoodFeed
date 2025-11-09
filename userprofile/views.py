@@ -17,7 +17,7 @@ from .forms import UserForm, UserProfileForm
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     """Creates a corresponding user profile whenever a user is created"""
-    
+
     if created:
         UserProfile.objects.create(user=instance)
 
@@ -30,8 +30,8 @@ def view_user_profile(request, user_profile_id):
     For GET requests, render the webpage for editing the profile.
 
     Args:
-        request (HttpRequest): The request to process user profile editing or to
-        serve the corresponding webpage.
+        request (HttpRequest): The request to process user profile editing or
+        to serve the corresponding webpage.
         user_profile_id (int): The id of the user profile to edit.
 
 
@@ -61,8 +61,8 @@ def edit_user_profile(request, user_profile_id):
     For GET requests, render the webpage for editing the profile.
 
     Args:
-        request (HttpRequest): The request to process user profile editing or to
-        serve the corresponding webpage.
+        request (HttpRequest): The request to process user profile editing or
+        to serve the corresponding webpage.
         user_profile_id (int): The id of the user profile to edit.
 
 
@@ -81,11 +81,13 @@ def edit_user_profile(request, user_profile_id):
             request, messages.ERROR,
             'Unauthorised to edit this profile!'
         )
-        return HttpResponseRedirect(reverse('user_profile', args=[user_profile_id]))
+        return HttpResponseRedirect(reverse('user_profile',
+                                            args=[user_profile_id]))
 
     if request.method == "POST":
         handle_user_profile_edits(request, profile)
-        return HttpResponseRedirect(reverse('user_profile', args=[user_profile_id]))
+        return HttpResponseRedirect(reverse('user_profile',
+                                            args=[user_profile_id]))
     else:
         current_bio = profile.bio
         current_image = profile.image
@@ -115,12 +117,12 @@ def handle_user_profile_edits(request, profile):
 
     The image value is determined by handle_set_image to set the image
     depending on the delete_image_toggle and if a file was submitted.
-    If remove_image_checked is True then the image will be set to the default placeholder
-    and the previous image hosted on cloudinary will be deleted.
+    If remove_image_checked is True then the image will be set to the default
+    placeholder and the previous image hosted on cloudinary will be deleted.
 
-    Any valid changes found will be saved to the corresponding profile via saving
-    of the respective form objects. The UserProfile includes a key to the
-    corresponding User.
+    Any valid changes found will be saved to the corresponding profile via
+    saving of the respective form objects. The UserProfile includes a key to
+    the corresponding User.
 
 
     Args:
@@ -138,7 +140,9 @@ def handle_user_profile_edits(request, profile):
     bio = request.POST.get('bio')
     username = request.POST.get('username')
 
-    no_changes_made = image == None and not remove_image_checked and bio == profile.bio and username == profile.user.username
+    no_changes_made = (image is None and not remove_image_checked
+                       and bio == profile.bio
+                       and username == profile.user.username)
 
     if no_changes_made:
         return
@@ -201,7 +205,9 @@ def handle_set_image(request, remove_image_checked):
         image = None
         messages.add_message(
             request, messages.ERROR,
-            'File uploaded not one of the accepted types. Please try uploading an image of JPG, PNG or SVG format. No changes made to profile picture.'
+            'File uploaded not one of the accepted types. '
+            + 'Please try uploading an image of JPG, PNG or SVG format. '
+            + 'No changes made to profile picture.'
         )
 
     return image
