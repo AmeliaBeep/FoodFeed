@@ -209,7 +209,7 @@ class TestUserProfileEditView(TestCase):
         self.assertIn(b'no-profile-image', response.content)
         self.assertIn(
             b'<textarea name="bio" cols="40" rows="10" maxlength="800" '
-            + 'class="textarea form-control" id="id_bio">\n</textarea>',
+            + b'class="textarea form-control" id="id_bio">\n</textarea>',
             response.content)
         self.assertIsInstance(
             response.context['user_form'], UserForm)
