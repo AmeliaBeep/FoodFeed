@@ -37,7 +37,7 @@
 ## Purpose and Value
 
 ### Application Purpose
-To demonstrate the ability to create a website where users can intuitively perform CRUD operations.
+To demonstrate the ability to create a website where users can intuitively perform CRUD operations. For the purpose of showcasing features it has pre-made content with posts, comments and users.
 
 ### User Value
 
@@ -51,6 +51,8 @@ They were labeled according to the MoSCoW prioritisation system according to the
 The MVP for this project was considered to be a basic social media feed wherein any user could browse all the posts ever made. They would be able to register for an account and then be able to create, edit and delete their own posts and comments. Additionally they would be able to create, update and delete an account profile picture.
 
 This MVP would fufill CRUD operations and be a functional website, however it would lack features enabling users to better navigate the site and engage with other users. To that end `should-have` stories, that would enable users to view individual posts and follow other users, were seen to be the most crucial. The `could-have` features would have similar motivation, but also would concern the functionality of the site as the amount of content scaled.
+
+In the end all `must-have` stories were completed, but the `should-have` ability to follow users and the `could-have` features did not have time to be implemented. An Agile approach to the site develeopment means that, despite missing these desired features, the current site is functional and polished.
 
 The project board can be accessed here: [FoodFeed project board](https://github.com/users/AmeliaBeep/projects/3/views/1)
 
@@ -116,7 +118,7 @@ Visitors to the site are able to browse the main feed, view specific posts and b
 
 ### Interacting with the site 
 
-Navigation bar buttons indicate login status and enable users to register, login or logout. Signed in users also have the option to create a post and see their own profile. 
+Navigation bar buttons indicate login status and enable users to register, login or logout. Signed in users also have the options to create a post and see their own profile. 
 
 Site content provides the ability to visit user profiles by clicking an author's username. The copy button allows a user to get a URL that allows viewing of that specific content. Signed in author's get further buttons that allow them to edit or delete the content.
 
@@ -126,7 +128,8 @@ Site content provides the ability to visit user profiles by clicking an author's
 | Navigation bar signed out | <img width="45%" src="static/images/readme/feature-screenshots/interaction/nav-logged-out.png"> |
 | Navigation account buttons | <p><img width="17%" src="static/images/readme/feature-screenshots/interaction/register.png"> <img width="13%" src="static/images/readme/feature-screenshots/interaction/login.png"> <img width="15%" src="static/images/readme/feature-screenshots/interaction/logout.png"> </p>|
 | View your profile page | <img width="45%" src="static/images/readme/feature-screenshots/interaction/view-own-profile.png"> |
-| View a content author's profile page | <img width="45%" src="static/images/readme/feature-screenshots/interaction/view-own-profile.png"> |
+| Edit your profile page | <img width="45%" src="static/images/readme/feature-screenshots/interaction/edit-own-profile.png"> |
+| View a content author's profile page | <img width="45%" src="static/images/readme/feature-screenshots/interaction/view-authors-profile.png"> |
 | Create a post | <img width="45%" src="static/images/readme/feature-screenshots/interaction/create-post.png"> |
 | Edit your content | <img width="45%" src="static/images/readme/feature-screenshots/interaction/edit-content.png"> |
 | Copy content's URL | <img width="45%" src="static/images/readme/feature-screenshots/interaction/copy-url.png"> |
@@ -135,7 +138,7 @@ Site content provides the ability to visit user profiles by clicking an author's
 
 ### User Profile CRUD features
 
-When a user creates an account they have a blank user profile with only their username. Their profile defaults to displaying the static [no-user-image](static/images/no-user-image.jpg) and having no bio section. 
+When a user creates an account they have a blank user profile with only their username. Their profile defaults to displaying the static [no-user-image](static/images/no-user-image.jpg) and having no bio section. They can update this through the edit profile button in their profile details ection.
 
 Their displayed name is sourced from the [Django User model](#user-structure) username field and used in site authentication so, whilst they are free to update it, they are prevented from removing it completely. They are completely free to create, edit and delete their profile image and bio.
 
@@ -195,7 +198,7 @@ Testing was primarly achieved through unit tests that checked the processing of 
   <img src="static/images/readme/testing-and-validation-screenshots/test-suite-results.png" alt="Screenshot showcasing 100% pass rate of unit tests" width="55%">
 </div>
 
-The unit test coverage is highlighted below, with levels of details depending on the complexity of the test cases.
+The unit test coverage is highlighted below, with levels of details depending on the complexity of the test cases. All forms and views were tested for various situations.
 
 #### Forms
 
@@ -207,19 +210,44 @@ The unit test coverage is highlighted below, with levels of details depending on
 #### Post and Comment Views
 
 | Scenario|  Coverage Comments  |
+The `CloudinaryField` used does not have file type validation or subclasses that define file types, so submitted images must be validated as images at the view level. As images are crucial to a post, an invalid image causes the submission to be rejected.
+
+| Scenario|  Coverage Comments  |
 | ----------- | ------------ |
-| Get specific post or comment content | <ul><li>Verify expected response</li><li>Assert Post or Comment object inclusion</li> |
-| Get post or comment create and update pages | <ul><li>Verify expected response</li><li>Assert the rendered page has the expected PostForm, PostTextForm or CommentForm object inclusion</li><li>Assert that included forms for updating content have expected initial values</li><li>Assert the rendered page has the expected contextual Post or Comment object inclusion</li><li>Check unauthorised users are redirected and provided the correct message</li></ul> |
-| Submitting post create and update requests | |
-| deleting post or comment | |
+| Get specific post or comment content | <ul><li>Verify expected response</li><li>Assert the rendered page has the expected content included</li> |
+| Get post or comment create and update pages | <ul><li>Verify expected response</li><li>Assert the rendered page has the expected content included</li><li>Check unauthorised users are redirected and provided the correct message</li></ul> |
+| Submitting post or comment create and update requests | <ul><li>Verify expected response</li><li>Check unauthorised users are redirected and provided the correct message</li><li>Assert a valid submission results in expected changes and provides the correct message to the user</li><li>Assert submitted images of invalid file types cause the submission to be invalid</li><li>Assert an invalid submission is rejected with no changes made, and then provides the correct message(s) to the user</li></ul> |
+| Deleting post or comment | <ul><li>Verify expected response</li><li>Check unauthorised users are redirected and provided the correct message</li><li>Assert an authorised request results in expected changes and provides the correct message to the user</li></ul> |
 
 #### User and User Profile Views
 
+The `CloudinaryField` used does not have file type validation or subclasses that define specific file types, so submitted images must be validated as images at the view level. Here invalid images are ignored but do not cause the edit submission to be rejected.
+
+| Scenario|  Coverage Comments  |
+| ----------- | ------------ |
+| New User creation also creates a corresponding User Profile object | <ul><li>Verify a user profile is made and its image and bio fields are set correctly</li></ul> |
+| Get specific profile | <ul><li>Verify expected response</li><li>Assert the rendered page has the expected content included</li> |
+| Get profile editing page | <ul><li>Verify expected response</li><li>Assert the rendered page has the expected content included</li><li>Check unauthorised users are redirected and provided the correct message</li></ul> |
+| Submitting profile create and update requests | <ul><li>Verify expected response</li><li>Check unauthorised users are redirected and provided the correct message</li><li>Assert a valid submission results in expected changes and provides the correct message(s) to the user</li><li>Assert an invalid submission is rejected with no changes made, and then provides the correct message(s) to the user</li></ul> |
+| Profile image is not valid | <ul><li>Verify submitted images of invalid file types are ignored</li><li>Check the user is provided the correct message</li></ul> |
+| Profile image removal toggled | <ul><li>Assert profile image is removed and submitted images are ignored</li></ul> |
+
 ### Manual Testing
 
-Widgets and remove image toggle
+Manual tesing was used to check site responsiveness, buttons respond appropriately and that everything generally works as expected. Of particular concern was the JavaScript used in the profile edit submission form. 
+
+The `CloudinaryField` used accepts files generally rather than only images, so rendering the profile edit form it would not visually display the current image. This and the remove image toggle were added through JavaScript in post. I believe this could have also been resolved with a custom widget defined in the `UserProfileForm`, but I didn't feel I had the time to figure out how that might work.
 
 ## Credit
 
-Most image assets used are my own 
+Most assets used are my own, but the following were sourced externally:
+
+* Site icons were sourced from [Font Awesome](https://fontawesome.com/)
+* [Marigold Engevita](https://www.marigoldhealthfoods.co.uk/engevita) 650g product's stock image sourced from one of their [retailers](https://quickvit.co.uk/products/marigold-marigold-catering-engevita-b12-750g)
+* [Garfield](https://models.spriters-resource.com/wii/thegarfieldshowthreatofthespacelasagna/asset/291793/) model asset image which appeared in [The Garfield Show: Threat of the Space Lasagna](https://en.wikipedia.org/wiki/The_Garfield_Show#Video_game)
+
 ## AI Usage
+
+GitHub Copilot was used to assist in debugging and suggesting approaches, with it really helping in resolving certain problems that Django documentation, Cloudinary documentation and community discussion didn't seem to address.
+
+I sometimes found it unhelpful even when I tried to be specific: text generated for docstrings would often miss things or unnecessarily hyperfixate on certain aspects; I had a lot of trouble constructing valid image data for testing and its recommendations were off-topic or incorrect.
