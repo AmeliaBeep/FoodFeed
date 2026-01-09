@@ -12,14 +12,14 @@ const deleteModalBody = document.getElementById("deleteModalBody");
 
 for (let button of deletePostButtons) {
   button.addEventListener("click", (e) => {
-    updateModal(e, "post")
+    updateModal(e, "post");
     deleteModal.show();
   });
 }
 
 for (let button of deleteCommentButtons) {
   button.addEventListener("click", (e) => {
-    updateModal(e, "comment")
+    updateModal(e, "comment");
     deleteModal.show();
   });
 }
@@ -32,9 +32,9 @@ for (let button of deleteCommentButtons) {
  * @param {string} contentType - The type of content being deleted.
  */
 function updateModal(e, contentType) {
-  let contentIdKey = `${contentType}_id`
+  let contentIdKey = `data-${contentType}-id`;
   let contentId = e.target.getAttribute(contentIdKey);
-  deleteModalLabel.innerText = `Delete ${contentType}?`
-  deleteModalBody.innerText = `Are you sure you want to delete your ${contentType}? This action cannot be undone.`
+  deleteModalLabel.innerText = `Delete ${contentType}?`;
+  deleteModalBody.innerText = `Are you sure you want to delete your ${contentType}? This action cannot be undone.`;
   deleteConfirm.href = `/delete-${contentType}/${contentId}`;
 }

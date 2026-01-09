@@ -34,7 +34,6 @@ for (let button of deleteCommentButtons) {
 function updateModal(e, contentType) {
   let contentIdKey = `data-${contentType}-id`;
   let contentId = e.target.getAttribute(contentIdKey);
-  console.log(contentId);
   deleteModalLabel.innerText = `Delete ${contentType}?`;
   deleteModalBody.innerText = `Are you sure you want to delete your ${contentType}? This action cannot be undone.`;
   deleteConfirm.href = `/delete-${contentType}/${contentId}`;
