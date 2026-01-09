@@ -41,6 +41,8 @@
 ### Application Purpose
 To demonstrate the ability to create a website where users can intuitively perform CRUD operations. For the purpose of showcasing features, it has pre-made content with posts, comments and users.
 
+The site includes custom models for Posts, Comments as well as a User Profile that enables customisation of their username, profile picture and a bio.
+
 ### User Value
 
 User stories were used to understand the features that would most benefit a user, first having those that would produce an MVP, and then incrementally adding the features believed to offer the most value.
@@ -80,25 +82,39 @@ Their sites adapt to smaller screen sizes by moving their sidebar content to nav
 
 ### Database Structure
 
-The entity‑relationship diagram for the site is fairly typical. A single user can have multiple posts and comments, and a single post can have multiple comments. It is worth noting that the `updated_on` field is not actually used in the site's current state, but I didn't want to remove it and its data from the model in anticipation of future changes.
+The entity‑relationship diagram shows the relationships between the (default Django) User, User Profile, Post and Comment models.
 
 <div align="center">
   <img src="static/images/readme/entity-relationship-diagram.png" alt="Entity relationship diagram displaying relationships between the (default Django) User, User Profile, Post and Comment models" width="55%">
 </div>
 
-#### CRUD Operations
+#### Post and Comment Models
 
-Posts and comments are similar to one another, with both having fields pertaining to an author and their specific content type. Users are able to perform full CRUD operations, being able to view posts and comments through feeds and also able to create, update, and delete their own instances of both.
+<div align="center">
+  <img src="static/images/readme/models/post-and-comment-models.png" alt="Post and Comment model code" width="55%">
+</div>
 
-The structure of users is more complicated and will be discussed separately. However, they can also perform full CRUD operations on their profile image and bio, with these being visible on their profile pages, and with the ability to add, update and remove these details.
+The Posts and Comment are similar to one another, with both having fields pertaining to an author and their specific content type. Users are able to perform full CRUD operations, being able to view posts and comments through feeds and also able to create, update, and delete their own instances of both.
 
 Users are able to make and update their content through corresponding forms. Where fields are required, blank submissions are prevented from being posted. If this is bypassed and the request reaches the view handler functions, the submission will be rejected at that level.
 
-#### User Structure
+It is worth noting that the `updated_on` field is not actually used in the site's current state, but I didn't want to remove it and its data from the model in anticipation of future changes.
+
+#### User Profile Model
+
+<div align="center">
+  <img src="static/images/readme/models/user-profile-model.png" alt="User Profile model code" width="55%">
+</div>
+
+Users can also perform full CRUD operations on their User Profile image and bio to customise their profile pages. They can also update their associated username, which changes the username field associated with the (default Django) User model.
+
+Users are able to make and update these profile details via a corresponding form accessed by the Edit Profile button visible on their profile page. Where fields are required, blank submissions are prevented from being posted. If this is bypassed and the request reaches the view handler functions, the submission will be rejected at that level.
+
+#### User Profile Model Additional Details
 
 I wanted users to have the ability to have profile pages with a username, bio, and image. The Django project settings provide the ability to provide a custom model to handle users, so creating a custom user model to replace the existing one would have worked. However, this felt like an overcomplicated solution to achieve what is effectively just wanting to add two extra fields to the pre-existing User model.
 
-As the diagram indicates, the approach used was to define an additional User Profile model with these additional fields. The User Profile can be considered the true representation of users, with User only being used to handle access control.
+As the ERD diagram indicates, the approach used was to define an additional User Profile model with these additional fields. The User Profile can be considered the true representation of users, with User only being used to handle access control.
 
 Currently whichever model is considered the author by posts and comments makes little difference, however I felt the User Profile would be more maintainable and scalable when considering future features. Features like display names, or profile pictures rendering in posts, all seemed to build on the User Profile model, so it made sense to choose that one in anticipation of future changes.
 
