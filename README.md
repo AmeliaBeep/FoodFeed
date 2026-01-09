@@ -154,25 +154,48 @@ Navigation bar buttons indicate login status and enable users to register, log i
 
 Site content provides the ability to visit user profiles by clicking an author's username. The copy button allows a user to get a URL that allows viewing of that specific content. Signed‑in authors get further buttons that allow them to edit or delete the content.
 
+#### Navigation bar
 | UI element  | Images        |
 | ----------- | :------------: |
 | Navigation bar signed in | <img width="45%" src="static/images/readme/feature-screenshots/interaction/nav-logged-in.png"> |
 | Navigation bar signed out | <img width="45%" src="static/images/readme/feature-screenshots/interaction/nav-logged-out.png"> |
 | Navigation account buttons | <p><img width="17%" src="static/images/readme/feature-screenshots/interaction/register.png"> <img width="13%" src="static/images/readme/feature-screenshots/interaction/login.png"> <img width="15%" src="static/images/readme/feature-screenshots/interaction/logout.png"> </p>|
+
+
+#### Signed in user profile page buttons
+
+Clicking the user icon, pictured in the table below, will take you to your profile page. From here you can click on the edit profile button to make changes to your profile username, image and bio as showcased later in the [User Profile CRUD features](#user-profile-crud-features) section.
+
+| UI element  | Images        |
+| ----------- | :------------: |
 | View your profile page | <img width="45%" src="static/images/readme/feature-screenshots/interaction/view-own-profile.png"> |
 | Edit your profile page | <img width="45%" src="static/images/readme/feature-screenshots/interaction/edit-own-profile.png"> |
-| View a content author's profile page | <img width="45%" src="static/images/readme/feature-screenshots/interaction/view-authors-profile.png"> |
+
+
+#### Signed in user post and comment buttons
+| UI element  | Images        |
+| ----------- | :------------: |
 | Create a post | <img width="45%" src="static/images/readme/feature-screenshots/interaction/create-post.png"> |
-| Edit your content | <img width="45%" src="static/images/readme/feature-screenshots/interaction/edit-content.png"> |
-| Copy content's URL | <img width="45%" src="static/images/readme/feature-screenshots/interaction/copy-url.png"> |
-| Delete your content | <img width="45%" src="static/images/readme/feature-screenshots/interaction/delete-content.png"> |
 | Create a comment | <img width="45%" src="static/images/readme/feature-screenshots/interaction/create-comment.png"> |
+| Edit your content | <img width="45%" src="static/images/readme/feature-screenshots/interaction/edit-content.png"> |
+| Delete your content | <img width="45%" src="static/images/readme/feature-screenshots/interaction/delete-content.png"> |
+
+#### Additional buttons
+
+Clicking a content author's username will take you to their profile page. This can be another way to navigate to your own profile if you are the author of the post or comment.
+
+| UI element  | Images        |
+| ----------- | :------------: |
+| View a content author's profile page | <img width="45%" src="static/images/readme/feature-screenshots/interaction/view-authors-profile.png"> |
+| Copy content's URL | <img width="45%" src="static/images/readme/feature-screenshots/interaction/copy-url.png"> |
 
 ### User Profile CRUD features
 
-When a user creates an account they have a blank user profile with only their username. Their profile defaults to displaying the static [no-user-image](static/images/no-user-image.jpg) and having no bio section. They can update this through the edit profile button in their profile details section.
+Once a user has registered an account they have a profile page. From this page users can perform CRUD operations relating to the underlying custom User Profile model, allowing them to customise their username, image and bio through the Edit Profile button in their profile details section.
 
-Their displayed name is sourced from the [Django User model](#user-structure) username field and used in site authentication so, whilst they are free to update it, they are prevented from removing it completely. They are completely free to create, edit and delete their profile image and bio.
+When a user creates an account they have a blank user profile with only their username. Their profile defaults to displaying the static [no-user-image](static/images/no-user-image.jpg) and having no bio section.
+
+Their displayed name is sourced from the [Django User model](#user-profile-model-additional-details) username field and used in site authentication so, whilst they are free to update it, they are prevented from removing it completely. They are completely free to create, edit and delete their profile image and bio.
 
 | Feature     | Mobile         | Desktop                   |
 | ----------- | :------------: | :-----------------------: |
