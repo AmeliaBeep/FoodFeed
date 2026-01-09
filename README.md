@@ -10,13 +10,18 @@
   * [Ideation](#ideation)
   * [Wireframes](#wireframes)
   * [Database Structure](#database-structure)
-    * [CRUD Operations](#crud-operations)
-    * [User Structure](#user-structure)
+    * [Post and Comment Models](#post-and-comment-models)
+    * [User Profile Model](#user-profile-model)
+    * [User Profile Model Additional Details](#user-profile-model-additional-details)
   * [Deployment Procedure](#deployment-procedure)
 
 * [Website Features](#website-features)
   * [Overview of General Features](#overview-of-general-features)
   * [Interacting with the Site](#interacting-with-the-site)
+    * [Navigation Bar](#navigation-bar)
+    * [User Profile Buttons](#user-profile-page-buttons)
+    * [Post and Comment Buttons](#post-and-comment-buttons)
+    * [Additional Buttons](#additional-buttons)
   * [User Profile CRUD Features](#user-profile-crud-features)
   * [Post and Comment CRUD Features](#post-and-comment-crud-features)
 
@@ -154,7 +159,7 @@ Navigation bar buttons indicate login status and enable users to register, log i
 
 Site content provides the ability to visit user profiles by clicking an author's username. The copy button allows a user to get a URL that allows viewing of that specific content. Signed‑in authors get further buttons that allow them to edit or delete the content.
 
-#### Navigation bar
+#### Navigation Bar
 | UI element  | Images        |
 | ----------- | :------------: |
 | Navigation bar signed in | <img width="45%" src="static/images/readme/feature-screenshots/interaction/nav-logged-in.png"> |
@@ -162,7 +167,7 @@ Site content provides the ability to visit user profiles by clicking an author's
 | Navigation account buttons | <p><img width="17%" src="static/images/readme/feature-screenshots/interaction/register.png"> <img width="13%" src="static/images/readme/feature-screenshots/interaction/login.png"> <img width="15%" src="static/images/readme/feature-screenshots/interaction/logout.png"> </p>|
 
 
-#### Signed in user profile page buttons
+#### User Profile Page Buttons
 
 Clicking the user icon, pictured in the table below, will take you to your profile page. From here you can click on the edit profile button to make changes to your profile username, image and bio as showcased later in the [User Profile CRUD features](#user-profile-crud-features) section.
 
@@ -172,7 +177,7 @@ Clicking the user icon, pictured in the table below, will take you to your profi
 | Edit your profile page | <img width="45%" src="static/images/readme/feature-screenshots/interaction/edit-own-profile.png"> |
 
 
-#### Signed in user post and comment buttons
+#### Post and Comment Buttons
 | UI element  | Images        |
 | ----------- | :------------: |
 | Create a post | <img width="45%" src="static/images/readme/feature-screenshots/interaction/create-post.png"> |
@@ -180,7 +185,7 @@ Clicking the user icon, pictured in the table below, will take you to your profi
 | Edit your content | <img width="45%" src="static/images/readme/feature-screenshots/interaction/edit-content.png"> |
 | Delete your content | <img width="45%" src="static/images/readme/feature-screenshots/interaction/delete-content.png"> |
 
-#### Additional buttons
+#### Additional Buttons
 
 Clicking a content author's username will take you to their profile page. This can be another way to navigate to your own profile if you are the author of the post or comment.
 
@@ -189,7 +194,7 @@ Clicking a content author's username will take you to their profile page. This c
 | View a content author's profile page | <img width="45%" src="static/images/readme/feature-screenshots/interaction/view-authors-profile.png"> |
 | Copy content's URL | <img width="45%" src="static/images/readme/feature-screenshots/interaction/copy-url.png"> |
 
-### User Profile CRUD features
+### User Profile CRUD Features
 
 Once a user has registered an account they have a profile page. From this page users can perform CRUD operations relating to the underlying custom User Profile model, allowing them to customise their username, image and bio through the Edit Profile button in their profile details section.
 
@@ -208,7 +213,7 @@ Their displayed name is sourced from the [Django User model](#user-profile-model
 | Delete profile picture confirm | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-delete-modal.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-delete-modal.png"> |
 | Delete results | <img width="50%" src="static/images/readme/feature-screenshots/profile/mobile-profile-delete-after.png"> | <img width="90%" src="static/images/readme/feature-screenshots/profile/desktop-profile-delete-after.png"> |
 
-### Post and Comment CRUD features
+### Post and Comment CRUD Features
 
 Users have the ability to create, update and delete their posts and comments. They can use [site buttons](#interacting-with-the-site) to access pages with forms, or the delete modal in the case of deletion.
 
