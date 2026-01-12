@@ -369,3 +369,16 @@ Unfortunately I didn't find it as useful for testing the views as it often made 
 I found using AI to be rather mixed, with it being useful as a sounding board, but finding it often struggled to generate relevant suggestions in many situations. For simple use cases it was a great time saver, which enabled me to focus on 
 
 It was sometimes really useful in situations where I had knowledge gaps as it was able to provide new leads to investigate.
+
+## Adherence to Learning Objectives
+
+| Learning Objective | How it had been achieved | README discussion (if applicable) |
+| ----------- | ------------ |----------|
+| 1.2 Database | User Profile model - the user can interact with this data by visiting their profile as shown in the [User Profile Page Buttons](#user-profile-page-buttons) section. | [User Profile Model](#user-profile-model) |
+| 2.2 CRUD Functionality | Post and Comment delete operation now works | [Post and Comment CRUD](#post-and-comment-crud-features) [User Profile CRUD](#user-profile-crud-features) |
+| 6.2 Document Deployment Process | Additional detail added | [Detailed deployment walkthrough](#detailed-walkthrough)|
+| 7.1 Design and Implement a Custom Data Model | User Profile model - the user can interact with this data by visiting their profile as shown in the [User Profile Page Buttons](#user-profile-page-buttons) section. | [User Profile Model](#user-profile-model) |
+| 8.1 Use AI tools to assist in code creation | Additional detail added  | [Code creation](#ai-assistance-in-code-creation) |
+| 8.3 Use AI tools to optimize code for performance and user experience | Additional detail added  | [Code performance and UX](#ai-assistance-in-code-optimisation-and-user-experience) |
+| 8.4 Use AI tools to create automated unit tests| Additional detail added  | [Automated testing](#ai-assistance-in-automated-unit-tests) |
+| 8.5 Reflect on AI’s role in the development process and its impact on workflow | Additional detail added  | [Workflow impact](#ai-assistance-in-the-devlopment-process-and-workflow) |
