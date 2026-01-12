@@ -345,6 +345,27 @@ Most assets used are my own, but the following were sourced externally:
 
 ## AI Usage
 
-GitHub Copilot was used to assist in debugging and suggesting approaches, with it really helping in resolving certain problems that Django documentation, Cloudinary documentation and community discussion didn't seem to address.
+### AI assistance in code creation
 
-I sometimes found it unhelpful even when I tried to be specific: text generated for docstrings would often miss things or unnecessarily hyper‑fixate on certain aspects; I had a lot of trouble constructing valid image data for testing and its recommendations were off‑topic or incorrect.
+I used GitHub Copilot to generate code such as HTML boilerplates, function doctsrings or for similar tasks that would be tedious to do by hand.
+
+Sometimes this worked quite well, though I found text generated for docstrings would often miss things or unnecessarily hyper‑fixate on certain aspects.
+
+### AI assistance in debugging code
+GitHub Copilot was used to assist in debugging and suggesting approaches, with it really helping in filling in gaps that Django documentation, Cloudinary documentation and community discussion didn't seem to address.
+
+### AI assistance in code optimisation and user experience
+I asked the AI to perform checks for any typos or logical errors throughout. It noted the unit tests that were uploading images to Cloudinary didn't then delete the resource after test completeion. It suggested code that could be used to delete these resources and prevent issues.
+
+It also helped with the design by suggesting an accent colour to visibly distinguish page content like buttons. It suggested warm colours such as orange, because users would associate it with warmth and because those colours are known to be able to stimulate our appetite.
+
+### AI assistance in automated unit tests
+I used AI to construct many of the form unit tests as these tests were straightforward. It was able to suggest negative cases I hadn't initially considered.
+
+Unfortunately I didn't find it as useful for testing the views as it often made mistakes when handling the image fields. On a similar note, I had a lot of trouble constructing valid image data for testing and its recommendations were off‑topic or incorrect.
+
+### AI assistance in the devlopment process and workflow
+
+I found using AI to be rather mixed, with it being useful as a sounding board, but finding it often struggled to generate relevant suggestions in many situations. For simple use cases it was a great time saver, which enabled me to focus on 
+
+It was sometimes really useful in situations where I had knowledge gaps as it was able to provide new leads to investigate.
