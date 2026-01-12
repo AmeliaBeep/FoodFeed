@@ -127,6 +127,8 @@ When users register to the website, the Django project uses the original User mo
 
 ### Deployment Procedure
 
+#### Overview
+
 The site is hosted on Heroku, which required some configuration to enable it to work. The GitHub repository needed connecting to the Heroku application so that its content could be deployed. Automatic deployment is not configured, so manual deployments must be made to keep the site up to date.
 
 Application configuration required:
@@ -138,6 +140,41 @@ Heroku configuration required:
 * Add the `SECRET_KEY` environment variable to provide authorisation to the Django application.
 * Add the `DATABASE_URL` to access the database.
 * Add the `CLOUDINARY_URL` to access Cloudinary services.
+
+#### Detailed Walkthrough
+
+Prepare your Django application:
+- Log in to GitHub and create a new repository for your project.
+- Set up a basic Django application.
+- Secure your environment variables:
+  - Delete the value of the `SECRET_KEY` variable premade within the project directory's `settings.py`
+  - Create an `env.py` file and declare a secure `SECRET_KEY` variable there.
+  - Create a `.gitignore` file and add your `env.py` file to it so that your sensitive information won't get exposed.
+  - In your project's `settings.py` have your `SECRET_KEY` take its value from your `env.py` file.
+  - Add any additional sensitive to your `env.py` file such as any `DATABASE_URL` or `CLOUDINARY_URL` variables your application will rely on.
+- Add a `Procfile` in the root of your project to later enable Heroku to run the site.
+- Add, commit, and push your code to the GitHub repository so it can later be accessed by Heroku.
+
+Configure your Heroku site:
+- Log in to Heroku.
+- Create an application:
+  - From the Heroku dashboard, click New and then Create new app.
+  - Give the app a unique name.
+  - Choose an appropriate region for deployment.
+- Add your environment variables to Heroku:
+  - In the Heroku app dashboard, go to Settings and navigate to Config Vars.
+  - Click to Reveal them and then copy your project's `SECRET_KEY` and any other variables defined in your `env.py` file.
+- Connect Heroku to GitHub:
+  - In your Heroku app dashboard, go to the Deploy tab.
+  - Under Deployment method, select Connect to GitHub.
+  - Authorise Heroku to access your GitHub account when prompted.
+  - Search for and select the correct GitHub repository.
+- Deploy the Django application:
+  - Scroll down to the Manual Deploy section.
+  - Select the branch you want to deploy (usually main or master).
+  - Click Deploy Branch.
+  - Wait for the build and deployment process to complete.
+  - Access the live site through the View button shown when it has finsihed.
 
 ## Website Features
 
@@ -308,6 +345,40 @@ Most assets used are my own, but the following were sourced externally:
 
 ## AI Usage
 
-GitHub Copilot was used to assist in debugging and suggesting approaches, with it really helping in resolving certain problems that Django documentation, Cloudinary documentation and community discussion didn't seem to address.
+### AI assistance in code creation
 
-I sometimes found it unhelpful even when I tried to be specific: text generated for docstrings would often miss things or unnecessarily hyper‑fixate on certain aspects; I had a lot of trouble constructing valid image data for testing and its recommendations were off‑topic or incorrect.
+I used GitHub Copilot to generate code such as HTML boilerplates, function doctsrings or for similar tasks that would be tedious to do by hand.
+
+Sometimes this worked quite well, though I found text generated for docstrings would often miss things or unnecessarily hyper‑fixate on certain aspects.
+
+### AI assistance in debugging code
+GitHub Copilot was used to assist in debugging and suggesting approaches, with it really helping in filling in gaps that Django documentation, Cloudinary documentation and community discussion didn't seem to address.
+
+### AI assistance in code optimisation and user experience
+I asked the AI to perform checks for any typos or logical errors throughout. It noted the unit tests that were uploading images to Cloudinary didn't then delete the resource after test completeion. It suggested code that could be used to delete these resources and prevent issues.
+
+It also helped with the design by suggesting an accent colour to visibly distinguish page content like buttons. It suggested warm colours such as orange, because users would associate it with warmth and because those colours are known to be able to stimulate our appetite.
+
+### AI assistance in automated unit tests
+I used AI to construct many of the form unit tests as these tests were straightforward. It was able to suggest negative cases I hadn't initially considered.
+
+Unfortunately I didn't find it as useful for testing the views as it often made mistakes when handling the image fields. On a similar note, I had a lot of trouble constructing valid image data for testing and its recommendations were off‑topic or incorrect.
+
+### AI assistance in the devlopment process and workflow
+
+I found using AI to be rather mixed, with it being useful as a sounding board, but finding it often struggled to generate relevant suggestions in many situations. For simple use cases it was a great time saver, which enabled me to focus on 
+
+It was sometimes really useful in situations where I had knowledge gaps as it was able to provide new leads to investigate.
+
+## Adherence to Learning Objectives
+
+| Learning Objective | How it had been achieved | README discussion (if applicable) |
+| ----------- | ------------ |----------|
+| 1.2 Database | User Profile model - the user can interact with this data by visiting their profile as shown in the [User Profile Page Buttons](#user-profile-page-buttons) section. | [User Profile Model](#user-profile-model) |
+| 2.2 CRUD Functionality | Post and Comment delete operation now works | [Post and Comment CRUD](#post-and-comment-crud-features) [User Profile CRUD](#user-profile-crud-features) |
+| 6.2 Document Deployment Process | Additional detail added | [Detailed deployment walkthrough](#detailed-walkthrough)|
+| 7.1 Design and Implement a Custom Data Model | User Profile model - the user can interact with this data by visiting their profile as shown in the [User Profile Page Buttons](#user-profile-page-buttons) section. | [User Profile Model](#user-profile-model) |
+| 8.1 Use AI tools to assist in code creation | Additional detail added  | [Code creation](#ai-assistance-in-code-creation) |
+| 8.3 Use AI tools to optimize code for performance and user experience | Additional detail added  | [Code performance and UX](#ai-assistance-in-code-optimisation-and-user-experience) |
+| 8.4 Use AI tools to create automated unit tests| Additional detail added  | [Automated testing](#ai-assistance-in-automated-unit-tests) |
+| 8.5 Reflect on AI’s role in the development process and its impact on workflow | Additional detail added  | [Workflow impact](#ai-assistance-in-the-devlopment-process-and-workflow) |
