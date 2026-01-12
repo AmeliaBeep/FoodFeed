@@ -39,6 +39,8 @@
 
 * [AI Usage](#ai-usage)
 
+* [Adherence to Learning Objectives](#adherence-to-learning-objectives)
+
 - - -
 
 ## Purpose and Value
